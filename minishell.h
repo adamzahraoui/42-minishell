@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/24 22:38:39 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:37:38 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@
 typedef struct s_myenv
 {
     char *data;
+    char **args;
     struct s_myenv *next;
 }t_myenv;
 
 
 
-
-
-
-
-
-
+char    **my_get_path_split(t_myenv *myenv, char *path, char c);
+char    *my_get_path(t_myenv *myenv, char *path);
+void    print_env(t_myenv *myenv);
+void    ft_cd(char **cmd, t_myenv *myenv);
+void    check_builtin_cmd(char **cmd, t_myenv *myenv);
+void    ft_echo(char **cmd);
 
 
 
