@@ -10,7 +10,7 @@ SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c
 	libft/ft_lstnew_bonus.c libft/ft_lstadd_front_bonus.c libft/ft_lstsize_bonus.c \
     libft/ft_lstlast_bonus.c libft/ft_lstadd_back_bonus.c libft/ft_lstdelone_bonus.c \
     libft/ft_lstclear_bonus.c libft/ft_lstiter_bonus.c  libft/ft_lstmap_bonus.c \
-	mini.c utils.c ft_env.c ft_cd.c ft_echo.c
+	mini.c utils.c ft_env.c ft_cd.c ft_echo.c ft_export.c
 
 OBJ= $(SRC:.c=.o)
 NAME= minishell
@@ -18,15 +18,15 @@ NAME= minishell
 all: $(NAME)
 
 %.o:%.c libft/libft.h minishell.h
-	$(CC) -c $(CFLAGS) $<  -o  $@
+	@$(CC) -c $(CFLAGS) $<  -o  $@
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -lreadline $(OBJ) -o $(NAME)
 
 clean :
-	$(RM) $(OBJ) $(BONUS_OBJ)
+	@$(RM) $(OBJ) $(BONUS_OBJ)
 fclean : clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re :  fclean all
 

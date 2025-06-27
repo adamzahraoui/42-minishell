@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/26 16:40:21 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:40:11 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,22 @@ int main(int ac, char **av, char **env)
 {
     char *mini;
     t_myenv *myenv;
+    t_myenv_ex *myenv_ex;
     char **args;
     // char **path;
-    // char *cmd_path;
 
     (void)ac;
     (void)av;
     myenv = NULL;
-    set_env(&myenv ,env);
+    myenv_ex = NULL;
+    set_env(&myenv, env);
+    set_env_ex(&myenv_ex, env);
     // path = my_get_path_split(myenv, "PATH=", ':');
-     print_env(myenv);
     while (1)
     {
         mini = readline("shell> ");
         add_history(mini);
         args = ft_split(mini, ' ');
-        check_builtin_cmd(args, myenv);
+        check_builtin_cmd(args, myenv, myenv_ex);
     }
 }

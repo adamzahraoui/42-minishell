@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/26 16:37:38 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:41:36 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,23 @@ typedef struct s_myenv
     struct s_myenv *next;
 }t_myenv;
 
+typedef struct s_myenv_ex
+{
+    char *data;
+    char **args;
+    struct s_myenv_ex *next;
+}t_myenv_ex;
+
 
 
 char    **my_get_path_split(t_myenv *myenv, char *path, char c);
 char    *my_get_path(t_myenv *myenv, char *path);
 void    print_env(t_myenv *myenv);
 void    ft_cd(char **cmd, t_myenv *myenv);
-void    check_builtin_cmd(char **cmd, t_myenv *myenv);
+void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
 void    ft_echo(char **cmd);
-
-
-
+void    ft_export(t_myenv_ex **myenv, char **cmd);
+void    set_env_ex(t_myenv_ex **myenv, char **env);
 
 
 
