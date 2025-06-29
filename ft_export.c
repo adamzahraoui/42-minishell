@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/27 13:49:23 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:27:38 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,60 @@ void    add_back(t_myenv_ex **myenv_ex, char *str)
     list->next = new;
 }
 
-void    ft_export(t_myenv_ex **myenv_ex, char **cmd)
+char    *check_val(char *str)
+{
+    int i;
+    int a;
+    char *dest;
+    char *cupy;
+    char *first;
+    
+    i = 1;
+    a = 2;
+    dest = ft_strchr(str, '=');
+    cupy = malloc(sizeof(dest) + 2);
+    if(dest != NULL || !cupy)
+    {
+        cupy[0] = '=';
+        cupy[1] = '"';
+        while(dest[i])
+        {
+            cupy[a++] = dest[i++];
+        }
+        cupy[a++] = '"';
+        cupy[a] = '\0';
+    }
+    else
+        return NULL;
+    i = 0;
+    first  = malloc(sizeof(str - dest) + 1);
+    while(str[i] !='=')
+    {
+        first[i] = str[i];
+        i++;
+    }
+    return(ft_strjoin(first, cupy));
+}
+
+void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
 {
     t_myenv_ex *pr;
     int i;
+    char *egual;
 
     pr = *myenv_ex;
     i = 1;
-    
     sort_export(myenv_ex);
     if(cmd[1] != NULL)
     {
         while(cmd[i])
         {
-            add_back(myenv_ex, cmd[i]);
+            add_back_env(myenv, cmd[i]);
+            egual = check_val(cmd[i]);
+            if(egual != NULL)
+                add_back(myenv_ex, egual);
+            else
+                add_back(myenv_ex, cmd[i]);
             i++;
         }
     }

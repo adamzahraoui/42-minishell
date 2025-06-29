@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/27 13:41:24 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:27:15 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex)
         
     // }
     else if(ft_strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
-        ft_export(&myenv_ex, cmd);
+        ft_export(&myenv_ex, &myenv, cmd);
     // else if(ft_strncmp(cmd[0], "unset", ft_strlen(cmd[0])) == 0)
     // {
         
