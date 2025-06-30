@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/29 16:28:02 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/06/30 01:50:11 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void    ft_echo(char **cmd);
 void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd);
 void    set_env_ex(t_myenv_ex **myenv, char **env);
 void    add_back_env(t_myenv **myenv, char *str);
-
-
+int     check_double(t_myenv_ex **myenv_ex, char *str);
+char    *check_val(char *str);
 
 
 #endif
