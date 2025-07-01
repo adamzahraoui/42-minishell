@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/30 06:31:10 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/01 05:50:04 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 void	swap_stack_b(t_myenv_ex **myenv_ex)
 {
-	t_myenv_ex	*tmp;
+	char	*tmp;
 
-    tmp = malloc(sizeof(t_myenv_ex));
-	if (!*myenv_ex || !(*myenv_ex)->next || !tmp)
+	if (!*myenv_ex || !(*myenv_ex)->next)
 		return ;
-	tmp->data = (*myenv_ex)->data;
+	tmp = (*myenv_ex)->data;
 	(*myenv_ex)->data = (*myenv_ex)->next->data;
-    (*myenv_ex)->next->data = tmp->data;
+    (*myenv_ex)->next->data = tmp;
 }
 
 void    sort_export(t_myenv_ex **myenv_ex)
@@ -29,27 +28,31 @@ void    sort_export(t_myenv_ex **myenv_ex)
     t_myenv_ex *list;
     char *p;
     int i;
+    int swap;
     
     list = *myenv_ex;
-    while(list && list->next)
+    swap = 1;
+    while(list)
     {
-        if(list->data[0] > list->next->data[0])
+        i = 0;
+        while(list->data[i])
         {
-            i = 0;
-            while(list->data[i])
+            if((list->data[i] == '=' && list->data[i + 1] != '"' && list->data[ft_strlen(list->data)-1] != '"'))
             {
-                if(list->data[i] == '=' && list->data[i + 1] != '"')
-                {
-                    p = check_val(list->data);
-                    list->data = p;
-                    break;
-                }
-                i++;
+                p = check_val(list->data);
+                list->data = p;
+                break;
             }
-            swap_stack_b(&list);
-            list = *myenv_ex;
+            i++;
         }
-        else
+        if(list->next)
+        {
+            if(list->data[0] > list->next->data[0])
+            {
+                swap_stack_b(&list);
+                list = *myenv_ex;
+            }
+        }
             list = list->next;
     }
 }
@@ -61,7 +64,7 @@ void    add_back(t_myenv_ex **myenv_ex, char *str)
 
     list = *myenv_ex;
     new = malloc(sizeof(t_myenv_ex));
-    if(!new)
+    if(!new || !(*myenv_ex))
         return ;
     while(list->next)
         list = list->next;
@@ -81,6 +84,10 @@ char    *check_val(char *str)
     i = 1;
     a = 2;
     dest = ft_strchr(str, '=');
+    if (dest != NULL && dest[1] == '"')
+    return ft_strdup(str);
+    if(!dest)
+        return (NULL);
     cupy = malloc(ft_strlen(dest) + 3);
     if(dest != NULL && cupy != NULL)
     {
@@ -110,31 +117,29 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
 {
     t_myenv_ex *pr;
     int i;
-    // char *egual;
+    char *egual;
 
     pr = *myenv_ex;
     i = 1;
     sort_export(myenv_ex);
-    printf("%s\n", cmd[1]);
-    printf("%s\n", (*myenv)->data);
-    // if(cmd[1] != NULL)
-    // {
-    //     while(cmd[i])
-    //     {
-    //         add_back_env(myenv, cmd[i]);
-    //         egual = check_val(cmd[i]);
-    //         if(egual != NULL && check_double(myenv_ex, cmd[i]) == 1)
-    //             add_back(myenv_ex, egual);
-    //         else if(check_double(myenv_ex, cmd[i]) == 1)
-    //             add_back(myenv_ex, cmd[i]);
-    //         i++;
-    //         free(egual);
-    //     }
-    // }
-    // else
-        // while(pr)
-        // {
-        //     printf("declare -x %s\n", pr->data);
-        //     pr = pr->next;   
-        // }
+    if(cmd[1] != NULL)
+    {
+        while(cmd[i])
+        {
+            add_back_env(myenv, cmd[i]);
+            egual = check_val(cmd[i]);
+            if(egual != NULL && check_double(myenv_ex, cmd[i]) == 1)
+                add_back(myenv_ex, egual);
+            else if(check_double(myenv_ex, cmd[i]) == 1)
+                add_back(myenv_ex, cmd[i]);
+            i++;
+            free(egual);
+        }
+    }
+    else
+        while(pr)
+        {
+            printf("declare -x %s\n", pr->data);
+            pr = pr->next;   
+        }
 }

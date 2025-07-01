@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 01:32:13 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/30 04:29:45 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/01 05:26:33 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ int check_exist(char *str, char *dest)
     int i;
     
     i = 0;
-    // printf("ok\n");
-    // printf("%s\n", str);
-    // printf("%s\n", dest);
-    // printf("ok\n");
     if(!str || !dest)
         return (0);
     while(str[i] == dest[i])
@@ -42,8 +38,8 @@ char    *check_val_exist(char *str)
 
     (1) && (i = 2, a = 2);
     dest = ft_strchr(str, '=');
-    cupy = malloc(sizeof(dest) + 2);
-    first  = malloc(sizeof(str - dest) + 1);
+    cupy = malloc(ft_strlen(dest) + 2);
+    first  = malloc((str - dest) + 1);
     if(!dest || !cupy || !first)
     {
         (1) && (cupy[0] = '=', cupy[1] = '"');
