@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/30 01:50:11 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/01 06:36:42 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void    set_env_ex(t_myenv_ex **myenv, char **env);
 void    add_back_env(t_myenv **myenv, char *str);
 int     check_double(t_myenv_ex **myenv_ex, char *str);
 char    *check_val(char *str);
-
+int check_exist(char *str, char *dest);
 
 #endif

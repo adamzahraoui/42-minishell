@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/01 05:50:04 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/01 06:43:35 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,38 @@ void    sort_export(t_myenv_ex **myenv_ex)
     t_myenv_ex *list;
     char *p;
     int i;
-    int swap;
     
     list = *myenv_ex;
-    swap = 1;
-    while(list)
+    while (list)
     {
-        i = 0;
-        while(list->data[i])
+        if (list->data)
         {
-            if((list->data[i] == '=' && list->data[i + 1] != '"' && list->data[ft_strlen(list->data)-1] != '"'))
+            i = 0;
+            while (list->data[i])
             {
-                p = check_val(list->data);
-                list->data = p;
-                break;
+                if (list->data[i] == '=' &&
+                    list->data[i + 1] != '"' &&
+                    list->data[ft_strlen(list->data) - 1] != '"')
+                {
+                    p = check_val(list->data);
+                    free(list->data);
+                    if(p)
+                        list->data = p;
+                    break;
+                }
+                i++;
             }
-            i++;
         }
-        if(list->next)
+        if (list->next && list->data && list->next->data &&
+            list->data[0] > list->next->data[0])
         {
-            if(list->data[0] > list->next->data[0])
-            {
-                swap_stack_b(&list);
-                list = *myenv_ex;
-            }
+            swap_stack_b(&list);
+            list = *myenv_ex;
         }
+        else
             list = list->next;
-    }
+}
+
 }
 
 void    add_back(t_myenv_ex **myenv_ex, char *str)
@@ -64,7 +69,7 @@ void    add_back(t_myenv_ex **myenv_ex, char *str)
 
     list = *myenv_ex;
     new = malloc(sizeof(t_myenv_ex));
-    if(!new || !(*myenv_ex))
+    if(!new || !(*myenv_ex) || !str)
         return ;
     while(list->next)
         list = list->next;
@@ -130,7 +135,7 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
             egual = check_val(cmd[i]);
             if(egual != NULL && check_double(myenv_ex, cmd[i]) == 1)
                 add_back(myenv_ex, egual);
-            else if(check_double(myenv_ex, cmd[i]) == 1)
+            else if(printf("%d\n",check_double(myenv_ex, cmd[i]) == 1))
                 add_back(myenv_ex, cmd[i]);
             i++;
             free(egual);
