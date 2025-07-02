@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 02:06:03 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/02 02:22:55 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,8 @@ void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex)
         ft_echo(cmd);
     if(ft_strncmp(cmd[0], "cd", ft_strlen(cmd[0])) == 0)
         ft_cd(cmd, myenv);
-    // else if(ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0)
-    // {
-        
-    // }
+    else if(ft_strncmp(cmd[0], "pwd", ft_strlen(cmd[0])) == 0)
+        ft_pwd();
     else if(ft_strncmp(cmd[0], "export", ft_strlen(cmd[0])) == 0)
         ft_export(&myenv_ex, &myenv, cmd);
     // else if(ft_strncmp(cmd[0], "unset", ft_strlen(cmd[0])) == 0)
