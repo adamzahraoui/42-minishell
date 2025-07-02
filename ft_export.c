@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/01 06:43:35 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:25:17 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,21 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
     int i;
     char *egual;
 
-    pr = *myenv_ex;
-    i = 1;
+    (1) && (pr = *myenv_ex, i = 1);
     sort_export(myenv_ex);
     if(cmd[1] != NULL)
     {
-        while(cmd[i])
+        while (cmd[i])
         {
-            add_back_env(myenv, cmd[i]);
-            egual = check_val(cmd[i]);
-            if(egual != NULL && check_double(myenv_ex, cmd[i]) == 1)
-                add_back(myenv_ex, egual);
-            else if(printf("%d\n",check_double(myenv_ex, cmd[i]) == 1))
-                add_back(myenv_ex, cmd[i]);
+            set_env_doubl(myenv, cmd[i]);
+            egual = check_val(cmd[i]); 
+            if (check_double(myenv_ex, cmd[i]) == 1)
+            {
+                if (egual != NULL)
+                    add_back(myenv_ex, egual);
+                else
+                    add_back(myenv_ex, cmd[i]);
+            }
             i++;
             free(egual);
         }

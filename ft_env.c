@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/29 16:27:22 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:23:59 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,71 @@ void    add_back_env(t_myenv **myenv, char *str)
     list->next = new;
 }
 
+int check_exist_env(char *str, char *dest)
+{
+    int i;
+
+    i = 0;
+    if(!str || !dest)
+        return (0);
+    while (str[i] && dest[i] && str[i] != '=' && dest[i] != '=')
+    {
+        if (str[i] != dest[i])
+            return 0;
+        i++;
+    }
+
+    if ((str[i] == '=' && dest[i] == '=') ||
+        (str[i] == '=' && dest[i] == '\0') ||
+        (str[i] == '\0' && dest[i] == '=') ||
+        (str[i] == '\0' && dest[i] == '\0'))
+        return 1;
+    return (0);
+}
+
+int check_double_env(t_myenv **myenv, char *str)
+{
+    t_myenv *list;
+    char *p;
+
+    list = *myenv;
+    while (list)
+    {
+        if(ft_strcmp(list->data, str) == 0)
+            return 0;
+        if (check_exist(list->data, str) == 1)
+        {
+            p = check_val(str);
+            if (p)
+            {
+                free(list->data);
+                list->data = p;
+                return (0);
+            }
+        }
+        list = list->next;
+    }
+    return (1);
+}
+
 void print_env(t_myenv *myenv)
 {
-    while(myenv->next)
+    while(myenv)
     {
         if(ft_strchr(myenv->data, '=') != NULL)
             printf("%s\n", myenv->data);
         myenv = myenv->next;
     }
+}
+
+void    set_env_doubl(t_myenv **myenv, char *str)
+{
+    char *egual;
+
+    egual = check_val(str);
+    if(egual != NULL && check_double_env(myenv, str) == 1)
+        add_back_env(myenv, egual);
+    else if(check_double_env(myenv, str) == 1)
+        add_back_env(myenv, str);
+    free(egual);
 }

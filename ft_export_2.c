@@ -6,59 +6,46 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 01:32:13 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/01 06:43:02 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:30:14 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ft_strcmp(char	*s1, char	*s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+    if (s1[i] == '=' && s2[i] == '\0')
+        return (0);
+    else
+	    return (s1[i] - s2[i]);
+}
+
 int check_exist(char *str, char *dest)
 {
     int i;
-    
+
     i = 0;
     if(!str || !dest)
         return (0);
-    while(str[i] == dest[i])
+    while (str[i] && dest[i] && str[i] != '=' && dest[i] != '=')
     {
-        if(str[i] == '=' && dest[i] == '=')
-            return (1);
+        if (str[i] != dest[i])
+            return 0;
         i++;
     }
-    if(dest[i] == '\0')
-        return (1);
+
+    if ((str[i] == '=' && dest[i] == '=') ||
+        (str[i] == '=' && dest[i] == '\0') ||
+        (str[i] == '\0' && dest[i] == '=') ||
+        (str[i] == '\0' && dest[i] == '\0'))
+        return 1;
     return (0);
 }
-
-// char    *check_val_exist(char *str)
-// {
-//     int i;
-//     int a;
-//     char *dest;
-//     char *cupy;
-//     char *first;
-
-//     (1) && (i = 2, a = 2);
-//     dest = ft_strchr(str, '=');
-//     cupy = malloc(ft_strlen(dest) + 2);
-//     first  = malloc((str - dest) + 1);
-//     if(!dest || !cupy || !first )
-//     {
-//         (1) && (cupy[0] = '=', cupy[1] = '"');
-//         while(dest[i] && dest[i] != '"')
-//             cupy[a++] = dest[i++];
-//         (1) && (cupy[a++] = '"', cupy[a] = '\0');
-//     }
-//     else
-//         return NULL;
-//     i = 0;
-//     while(str[i] !='=')
-//     {
-//         first[i] = str[i];
-//         i++;
-//     }
-//     return(ft_strjoin(first, cupy));
-// }
 
 int check_double(t_myenv_ex **myenv_ex, char *str)
 {
@@ -68,6 +55,8 @@ int check_double(t_myenv_ex **myenv_ex, char *str)
     list = *myenv_ex;
     while (list)
     {
+        if(ft_strcmp(list->data, str) == 0)
+            return 0;
         if (check_exist(list->data, str) == 1)
         {
             p = check_val(str);
@@ -75,8 +64,8 @@ int check_double(t_myenv_ex **myenv_ex, char *str)
             {
                 free(list->data);
                 list->data = p;
-            }  
-            return (0);
+                return (0);
+            }
         }
         list = list->next;
     }
