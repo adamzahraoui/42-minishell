@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 03:38:45 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/02 06:03:22 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	    ft_strcmp(char	*s1, char	*s2);
 void    set_env_doubl(t_myenv **myenv, char *str);
 void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
 void    ft_pwd();
-void    ft_unset(t_myenv_ex **myenv_ex, char *str);
+void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
 
 
 #endif

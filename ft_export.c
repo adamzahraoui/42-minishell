@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 01:25:17 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/02 05:50:06 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
     else
         while(pr)
         {
-            printf("declare -x %s\n", pr->data);
+            if(pr->data != NULL)
+                printf("declare -x %s\n", pr->data);
             pr = pr->next;   
         }
 }

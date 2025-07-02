@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:12 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 03:49:09 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/02 06:03:09 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,48 @@ int     ft_com(char *str, char *dest)
     int i;
 
     i = 0;
-    while(str[i] == dest[i] && str[i] != '=' && dest[i] != '=')
-    {
-        if(str[i] != dest[i])
-            return (0);
+    while(str[i] == dest[i] && str[i] && str[i] != '\0')
         i++;
-    }
-    return (1);
+    if(str[i] == '\0' || str[i] == '=')
+        return (1);
+    return (0);
 }
 
-// void    ft_unset_env(t_myenv **myenv, char *str)
-// {
-    
-// }
+void    ft_unset_env(t_myenv **myenv, char *str)
+{
+    t_myenv      *list;
+    t_myenv      *crr;
+    t_myenv      *p;
 
-void    ft_unset(t_myenv_ex **myenv_ex, char *str)
+    list = *myenv;
+    p = list;
+    if(ft_com(list->data, str) == 1)
+    {
+        *myenv = list->next;
+        crr = list;
+        list = list->next;
+        free(crr->data);
+        free(crr);
+    }
+    while(list)
+    {
+        if(ft_com(list->data, str) == 1)
+        {
+            p->next = list->next;
+            crr = list;
+            list = list->next;
+            free(crr->data);
+            free(crr);
+        }
+        else
+        {
+            p = list;
+            list = list->next;
+        }
+    }
+}
+
+void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str)
 {
     t_myenv_ex      *list_ex;
     t_myenv_ex      *crr;
@@ -39,6 +66,7 @@ void    ft_unset(t_myenv_ex **myenv_ex, char *str)
 
     list_ex = *myenv_ex;
     p = list_ex;
+    ft_unset_env(myenv, str);
     if(ft_com(list_ex->data, str) == 1)
     {
         *myenv_ex = list_ex->next;
