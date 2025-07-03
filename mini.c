@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/06/26 22:40:11 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/03 05:26:00 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void    add_env_node(t_myenv **myenv, char *env)
     t_myenv *last;
 
     new_node = malloc(sizeof(t_myenv));
+    if(!new_node)
+        return ;
     new_node->data = ft_strdup(env);
     if(!new_node->data)
         return ;
@@ -46,13 +48,26 @@ void    set_env(t_myenv **myenv, char **env)
     }
 }
 
+void    ft_ft_free(char **str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        free(str[i]);
+        i++;
+    }
+    free(str);
+}
+
 int main(int ac, char **av, char **env)
 {
     char *mini;
     t_myenv *myenv;
     t_myenv_ex *myenv_ex;
     char **args;
-    // char **path;
+    char **path;
 
     (void)ac;
     (void)av;
@@ -60,12 +75,14 @@ int main(int ac, char **av, char **env)
     myenv_ex = NULL;
     set_env(&myenv, env);
     set_env_ex(&myenv_ex, env);
-    // path = my_get_path_split(myenv, "PATH=", ':');
+    path = my_get_path_split(myenv, "PATH=", ':');
     while (1)
     {
         mini = readline("shell> ");
         add_history(mini);
         args = ft_split(mini, ' ');
         check_builtin_cmd(args, myenv, myenv_ex);
+        external_executables(args, path, env);
+        ft_ft_free(args);
     }
 }

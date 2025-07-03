@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 06:12:26 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/03 05:27:55 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
 void    print_env(t_myenv *myenv);
 void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
 
-// 
+// external executables
+
+void    external_executables(char **cmd, char **path, char **env);
+
 
 // help funcion
 
@@ -58,5 +61,6 @@ char    *check_val(char *str);
 int	    ft_strcmp(char	*s1, char	*s2);
 int     check_exist(char *str, char *dest);
 void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
+void    free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
 
 #endif
