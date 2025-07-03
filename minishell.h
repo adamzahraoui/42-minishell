@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/03 05:27:55 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:08:54 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int     check_double(t_myenv_ex **myenv_ex, char *str);
 char    *check_val(char *str);
 int	    ft_strcmp(char	*s1, char	*s2);
 int     check_exist(char *str, char *dest);
-void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
+int     check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
 void    free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
 
 #endif

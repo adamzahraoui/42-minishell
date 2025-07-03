@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/03 03:30:54 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:09:21 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char    *my_get_path(t_myenv *myenv, char *path)
     return (av);
 }
 
-void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex)
+int    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex)
 {
     if(ft_strncmp(cmd[0], "echo", ft_strlen(cmd[0])) == 0)
         ft_echo(cmd);
@@ -75,7 +75,8 @@ void    check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex)
     else if(ft_strncmp(cmd[0], "exit", ft_strlen(cmd[0])) == 0)
         ft_exit(&myenv_ex, &myenv);
     else
-        return ;  
+        return 0;  
+    return (1);
 }
 
 void    add_env_node_ex(t_myenv_ex **myenv, char *env)

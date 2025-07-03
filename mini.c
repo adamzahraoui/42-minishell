@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/03 05:26:00 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:11:28 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,12 @@ int main(int ac, char **av, char **env)
         mini = readline("shell> ");
         add_history(mini);
         args = ft_split(mini, ' ');
-        check_builtin_cmd(args, myenv, myenv_ex);
-        external_executables(args, path, env);
-        ft_ft_free(args);
+        if(check_builtin_cmd(args, myenv, myenv_ex) == 1)
+            ft_ft_free(args);
+        else 
+        {
+            external_executables(args, path, env);
+            ft_ft_free(args);
+        }
     }
 }
