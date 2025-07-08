@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_export_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/07 04:33:20 by adzahrao         ###   ########.fr       */
+/*   Created: 2025/07/07 05:25:10 by adzahrao          #+#    #+#             */
+/*   Updated: 2025/07/07 05:34:55 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    add_back_env(t_myenv **myenv, char *str)
+static int	ft_strcmp_env(char	*s1, char	*s2)
 {
-    t_myenv *list;
-    t_myenv *new;
+	int	i;
 
-    list = *myenv;
-    new = malloc(sizeof(t_myenv));
-    if(!new)
-        return ;
-    while(list->next)
-        list = list->next;
-    new->data = ft_strdup(str);
-    new->next = NULL;
-    list->next = new;
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+    if (s1[i] == '=' && s2[i] == '\0')
+        return (0);
+    else
+	    return (s1[i] - s2[i]);
 }
 
-int check_exist_env(char *str, char *dest)
+static int check_exist_env(char *str, char *dest)
 {
     int i;
 
@@ -58,9 +55,9 @@ int check_double_env(t_myenv **myenv, char *str)
     list = *myenv;
     while (list)
     {
-        if(ft_strcmp(list->data, str) == 0)
+        if(ft_strcmp_env(list->data, str) == 0)
             return 0;
-        if (check_exist(list->data, str) == 1)
+        if (check_exist_env(list->data, str) == 1)
         {
             p = check_val(str);
             if (p)
@@ -73,26 +70,4 @@ int check_double_env(t_myenv **myenv, char *str)
         list = list->next;
     }
     return (1);
-}
-
-void print_env(t_myenv *myenv)
-{
-    while(myenv)
-    {
-        if(ft_strchr(myenv->data, '=') != NULL)
-            printf("%s\n", myenv->data);
-        myenv = myenv->next;
-    }
-}
-
-void    set_env_doubl(t_myenv **myenv, char *str)
-{
-    char *egual;
-
-    egual = check_val(str);
-    if(egual != NULL && check_double_env(myenv, str) == 1)
-        add_back_env(myenv, egual);
-    else if(check_double_env(myenv, str) == 1)
-        add_back_env(myenv, str);
-    free(egual);
 }

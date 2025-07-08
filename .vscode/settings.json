@@ -57,6 +57,11 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "cstdlib": "c"
+    "cstdlib": "c",
+    "bcmd_mini.h": "c",
+    "minishell.h": "c",
+    "unistd.h": "c",
+    "history.h": "c",
+    "readline.h": "c"
   }
 }

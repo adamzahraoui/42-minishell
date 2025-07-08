@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 05:50:06 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/07 05:17:39 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,7 @@ char    *check_val(char *str)
         cupy[0] = '=';
         cupy[1] = '"';
         while(dest[i])
-        {
             cupy[a++] = dest[i++];
-        }
         cupy[a++] = '"';
         cupy[a] = '\0';
     }

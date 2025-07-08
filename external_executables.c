@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/03 18:08:03 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/04 03:09:33 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *check_cmd(char **path, char *cmd)
         str = ft_strjoin(tmp, cmd);
         free(tmp);
         if (access(str, X_OK) == 0)
-            return str;  // return the full executable path
+            return str; 
         free(str);
         i++;
     }
@@ -32,7 +32,7 @@ char *check_cmd(char **path, char *cmd)
 
 void external_executables(char **cmd, char **path, char **envp)
 {
-    pid_t pid = fork();
+    __pid_t pid = fork();
     if (pid == 0)
     {
         char *exec_path;
