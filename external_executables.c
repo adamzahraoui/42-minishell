@@ -6,13 +6,13 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/04 03:09:33 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/09 06:09:50 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *check_cmd(char **path, char *cmd)
+char    *check_cmd(char **path, char *cmd)
 {
     int i = 0;
     char *str, *tmp;
@@ -20,17 +20,21 @@ char *check_cmd(char **path, char *cmd)
     while (path[i])
     {
         tmp = ft_strjoin(path[i], "/");
+        if(!tmp)
+            return (NULL);
         str = ft_strjoin(tmp, cmd);
+        if(!str)
+            return(free(tmp), NULL);
         free(tmp);
         if (access(str, X_OK) == 0)
             return str; 
         free(str);
         i++;
     }
-    return NULL;
+    return (NULL);
 }
 
-void external_executables(char **cmd, char **path, char **envp)
+void    external_executables(char **cmd, char **path, char **envp)
 {
     __pid_t pid = fork();
     if (pid == 0)
@@ -51,11 +55,7 @@ void external_executables(char **cmd, char **path, char **envp)
         exit(EXIT_FAILURE);
     }
     else if (pid > 0)
-    {
         waitpid(pid, NULL, 0);
-    }
     else
-    {
         perror("fork");
-    }
 }

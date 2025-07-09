@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_free.c                                       :+:      :+:    :+:   */
+/*   exit_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/02 21:52:05 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/02 21:55:53 by adzahrao         ###   ########.fr       */
+/*   Created: 2025/07/09 03:59:44 by adzahrao          #+#    #+#             */
+/*   Updated: 2025/07/09 06:07:27 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex)
     t_myenv_ex *list_ex;
     t_myenv_ex *e;
 
+    list = *myenv;
     while(list)
     {
         p = list->next;
@@ -26,6 +27,7 @@ void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex)
         free(list);
         list = p;
     }
+    list_ex = *myenv_ex;
     while(list_ex)
     {
         e = list_ex->next;
