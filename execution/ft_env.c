@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export_ex.c                                     :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 01:32:13 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/07 05:36:41 by adzahrao         ###   ########.fr       */
+/*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
+/*   Updated: 2025/07/11 04:02:58 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	ft_strcmp(char	*s1, char	*s2)
+void    add_back_env(t_myenv **myenv, char *str)
 {
-	int	i;
+    t_myenv *list;
+    t_myenv *new;
 
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-		i++;
-    if (s1[i] == '=' && s2[i] == '\0')
-        return (0);
-    else
-	    return (s1[i] - s2[i]);
+    list = *myenv;
+    new = malloc(sizeof(t_myenv));
+    if(!new)
+        return ;
+    while(list->next)
+        list = list->next;
+    new->data = ft_strdup(str);
+    new->next = NULL;
+    list->next = new;
 }
 
-int check_exist(char *str, char *dest)
+int check_exist_env(char *str, char *dest)
 {
     int i;
 
@@ -47,12 +50,12 @@ int check_exist(char *str, char *dest)
     return (0);
 }
 
-int check_double(t_myenv_ex **myenv_ex, char *str)
+int check_double_env(t_myenv **myenv, char *str)
 {
-    t_myenv_ex *list;
+    t_myenv *list;
     char *p;
 
-    list = *myenv_ex;
+    list = *myenv;
     while (list)
     {
         if(ft_strcmp(list->data, str) == 0)
@@ -70,4 +73,26 @@ int check_double(t_myenv_ex **myenv_ex, char *str)
         list = list->next;
     }
     return (1);
+}
+
+void print_env(t_myenv *myenv)
+{
+    while(myenv)
+    {
+        if(ft_strchr(myenv->data, '=') != NULL)
+            printf("%s\n", myenv->data);
+        myenv = myenv->next;
+    }
+}
+
+void    set_env_doubl(t_myenv **myenv, char *str)
+{
+    char *egual;
+
+    egual = check_val(str);
+    if(egual != NULL && check_double_env(myenv, str) == 1)
+        add_back_env(myenv, egual);
+    else if(check_double_env(myenv, str) == 1)
+        add_back_env(myenv, str);
+    free(egual);
 }

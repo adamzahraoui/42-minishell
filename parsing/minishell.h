@@ -5,13 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/12 03:34:18 by adzahrao         ###   ########.fr       */
+/*   Created: 2025/06/23 11:28:36 by mlaidi            #+#    #+#             */
+/*   Updated: 2025/07/11 18:00:55 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
 # include "libft/libft.h"
 # include <fcntl.h>
@@ -26,17 +26,6 @@
 # include <unistd.h>
 # include <sys/types.h>
 
-typedef struct s_myenv
-{
-    char *data;
-    struct s_myenv *next;
-}t_myenv;
-
-typedef struct s_myenv_ex
-{
-    char *data;
-    struct s_myenv_ex *next;
-}t_myenv_ex;
 
 # define MAX_TOKEN_LEN 4096
 
@@ -108,7 +97,7 @@ int					is_delimiter(char c);
 int					is_whitespace(char c);
 char				*get_next_token_part(char *line, int *i);
 
-t_cmd				*parse_commands(t_token **tokens, t_var *vars, char **env);
+t_cmd				*parse_commands(t_token *tokens, t_var *vars, char **env);
 t_cmd				*parse_command(t_token **tokens, t_var *vars, char **env);
 t_cmd				*init_command(void);
 int					is_redirection(t_token_type type);
@@ -132,7 +121,7 @@ int					handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens);
 
 void				add_argument(t_cmd *cmd, char *arg);
 void				free_commands(t_cmd *cmds);
-void				print_tokens(t_token **tokens, t_var *vars, char **env);
+void				print_tokens(t_token *tokens, t_var *vars, char **env);
 char				*get_env_value(char **env, char *name);
 
 char				*expand_token(char *token, t_var *vars, char **env);
@@ -144,52 +133,21 @@ int					builtin_echo(t_cmd *cmd);
 
 void				setup_signals(void);
 void				handle_sigint(int sig);
-void				process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd);
+void				process_commands(t_token *tokens, t_var *vars, char **env, t_cmd **cmd);
 void				set_shell_var(t_var **vars, char *name, char *value);
 char				*get_shell_var(t_var *vars, char *name);
-void				expand_all_tokens(t_token **tokens, t_var *vars, char **env);
+void				expand_all_tokens(t_token *tokens, t_var *vars, char **env);
 
 int					handle_assignment_or_empty(char *input, t_var **vars);
-void				handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens);
+void				handle_command(char *input, char **env, t_var **vars, t_cmd **cmd);
 int					extract_var_name(const char *token, int *i, char *var_name);
 
 char				*get_next_line(int fd);
 int					read_heredoc_content(const char *delimiter, const char *temp_file);
 
-void				process_commands_s(t_token **tokens, t_var *vars, char **env);
+void				process_commands_s(t_token *tokens, t_var *vars, char **env);
 void				print_cmds(t_cmd *cmd);
 int					extract_var_name(const char *token, int *i, char *var_name);
 
-
-// built-in commands :
-
-void    ft_echo(char **cmd);
-void    ft_cd(char **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
-void    ft_pwd();
-void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd);
-void    set_env_ex(t_myenv_ex **myenv, char **env);
-void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
-void    print_env(t_myenv *myenv);
-void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
-
-// external executables
-
-void    external_executables(char **cmd, char **path, char **env);
-
-
-// help funcion
-
-char    **my_get_path_split(t_myenv *myenv, char *path, char c);
-char    *my_get_path(t_myenv *myenv, char *path);
-void    add_back_env(t_myenv **myenv, char *str);
-void    set_env_doubl(t_myenv **myenv, char *str);
-int     check_double(t_myenv_ex **myenv_ex, char *str);
-char    *check_val(char *str);
-int	    ft_strcmp(char	*s1, char	*s2);
-int     check_exist(char *str, char *dest);
-int     check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
-void    free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
-int     check_double_env(t_myenv **myenv, char *str);
-void	cmd_ex(t_cmd **args,t_token **tokens, char **env);
 
 #endif

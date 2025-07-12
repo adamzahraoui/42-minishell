@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:12 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/07 04:33:32 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:03:09 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int     ft_com(char *str, char *dest)
 {

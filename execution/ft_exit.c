@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/07 04:33:22 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:03:01 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv)
 {

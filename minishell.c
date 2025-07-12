@@ -1,0 +1,73 @@
+#include "../minishell.h"
+
+int		g_exit_status = 0;
+
+void	setup_signals(void)
+{
+    signal(SIGINT, handle_sigint);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+void	handle_sigint(int sig)
+{
+    (void)sig;
+    g_exit_status = 130;
+    write(1, "\n", 1);
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+
+void	handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens)
+{
+    char	*trimmed;
+
+    trimmed = ft_strtrim(input, " \t");
+    if (trimmed && *trimmed)
+        add_history(trimmed);
+    free(trimmed);
+    if (ft_strncmp(input, "exit", 5) == 0)
+    {
+        free(input);
+        exit(0);
+    }
+    (*tokens) = tokenize(input);
+    if (*tokens)
+    {
+        expand_all_tokens(tokens, *vars, env);
+        print_tokens(tokens, *vars, env);
+        process_commands(tokens, *vars, env, cmd); 
+    }
+    free_tokens(*tokens);
+    free(input);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+    char	*input;
+    t_var	*vars;
+    t_cmd	*cmd;
+    t_token	*tokens;
+
+    vars = NULL;
+    cmd = NULL;
+    tokens = NULL;
+    (void)argc;
+    (void)argv;
+    setup_signals();
+    while (1)
+    {
+        input = readline("minishell> ");
+        if (!input)
+        {
+            printf("exit\n");
+            break ;
+        }
+        if (handle_assignment_or_empty(input, &vars))
+            continue ;
+        handle_command(input, env, &vars, &cmd, &tokens);
+		cmd_ex(&cmd, &tokens, env);
+    }
+    clear_history();
+    return (0);
+}

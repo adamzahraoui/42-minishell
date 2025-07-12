@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/09 06:09:50 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:02:43 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char    *check_cmd(char **path, char *cmd)
 {

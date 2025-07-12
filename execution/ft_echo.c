@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:03 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/07 04:33:18 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:02:56 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    ft_echo(char **cmd)
 {

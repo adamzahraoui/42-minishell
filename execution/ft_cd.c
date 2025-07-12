@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:59 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/09 06:10:39 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:02:54 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 
 int     ft_strlen_cmd(char **cmd)
@@ -41,7 +41,7 @@ void    ft_cd(char **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
             perror("error in cd\n");
         free(path);
     }
-    else if(ft_strlen_cmd(cmd) == 1)
+    else if(ft_strlen_cmd(cmd) == 2)
     {
         if(chdir(cmd[1]) == -1)
             perror("error in cd\n");

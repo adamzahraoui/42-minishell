@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/04 03:49:37 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:39:06 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,32 +61,22 @@ void    ft_ft_free(char **str)
     free(str);
 }
 
-int main(int ac, char **av, char **env)
+void cmd_ex(t_cmd **args,t_token **tokens, char **env)
 {
-    char *mini;
     t_myenv *myenv;
     t_myenv_ex *myenv_ex;
-    char **args;
     char **path;
 
-    (void)ac;
-    (void)av;
     myenv = NULL;
     myenv_ex = NULL;
     set_env(&myenv, env);
     set_env_ex(&myenv_ex, env);
     path = my_get_path_split(myenv, "PATH=", ':');
-    while (1)
+    if(check_builtin_cmd((*args)->args, myenv, myenv_ex) == 1)
+        ft_ft_free((*args)->args);
+    else 
     {
-        mini = readline("shell> ");
-        add_history(mini);
-        args = ft_split(mini, ' ');
-        if(check_builtin_cmd(args, myenv, myenv_ex) == 1)
-            ft_ft_free(args);
-        else 
-        {
-            external_executables(args, path, env);
-            ft_ft_free(args);
-        }
+            external_executables((*args)->args, path, env);
+            ft_ft_free((*args)->args);
     }
 }

@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/09 04:27:44 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:03:12 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char    **my_get_path_split(t_myenv *myenv, char *path, char c)
 {

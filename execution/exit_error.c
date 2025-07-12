@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 03:59:44 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/09 06:07:27 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:02:37 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {

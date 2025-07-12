@@ -6,11 +6,11 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/07 05:17:39 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/12 03:00:47 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	swap_stack_b(t_myenv_ex **myenv_ex)
 {
@@ -122,7 +122,8 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
     int i;
     char *egual;
 
-    (1) && (pr = *myenv_ex, i = 1);
+    pr = *myenv_ex;
+    i = 1;
     sort_export(myenv_ex);
     if(cmd[1] != NULL)
     {
