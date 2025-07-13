@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 04:11:42 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:22:04 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
     t_token *tok;
 
     tok = *tokens;
+    (void) env;
     path = my_get_path_split(myenv, "PATH=", ':');
     if(check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
         ft_ft_free((*args)->args);

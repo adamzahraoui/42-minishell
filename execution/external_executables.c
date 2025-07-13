@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 04:10:44 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:22:39 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ char    *check_cmd(char **path, char *cmd)
 
 void    external_executables(t_cmd **cmd, char **path, char **envp)
 {
-    __pid_t pid = fork();
+    __pid_t pid;
 
     if(ft_strcmp((*cmd)->args[0], "echo") == 0)
         return ;
+    pid = fork();
     if (pid == 0)
     {
         char *exec_path;
