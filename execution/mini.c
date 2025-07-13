@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 06:22:04 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 06:25:17 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
     else 
     {
             external_executables(args, path, env);
-            ft_ft_free((*args)->args);
+            // ft_ft_free((*args)->args);
     }
 }
