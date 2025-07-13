@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/11 04:02:58 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 09:06:39 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,27 @@ int check_double_env(t_myenv **myenv, char *str)
 
 void print_env(t_myenv *myenv)
 {
+    int i;
+
     while(myenv)
     {
         if(ft_strchr(myenv->data, '=') != NULL)
-            printf("%s\n", myenv->data);
+        {
+            i = 0;
+            while(myenv->data[i] != '\0')
+            {
+                if(myenv->data[i] == '"' && myenv->data[i-1] == '=')
+                    i++;
+                else if(myenv->data[i] == '"' && myenv->data[i+1] == '\0')
+                    i++;
+                else
+                {
+                    write(1, &myenv->data[i], 1);
+                    i++;
+                }
+            }
+            printf("\n");
+        }
         myenv = myenv->next;
     }
 }
