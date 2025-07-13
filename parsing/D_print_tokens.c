@@ -1,58 +1,56 @@
 #include "../minishell.h"
 
 
-void	print_cmds(t_cmd *cmd)
-{
-    int i;
+// void	print_cmds(t_cmd *cmd)
+// {
+//     int i;
 
-    if (!cmd)
-    {
-        printf("No commands to print\n");
-        return;
-    }
+//     if (!cmd)
+//     {
+//         printf("No commands to print\n");
+//         return;
+//     }
     
-    while (cmd)
-    {
-        printf("---- Command ----\n");
-        printf("Args: ");
-        i = 0;
-        while (i < cmd->arg_count && cmd->args && cmd->args[i])
-        {
-            printf("[%s] ", cmd->args[i]);
-            i++;
-        }
-        printf("\n");
-        printf("Input file: %s\n", cmd->input_file ? cmd->input_file : "NULL");
-        printf("Output file: %s\n", cmd->output_file ? cmd->output_file : "NULL");
-        printf("Append output: %d\n", cmd->append_output);
-        printf("Heredoc delim: %s\n", cmd->heredoc_delim ? cmd->heredoc_delim : "NULL");
-        printf("------------------\n");
+//     while (cmd)
+//     {
+//         printf("---- Command ----\n");
+//         printf("Args: ");
+//         i = 0;
+//         while (i < cmd->arg_count && cmd->args && cmd->args[i])
+//         {
+//             printf("[%s] ", cmd->args[i]);
+//             i++;
+//         }
+//         printf("\n");
+//         printf("Input file: %s\n", cmd->input_file ? cmd->input_file : "NULL");
+//         printf("Output file: %s\n", cmd->output_file ? cmd->output_file : "NULL");
+//         printf("Append output: %d\n", cmd->append_output);
+//         printf("Heredoc delim: %s\n", cmd->heredoc_delim ? cmd->heredoc_delim : "NULL");
+//         printf("------------------\n");
 
-        cmd = cmd->next;
-    }
-}
-void	process_commands_s(t_token **tokens, t_var *vars, char **env)
-{
-	t_cmd	*commands;
-	t_cmd	*cur;
+//         cmd = cmd->next;
+//     }
+// }
+// void	process_commands_s(t_token *tokens, t_var *vars, char **env)
+// {
+// 	t_cmd	*commands;
+// 	t_cmd	*cur;
 
-	commands = parse_commands(tokens, vars, env);
-	if (commands)
-	{
-		// ✅ هنا تزيد طبع debug
-		print_cmds(commands);
+// 	commands = parse_commands(tokens, vars, env);
+// 	if (commands)
+// 	{
+// 		print_cmds(commands);
 
-		cur = commands;
-		while (cur)
-		{
-			if (cur->arg_count > 0 && ft_strncmp(cur->args[0], "echo", ft_strlen("echo")) == 0)
-				builtin_echo(cur);
-			// هنا ممكن تزيد checks إضافية
-			cur = cur->next;
-		}
-		free_commands(commands);
-	}
-}
+// 		cur = commands;
+// 		while (cur)
+// 		{
+// 			if (cur->arg_count > 0 && ft_strncmp(cur->args[0], "echo", ft_strlen("echo")) == 0)
+// 				builtin_echo(cur);
+// 			cur = cur->next;
+// 		}
+// 		free_commands(commands);
+// 	}
+// }
 
 void	print_tokens(t_token **tokens, t_var *vars, char **env)
 {

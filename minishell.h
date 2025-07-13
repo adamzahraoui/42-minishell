@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/12 03:34:18 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:11:02 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_myenv
 {
     char *data;
     struct s_myenv *next;
+	int i;
 }t_myenv;
 
 typedef struct s_myenv_ex
@@ -140,7 +141,7 @@ int					handle_exit_status(char *result);
 int					expand_variable(char *token, int *i, char *result,
 						t_expand_context *ctx);
 
-int					builtin_echo(t_cmd *cmd);
+void					builtin_echo(t_cmd *cmd);
 
 void				setup_signals(void);
 void				handle_sigint(int sig);
@@ -159,14 +160,17 @@ int					read_heredoc_content(const char *delimiter, const char *temp_file);
 void				process_commands_s(t_token **tokens, t_var *vars, char **env);
 void				print_cmds(t_cmd *cmd);
 int					extract_var_name(const char *token, int *i, char *var_name);
+void				builtin_echo(t_cmd *cmd);
+int is_valid_n_flag(const char *str);
+
 
 
 // built-in commands :
 
 void    ft_echo(char **cmd);
-void    ft_cd(char **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void    ft_pwd();
-void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd);
+void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
 void    set_env_ex(t_myenv_ex **myenv, char **env);
 void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
 void    print_env(t_myenv *myenv);
@@ -174,12 +178,12 @@ void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
 
 // external executables
 
-void    external_executables(char **cmd, char **path, char **env);
+void    external_executables(t_cmd **cmd, char **path, char **env);
 
 
 // help funcion
 
-char    **my_get_path_split(t_myenv *myenv, char *path, char c);
+char    **my_get_path_split(t_myenv **myenv, char *path, char c);
 char    *my_get_path(t_myenv *myenv, char *path);
 void    add_back_env(t_myenv **myenv, char *str);
 void    set_env_doubl(t_myenv **myenv, char *str);
@@ -187,9 +191,9 @@ int     check_double(t_myenv_ex **myenv_ex, char *str);
 char    *check_val(char *str);
 int	    ft_strcmp(char	*s1, char	*s2);
 int     check_exist(char *str, char *dest);
-int     check_builtin_cmd(char **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
+int     check_builtin_cmd(t_cmd **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
 void    free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
 int     check_double_env(t_myenv **myenv, char *str);
-void	cmd_ex(t_cmd **args,t_token **tokens, char **env);
-
+void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void    declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env);
 #endif

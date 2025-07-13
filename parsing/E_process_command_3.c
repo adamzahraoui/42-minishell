@@ -19,7 +19,8 @@ void	free_commands(t_cmd *cmds)
             free(tmp->output_file);
         if (tmp->heredoc_delim)
             free(tmp->heredoc_delim);
-        if (tmp->heredoc_file)
+      #include "minishell.h"
+  if (tmp->heredoc_file)
         {
             unlink(tmp->heredoc_file);
             free(tmp->heredoc_file);
@@ -39,7 +40,8 @@ void	add_argument(t_cmd *cmd, char *arg)
 	{
 		cmd->arg_capacity *= 2;
 		new_args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
-		if (!new_args)
+		#include "minishell.h"
+if (!new_args)
 			return ;
 		i = 0;
 		while (i < cmd->arg_count)
@@ -53,18 +55,41 @@ void	add_argument(t_cmd *cmd, char *arg)
 	cmd->args[cmd->arg_count++] = arg;
 }
 
-int	builtin_echo(t_cmd *cmd)
+void builtin_echo(t_cmd *cmd)
 {
-	int	i;
+    int i;
+    int newline;
 
-	i = 1;
-	while (i < cmd->arg_count)
-	{
-		printf("%s", cmd->args[i]);
-		if (i < cmd->arg_count - 1)
-			printf(" ");
-		i++;
-	}
-	printf("\n");
-	return (0);
+    i = 1;
+    newline = 1;
+
+    while (cmd->args[i] && is_valid_n_flag(cmd->args[i]))
+    {
+        newline = 0;
+        i++;
+    }
+    while (cmd->args[i])
+    {
+        printf("%s", cmd->args[i]);
+        if (cmd->args[i + 1])
+            printf(" ");
+        i++;
+    }
+    if (newline)
+        printf("\n");
+}
+
+int is_valid_n_flag(const char *str)
+{
+    int i;
+    i = 1;
+    if (str[0] != '-' || str[1] != 'n')
+        return 0;
+    while (str[i])
+    {
+        if (str[i] != 'n')
+            return 0;
+        i++;
+    }
+    return 1;
 }

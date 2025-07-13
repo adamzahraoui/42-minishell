@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/12 03:39:06 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:11:42 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,24 @@ void    ft_ft_free(char **str)
     free(str);
 }
 
-void cmd_ex(t_cmd **args,t_token **tokens, char **env)
+void    declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
 {
-    t_myenv *myenv;
-    t_myenv_ex *myenv_ex;
-    char **path;
+    set_env(myenv, env);
+    set_env_ex(myenv_ex, env);   
+}
 
-    myenv = NULL;
-    myenv_ex = NULL;
-    set_env(&myenv, env);
-    set_env_ex(&myenv_ex, env);
+void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
+{
+    char **path;
+    t_token *tok;
+
+    tok = *tokens;
     path = my_get_path_split(myenv, "PATH=", ':');
-    if(check_builtin_cmd((*args)->args, myenv, myenv_ex) == 1)
+    if(check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
         ft_ft_free((*args)->args);
     else 
     {
-            external_executables((*args)->args, path, env);
+            external_executables(args, path, env);
             ft_ft_free((*args)->args);
     }
 }

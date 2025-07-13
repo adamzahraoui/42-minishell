@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/11 04:02:43 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:10:44 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,26 @@ char    *check_cmd(char **path, char *cmd)
     return (NULL);
 }
 
-void    external_executables(char **cmd, char **path, char **envp)
+void    external_executables(t_cmd **cmd, char **path, char **envp)
 {
     __pid_t pid = fork();
+
+    if(ft_strcmp((*cmd)->args[0], "echo") == 0)
+        return ;
     if (pid == 0)
     {
         char *exec_path;
-        if (ft_strchr(cmd[0], '/'))
-            exec_path = cmd[0];
+        if (ft_strchr((*cmd)->args[0], '/'))
+            exec_path = (*cmd)->args[0];
         else
-            exec_path = check_cmd(path, cmd[0]);
+            exec_path = check_cmd(path, (*cmd)->args[0]);
 
         if (!exec_path)
         {
-            printf("%s: command not found\n", cmd[0]);
+            printf("%s: command not found\n", (*cmd)->args[0]);
             exit(127);
         }
-        execve(exec_path, cmd, envp);
+        execve(exec_path, (*cmd)->args, envp);
         perror("execve");
         exit(EXIT_FAILURE);
     }

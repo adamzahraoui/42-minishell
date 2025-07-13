@@ -34,8 +34,8 @@ void	handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     (*tokens) = tokenize(input);
     if (*tokens)
     {
-        expand_all_tokens(tokens, *vars, env);
-        print_tokens(tokens, *vars, env);
+        expand_all_tokens( tokens, *vars, env);
+        // print_tokens(tokens, *vars, env);
         process_commands(tokens, *vars, env, cmd); 
     }
     free_tokens(*tokens);
@@ -48,10 +48,15 @@ int	main(int argc, char **argv, char **env)
     t_var	*vars;
     t_cmd	*cmd;
     t_token	*tokens;
+    t_myenv *myenv;
+    t_myenv_ex *myenv_ex;
 
     vars = NULL;
     cmd = NULL;
     tokens = NULL;
+    myenv = NULL;
+    myenv_ex = NULL;
+    declare_env(&myenv, &myenv_ex, env);
     (void)argc;
     (void)argv;
     setup_signals();
@@ -66,7 +71,7 @@ int	main(int argc, char **argv, char **env)
         if (handle_assignment_or_empty(input, &vars))
             continue ;
         handle_command(input, env, &vars, &cmd, &tokens);
-		cmd_ex(&cmd, &tokens, env);
+		cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
     }
     clear_history();
     return (0);

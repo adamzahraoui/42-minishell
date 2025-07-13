@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/12 03:00:47 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 02:56:32 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,27 +116,29 @@ char    *check_val(char *str)
     return(ft_strjoin(first, cupy));
 }
 
-void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, char **cmd)
+void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
 {
     t_myenv_ex *pr;
     int i;
     char *egual;
+    t_cmd   *cmd;
 
     pr = *myenv_ex;
     i = 1;
+    cmd = *str;
     sort_export(myenv_ex);
-    if(cmd[1] != NULL)
+    if(cmd->args[1] != NULL)
     {
-        while (cmd[i])
+        while (cmd->args[i])
         {
-            set_env_doubl(myenv, cmd[i]);
-            egual = check_val(cmd[i]); 
-            if (check_double(myenv_ex, cmd[i]) == 1)
+            set_env_doubl(myenv, cmd->args[i]);
+            egual = check_val(cmd->args[i]); 
+            if (check_double(myenv_ex, cmd->args[i]) == 1)
             {
                 if (egual != NULL)
                     add_back(myenv_ex, egual);
                 else
-                    add_back(myenv_ex, cmd[i]);
+                    add_back(myenv_ex, cmd->args[i]);
             }
             i++;
             free(egual);

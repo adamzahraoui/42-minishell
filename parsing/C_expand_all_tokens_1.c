@@ -1,20 +1,20 @@
 #include "../minishell.h"
 
-void	expand_all_tokens(t_token **tok, t_var *vars, char **env)
+void	expand_all_tokens(t_token **tokens, t_var *vars, char **env)
 {
 	char	*expanded;
-	t_token	*tokens;
+	t_token *tok;
 
-	tokens = *tok;
-	while (tokens)
+	tok = *tokens;
+	while (tok)
 	{
-		if (tokens->type == TOKEN_WORD && tokens->value)
+		if (tok->type == TOKEN_WORD && tok->value)
 		{
-			expanded = expand_token(tokens->value, vars, env);
-			free(tokens->value);
-			tokens->value = expanded;
+			expanded = expand_token(tok->value, vars, env);
+			free(tok->value);
+			tok->value = expanded;
 		}
-		tokens = tokens->next;
+		tok = tok->next;
 	}
 }
 
