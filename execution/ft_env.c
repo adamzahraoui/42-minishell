@@ -69,6 +69,7 @@ int check_double_env(t_myenv **myenv, char *str)
                 list->data = p;
                 return (0);
             }
+            free(p);
         }
         list = list->next;
     }

@@ -14,8 +14,6 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
                 builtin_echo(cur);
             cur = cur->next;
         }
-        // free_commands(*cmd);
-        // *cmd = NULL;
     }
 }
 

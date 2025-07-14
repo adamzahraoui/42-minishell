@@ -34,14 +34,17 @@ void    update_path(char *p, t_myenv **myenv, t_myenv_ex **myenv_ex)
 void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
     char *path;
-    
+    char *temp;
+
     if((*cmd)->args[1] == NULL)
     {
-        update_path(ft_strjoin("OLDPWD=", getcwd(NULL, 0)) , myenv, myenv_ex);
+        temp = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+        update_path(temp , myenv, myenv_ex);
         path = my_get_path(*myenv, "HOME=");
         if(chdir(&path[0]) == -1)
             perror("cd");
         free(path);
+        free(temp);
     }
     else if(ft_strlen_cmd(cmd) == 2)
     {
@@ -50,5 +53,7 @@ void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
     }
     else
         ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-    update_path(ft_strjoin("PWD=", getcwd(NULL, 0)) , myenv, myenv_ex);
+    temp = ft_strjoin("PWD=", getcwd(NULL, 0));
+    update_path(temp , myenv, myenv_ex);
+    free(temp);
 }

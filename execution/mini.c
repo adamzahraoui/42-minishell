@@ -76,11 +76,10 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
     (void) env;
     path = my_get_path_split(myenv, "PATH=", ':');
     if(check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
-        return ;    
+        return (ft_ft_free(path));    
     else 
-    {
         external_executables(args, path, env);
-        // ft_ft_free((*args)->args);
-    }
-    // ft_ft_free((*args)->args);
+    ft_ft_free(path);
+    free_commands(*args);
+    *args = NULL;
 }
