@@ -40,19 +40,21 @@ void	add_argument(t_cmd *cmd, char *arg)
 	{
 		cmd->arg_capacity *= 2;
 		new_args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
-		#include "minishell.h"
-if (!new_args)
+        if (!new_args)
 			return ;
 		i = 0;
-		while (i < cmd->arg_count)
+		while (i < cmd->arg_count) // Initialize remaining slots to NULL
 		{
 			new_args[i] = cmd->args[i];
 			i++;
 		}
+        while (i < cmd->arg_capacity)
+            new_args[i++] = NULL;
 		free(cmd->args);
 		cmd->args = new_args;
 	}
-	cmd->args[cmd->arg_count++] = arg;
+    cmd->args[cmd->arg_count] = arg;
+	cmd->args[cmd->arg_count++] = arg; // Always null-terminate
 }
 
 void builtin_echo(t_cmd *cmd)
