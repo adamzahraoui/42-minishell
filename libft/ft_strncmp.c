@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -27,5 +28,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			return (s[i] - d[i]);
 		i++;
 	}
+	printf("ok\n");
 	return (0);
 }

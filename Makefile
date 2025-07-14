@@ -16,7 +16,7 @@ SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c
     execution/external_executables.c execution/exit_error.c \
     parsing/A_assignment_or_empty.c parsing/B_tokenizer_2.c parsing/C_expand_all_tokens_2.c parsing/E_process_command_1.c \
     parsing/E_process_command_3.c minishell.c parsing/B_tokenizer_1.c parsing/C_expand_all_tokens_1.c parsing/D_print_tokens.c \
-    parsing/E_process_command_2.c  parsing/get_next_line.c
+    parsing/E_process_command_2.c
 OBJ= $(SRC:.c=.o)
 NAME= minishell
 

@@ -14,6 +14,8 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
                 builtin_echo(cur);
             cur = cur->next;
         }
+        // free_commands(*cmd);
+        // *cmd = NULL;
     }
 }
 
@@ -73,6 +75,7 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
 t_cmd	*init_command(void)
 {
     t_cmd	*cmd;
+    int        i;
 
     cmd = (t_cmd *)malloc(sizeof(t_cmd));
     if (!cmd)
@@ -88,12 +91,16 @@ t_cmd	*init_command(void)
     cmd->next = NULL;
     cmd->args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
     if (!cmd->args)
+        return (free(cmd), NULL);
+    i = 0;
+    while (i < cmd->arg_capacity)
     {
-        free(cmd);
-        return (NULL);
+        cmd->args[i] = NULL;
+        i++;
     }
     return (cmd);
 }
+
 
 int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens)
 {

@@ -78,7 +78,7 @@ int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
     else if(ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])) == 0)
         ft_exit(&myenv_ex, &myenv);
     else
-        return 0;  
+        return 0;
     return (1);
 }
 

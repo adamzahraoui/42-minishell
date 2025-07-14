@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **env)
         if (!input)
         {
             printf("exit\n");
-            break ;
+            exit(139);
         }
         if (handle_assignment_or_empty(input, &vars))
             continue ;

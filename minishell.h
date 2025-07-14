@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 04:11:02 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 10:08:51 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <errno.h>
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
