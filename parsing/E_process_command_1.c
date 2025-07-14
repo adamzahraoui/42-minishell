@@ -10,8 +10,17 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
         cur = *cmd;
         while (cur)
         {
-            if (cur->arg_count > 0 && strcmp(cur->args[0], "echo") == 0)
-                builtin_echo(cur);
+            if (cur->arg_count > 0)
+            {
+                if (ft_strchr(cur->args[0], ':') && ft_strchr(cur->args[0], '/'))
+                {
+                    printf("minishell: %s: No such file or directory\n", cur->args[0]);
+                }
+                else if (strcmp(cur->args[0], "echo") == 0)
+                {
+                    builtin_echo(cur);
+                }
+            }
             cur = cur->next;
         }
     }

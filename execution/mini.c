@@ -70,9 +70,10 @@ void    declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
 void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
     char **path;
-    t_token *tok;
+    (void)tokens;
+    //t_token *tok;
 
-    tok = *tokens;
+    //tok = *tokens;
     (void) env;
     path = my_get_path_split(myenv, "PATH=", ':');
     if(check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
