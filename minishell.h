@@ -42,8 +42,6 @@ typedef struct s_myenv_ex
 
 # define MAX_TOKEN_LEN 4096
 
-extern int			g_exit_status;
-
 typedef struct s_var
 {
 	char			*name;
@@ -115,9 +113,6 @@ t_cmd				*parse_command(t_token **tokens, t_var *vars, char **env);
 t_cmd				*init_command(void);
 int					is_redirection(t_token_type type);
 
-// int					handle_input_redirection(t_cmd *cmd, t_token *next);
-// int					handle_output_redirection(t_cmd *cmd, t_token *next,
-// 						t_token_type type);
 int					handle_heredoc_redirection(t_cmd *cmd, t_token *next);
 int					fork_and_read_heredoc(const char *delim, const char *temp_file);
 int					validate_and_prepare_heredoc(t_cmd *cmd, t_token *next, char **temp_file);
@@ -138,11 +133,10 @@ void				print_tokens(t_token **tokens, t_var *vars, char **env);
 char				*get_env_value(char **env, char *name);
 
 char				*expand_token(char *token, t_var *vars, char **env);
-int					handle_exit_status(char *result);
 int					expand_variable(char *token, int *i, char *result,
 						t_expand_context *ctx);
 
-void					builtin_echo(t_cmd *cmd);
+void				builtin_echo(t_cmd *cmd);
 
 void				setup_signals(void);
 void				handle_sigint(int sig);
@@ -155,14 +149,13 @@ int					handle_assignment_or_empty(char *input, t_var **vars);
 void				handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens);
 int					extract_var_name(const char *token, int *i, char *var_name);
 
-char				*get_next_line(int fd);
 int					read_heredoc_content(const char *delimiter, const char *temp_file);
 
 void				process_commands_s(t_token **tokens, t_var *vars, char **env);
 void				print_cmds(t_cmd *cmd);
 int					extract_var_name(const char *token, int *i, char *var_name);
 void				builtin_echo(t_cmd *cmd);
-int is_valid_n_flag(const char *str);
+int					is_valid_n_flag(const char *str);
 
 
 

@@ -53,8 +53,6 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 	char	*val;
 
 	len = 0;
-	if (token[*i + 1] == '?')
-		return (handle_exit_status(result));
 	extract_var_name(token, i, var_name);
 	val = get_shell_var(ctx->vars, var_name);
 	if (!val)
@@ -66,20 +64,6 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 	}
 	else
 		result[0] = '\0';
-	return (len);
-}
-
-int	handle_exit_status(char *result)
-{
-	char	*var_value;
-	int		len;
-
-	var_value = ft_itoa(g_exit_status);
-	if (!var_value)
-		return (0);
-	ft_strlcpy(result, var_value, MAX_TOKEN_LEN);
-	len = ft_strlen(result);
-	free(var_value);
 	return (len);
 }
 
