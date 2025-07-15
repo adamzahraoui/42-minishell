@@ -1,23 +1,26 @@
 #include "../minishell.h"
 
-int	handle_assignment_or_empty(char *input, t_var **vars)
+int	handle_assignment_or_empty(char *input, t_var **vars, char **env)
 {
-	char	*eq;
+    char	*eq;
+    char	*expanded_value;
 
-	if (*input == '\0')
-	{
-		free(input);
-		return (1);
-	}
-	eq = ft_strchr(input, '=');
-	if (eq && eq != input && ft_strchr(input, ' ') == NULL)
-	{
-		*eq = '\0';
-		set_shell_var(vars, input, eq + 1);
-		free(input);
-		return (1);
-	}
-	return (0);
+    if (*input == '\0')
+    {
+        free(input);
+        return (1);
+    }
+    eq = ft_strchr(input, '=');
+    if (eq && eq != input && ft_strchr(input, ' ') == NULL)
+    {
+        *eq = '\0';
+        expanded_value = expand_token(eq + 1, *vars, env);
+        set_shell_var(vars, input, expanded_value);
+        free(expanded_value);
+        free(input);
+        return (1);
+    }
+    return (0);
 }
 
 void	set_shell_var(t_var **vars, char *name, char *value)

@@ -145,7 +145,7 @@ void				set_shell_var(t_var **vars, char *name, char *value);
 char				*get_shell_var(t_var *vars, char *name);
 void				expand_all_tokens(t_token **tokens, t_var *vars, char **env);
 
-int					handle_assignment_or_empty(char *input, t_var **vars);
+int					handle_assignment_or_empty(char *input, t_var **vars, char **env);
 void				handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens);
 int					extract_var_name(const char *token, int *i, char *var_name);
 

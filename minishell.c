@@ -31,8 +31,7 @@ void	handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     (*tokens) = tokenize(input);
     if (*tokens)
     {
-        expand_all_tokens( tokens, *vars, env);
-        // print_tokens(tokens, *vars, env);
+        expand_all_tokens(tokens, *vars, env);
         process_commands(tokens, *vars, env, cmd); 
     }
     free_tokens(*tokens);
@@ -65,10 +64,10 @@ int	main(int argc, char **argv, char **env)
             printf("exit\n");
             exit(139);
         }
-        if (handle_assignment_or_empty(input, &vars))
+        if (handle_assignment_or_empty(input, &vars, env))
             continue ;
         handle_command(input, env, &vars, &cmd, &tokens);
-		cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
+        cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
     }
     clear_history();
     return (0);
