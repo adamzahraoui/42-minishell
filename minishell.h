@@ -164,7 +164,7 @@ void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void    ft_pwd();
 void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
 void    set_env_ex(t_myenv_ex **myenv, char **env);
-void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
+void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str);
 void    print_env(t_myenv *myenv);
 void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
 
@@ -175,17 +175,19 @@ void    external_executables(t_cmd **cmd, char **path, char **env);
 
 // help funcion
 
+int     check_double_env(t_myenv **myenv, char *str);
+int     check_double(t_myenv_ex **myenv_ex, char *str);
+int     ft_strcmp(const char *s1, const char *s2);
+int     check_builtin_cmd(t_cmd **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
+int     check_exist(char *str, char *dest);
 char    **my_get_path_split(t_myenv **myenv, char *path, char c);
 char    *my_get_path(t_myenv *myenv, char *path);
+char    *check_val(char *str);
 void    add_back_env(t_myenv **myenv, char *str);
 void    set_env_doubl(t_myenv **myenv, char *str);
-int     check_double(t_myenv_ex **myenv_ex, char *str);
-char    *check_val(char *str);
-int     ft_strcmp(const char *s1, const char *s2);
-int     check_exist(char *str, char *dest);
-int     check_builtin_cmd(t_cmd **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
 void    free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
-int     check_double_env(t_myenv **myenv, char *str);
-void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void	cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void    declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env);
+
+
 #endif
