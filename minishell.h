@@ -113,9 +113,7 @@ t_cmd				*parse_command(t_token **tokens, t_var *vars, char **env);
 t_cmd				*init_command(void);
 int					is_redirection(t_token_type type);
 
-int					handle_heredoc_redirection(t_cmd *cmd, t_token *next);
-int					fork_and_read_heredoc(const char *delim, const char *temp_file);
-int					validate_and_prepare_heredoc(t_cmd *cmd, t_token *next, char **temp_file);
+int 				handle_heredoc(const char *delimiter);
 
 
 
@@ -183,7 +181,7 @@ void    add_back_env(t_myenv **myenv, char *str);
 void    set_env_doubl(t_myenv **myenv, char *str);
 int     check_double(t_myenv_ex **myenv_ex, char *str);
 char    *check_val(char *str);
-int	    ft_strcmp(char	*s1, char	*s2);
+int     ft_strcmp(const char *s1, const char *s2);
 int     check_exist(char *str, char *dest);
 int     check_builtin_cmd(t_cmd **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
 void    free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);

@@ -10,6 +10,14 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
         cur = *cmd;
         while (cur)
         {
+            if (cur->arg_count == 0 && (cur->heredoc_delim || cur->input_file || cur->output_file))
+            {
+                printf("minishell: syntax error near unexpected token\n");
+                free_commands(*cmd);
+                *cmd = NULL;
+                return;
+            }
+            
             if (cur->arg_count > 0)
             {
                 if (ft_strchr(cur->args[0], ':') && ft_strchr(cur->args[0], '/'))

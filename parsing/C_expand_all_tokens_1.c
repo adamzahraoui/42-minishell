@@ -2,20 +2,24 @@
 
 void	expand_all_tokens(t_token **tokens, t_var *vars, char **env)
 {
-	char	*expanded;
-	t_token *tok;
+    char	*expanded;
+    t_token *tok;
+    t_token *prev;
 
-	tok = *tokens;
-	while (tok)
-	{
-		if (tok->type == TOKEN_WORD && tok->value)
-		{
-			expanded = expand_token(tok->value, vars, env);
-			free(tok->value);
-			tok->value = expanded;
-		}
-		tok = tok->next;
-	}
+    tok = *tokens;
+    prev = NULL;
+    while (tok)
+    {
+        if (tok->type == TOKEN_WORD && tok->value && 
+            !(prev && prev->type == TOKEN_HEREDOC))
+        {
+            expanded = expand_token(tok->value, vars, env);
+            free(tok->value);
+            tok->value = expanded;
+        }
+        prev = tok;
+        tok = tok->next;
+    }
 }
 
 char	*expand_token(char *token, t_var *vars, char **env)

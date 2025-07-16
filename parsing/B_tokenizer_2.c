@@ -79,3 +79,4 @@ char	*get_word_token(char *line, int *i)
 		ft_putendl_fd("Error: Memory allocation failed", 2);
 	return (token);
 }
+ 

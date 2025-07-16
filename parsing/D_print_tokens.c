@@ -52,22 +52,22 @@
 // 	}
 // }
 
-void	print_tokens(t_token **tokens, t_var *vars, char **env)
-{
-	t_token	*current;
-	int		i;
+// void	print_tokens(t_token **tokens, t_var *vars, char **env)
+// {
+// 	t_token	*current;
+// 	int		i;
 
-	(void)vars;
-	(void)env;
-	current = *tokens;
-	i = 1;
-	printf("Tokens:\n");
-	while (current)
-	{
-		printf("%d: [%s] (Type: %d)\n", i++, current->value, current->type);
-		current = current->next;
-	}
-}
+// 	(void)vars;
+// 	(void)env;
+// 	current = *tokens;
+// 	i = 1;
+// 	printf("Tokens:\n");
+// 	while (current)
+// 	{
+// 		printf("%d: [%s] (Type: %d)\n", i++, current->value, current->type);
+// 		current = current->next;
+// 	}
+// }
 
 int	is_delimiter(char c)
 {

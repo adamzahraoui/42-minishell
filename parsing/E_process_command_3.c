@@ -31,30 +31,29 @@ void	free_commands(t_cmd *cmds)
 
 void	add_argument(t_cmd *cmd, char *arg)
 {
-	char	**new_args;
-	int		i;
+    char	**new_args;
+    int		i;
 
-	if (!arg)
-		return ;
-	if (cmd->arg_count >= cmd->arg_capacity)
-	{
-		cmd->arg_capacity *= 2;
-		new_args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
+    if (!arg)
+        return ;
+    if (cmd->arg_count >= cmd->arg_capacity)
+    {
+        cmd->arg_capacity *= 2;
+        new_args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
         if (!new_args)
-			return ;
-		i = 0;
-		while (i < cmd->arg_count) // Initialize remaining slots to NULL
-		{
-			new_args[i] = cmd->args[i];
-			i++;
-		}
+            return ;
+        i = 0;
+        while (i < cmd->arg_count)
+        {
+            new_args[i] = cmd->args[i];
+            i++;
+        }
         while (i < cmd->arg_capacity)
             new_args[i++] = NULL;
-		free(cmd->args);
-		cmd->args = new_args;
-	}
-    cmd->args[cmd->arg_count] = arg;
-	cmd->args[cmd->arg_count++] = arg; // Always null-terminate
+        free(cmd->args);
+        cmd->args = new_args;
+    }
+    cmd->args[cmd->arg_count++] = arg;
 }
 
 void builtin_echo(t_cmd *cmd)
