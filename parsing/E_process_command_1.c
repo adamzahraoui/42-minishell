@@ -103,6 +103,7 @@ t_cmd	*init_command(void)
     cmd->append_output = 0;
     cmd->heredoc_delim = NULL;
     cmd->heredoc_file = NULL;
+    cmd->saved_stdin = -1;
     cmd->next = NULL;
     cmd->args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
     if (!cmd->args)

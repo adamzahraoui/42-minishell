@@ -1,5 +1,5 @@
 CC= cc
-CFLAGS= -Wall -Wextra -Werror -Ilibft -I.
+CFLAGS= -Wall -Wextra -Werror -Ilibft -I. -g
 RM= rm -f
 LDFLAGS = -Llibft -lreadline
 SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c libft/ft_isprint.c \

@@ -58,7 +58,7 @@ void    ft_unset_env(t_myenv **myenv, char *str)
     }
 }
 
-void    ft_unset_help(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str)
+void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str)
 {
     t_myenv_ex      *list_ex;
     t_myenv_ex      *crr;
@@ -90,19 +90,5 @@ void    ft_unset_help(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str)
             p = list_ex;
             list_ex = list_ex->next;
         }
-    }
-}
-
-void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
-{
-    int i;
-    t_cmd   *arg;
-
-    i = 1;
-    arg = *str;
-    while(arg->args[i])
-    {
-        ft_unset_help(myenv_ex, myenv, arg->args[i]);
-        i++;
     }
 }

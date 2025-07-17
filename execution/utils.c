@@ -72,7 +72,7 @@ int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
     else if(ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
         ft_export(&myenv_ex, &myenv, str);
     else if(ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
-        ft_unset(&myenv_ex, &myenv, str);
+        ft_unset(&myenv_ex, &myenv, cmd->args[1]);
     else if(ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)
         print_env(myenv);
     else if(ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])) == 0)
