@@ -110,3 +110,50 @@ int	extract_var_name(const char *token, int *i, char *var_name)
 	(*i)--;
 	return (j);
 }
+
+char **convert_myenv_to_env(t_myenv *myenv)
+{
+    t_myenv *temp;
+    char **env;
+    int count = 0;
+    int i = 0;
+
+    temp = myenv;
+    while (temp)
+    {
+        count++;
+        temp = temp->next;
+    }
+    env = malloc(sizeof(char*) * (count + 1));
+    if (!env)
+        return NULL;
+
+    temp = myenv;
+    while (temp && i < count)
+    {
+        env[i] = ft_strdup(temp->data);
+        temp = temp->next;
+        i++;
+    }
+    env[i] = NULL;
+    return env;
+}
+
+char	*get_myenv_value(t_myenv *myenv, char *name)
+{
+    int name_len;
+    
+    if (!myenv || !name)
+        return NULL;
+    
+    name_len = ft_strlen(name);
+    
+    while (myenv)
+    {
+        if (ft_strncmp(myenv->data, name, name_len) == 0 && 
+            myenv->data[name_len] == '=')
+            return (myenv->data + name_len + 1);
+        myenv = myenv->next;
+    }
+    return NULL;
+}

@@ -15,9 +15,12 @@ void	handle_sigint(int sig)
     rl_redisplay();
 }
 
-void	handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens)
+void	handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
 {
     char	*trimmed;
+    char    **current_env;
+    (void)env;
+
 
     trimmed = ft_strtrim(input, " \t");
     if (trimmed && *trimmed)
@@ -31,8 +34,10 @@ void	handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     (*tokens) = tokenize(input);
     if (*tokens)
     {
-        expand_all_tokens(tokens, *vars, env);
-        process_commands(tokens, *vars, env, cmd); 
+        current_env = convert_myenv_to_env(*myenv);
+        expand_all_tokens(tokens, *vars, current_env);
+        process_commands(tokens, *vars, current_env, cmd);
+                free(current_env);
     }
     free_tokens(*tokens);
     free(input);
@@ -66,7 +71,7 @@ int	main(int argc, char **argv, char **env)
         }
         if (handle_assignment_or_empty(input, &vars, env))
             continue ;
-        handle_command(input, env, &vars, &cmd, &tokens);
+        handle_command(input, env, &vars, &cmd, &tokens, &myenv);
         cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
     }
     clear_history();
