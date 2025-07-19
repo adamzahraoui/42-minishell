@@ -58,6 +58,7 @@ int	main(int argc, char **argv, char **env)
     myenv = NULL;
     myenv_ex = NULL;
     declare_env(&myenv, &myenv_ex, env);
+    myenv->i = 0;
     (void)argc;
     (void)argv;
     setup_signals();
@@ -65,10 +66,7 @@ int	main(int argc, char **argv, char **env)
     {
         input = readline("minishell> ");
         if (!input)
-        {
-            printf("exit\n");
-            exit(139);
-        }
+            ft_free_error("exit\n", &myenv, &myenv_ex, 139);
         if (handle_assignment_or_empty(input, &vars, env))
             continue ;
         handle_command(input, env, &vars, &cmd, &tokens, &myenv);

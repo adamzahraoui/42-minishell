@@ -11,12 +11,12 @@ SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c
 	libft/ft_lstnew_bonus.c libft/ft_lstadd_front_bonus.c libft/ft_lstsize_bonus.c \
     libft/ft_lstlast_bonus.c libft/ft_lstadd_back_bonus.c libft/ft_lstdelone_bonus.c \
     libft/ft_lstclear_bonus.c libft/ft_lstiter_bonus.c  libft/ft_lstmap_bonus.c \
-	execution/mini.c execution/utils.c execution/ft_env.c execution/ft_cd.c execution/ft_echo.c execution/ft_export.c \
+	execution/mini.c execution/utils_a.c execution/ft_env.c execution/ft_cd.c execution/ft_echo.c execution/ft_export.c \
     execution/ft_export_ex.c execution/ft_exit.c execution/ft_pwd.c execution/ft_unset.c \
     execution/external_executables.c execution/exit_error.c \
     parsing/A_assignment_or_empty.c parsing/B_tokenizer_2.c parsing/C_expand_all_tokens_2.c parsing/E_process_command_1.c \
     parsing/E_process_command_3.c minishell.c parsing/B_tokenizer_1.c parsing/C_expand_all_tokens_1.c parsing/D_print_tokens.c \
-    parsing/E_process_command_2.c
+    parsing/E_process_command_2.c execution/utils_b.c
 OBJ= $(SRC:.c=.o)
 NAME= minishell
 

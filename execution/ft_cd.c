@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:59 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 10:10:56 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/19 13:58:38 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
         update_path(temp , myenv, myenv_ex);
         path = my_get_path(*myenv, "HOME=");
         if(chdir(&path[0]) == -1)
-            perror("cd");
+            set_status(myenv, "cd", 1);
         free(path);
         free(temp);
     }
     else if(ft_strlen_cmd(cmd) == 2)
     {
         if(chdir((*cmd)->args[1]) == -1)
-            perror("cd");
+            set_status(myenv, "cd", 1);
     }
     else
         ft_putstr_fd("minishell: cd: too many arguments\n", 2);

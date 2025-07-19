@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   utils_b.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 15:12:35 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/19 13:59:15 by adzahrao         ###   ########.fr       */
+/*   Created: 2025/07/19 12:51:55 by adzahrao          #+#    #+#             */
+/*   Updated: 2025/07/19 12:53:46 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+void    set_status(t_myenv **myenv, char *str, int status)
 {
-	size_t	i;
-
-	if(!s)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+    t_myenv *env;
+   
+    env = *myenv;
+    perror(str);
+    env->i = status;
 }

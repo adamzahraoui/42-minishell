@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 10:08:51 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/19 12:55:04 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ char *remove_quotes(const char *str);
 void external_executables(t_cmd **cmd, char **path, char **env);
 
 // help funcion
-
+void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i);
 char **my_get_path_split(t_myenv **myenv, char *path, char c);
 char *my_get_path(t_myenv *myenv, char *path);
 void add_back_env(t_myenv **myenv, char *str);
@@ -195,4 +195,6 @@ void free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
 int check_double_env(t_myenv **myenv, char *str);
 void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env);
+void    set_status(t_myenv **myenv, char *str, int status);
+
 #endif

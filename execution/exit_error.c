@@ -6,13 +6,13 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 03:59:44 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/11 04:02:37 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/19 12:51:41 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex)
+void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i)
 {
     t_myenv *list;
     t_myenv *p;
@@ -35,6 +35,7 @@ void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex)
         free(list_ex);
         list_ex = e;
     }
-    perror(str);
-    exit(0);
+    if(str != NULL)
+        perror(str);
+    exit(i);
 }
