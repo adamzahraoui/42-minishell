@@ -122,6 +122,7 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
     int i;
     char *egual;
     t_cmd   *cmd;
+    
 
     pr = *myenv_ex;
     i = 1;

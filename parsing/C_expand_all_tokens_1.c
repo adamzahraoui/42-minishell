@@ -43,32 +43,77 @@ void	expand_all_tokens(t_token **tokens, t_var *vars, char **env)
     }
 }
 
-char	*expand_token(char *token, t_var *vars, char **env)
+char *trim_spaces(const char *str)
 {
-	char				*result;
-	t_token_state		st;
-	t_expand_context	ctx;
+    while (*str && isspace((unsigned char)*str))
+        str++;
+    if (*str == 0)
+        return strdup(""); // all spaces
+    const char *end = str + strlen(str) - 1;
+    while (end > str && isspace((unsigned char)*end))
+        end--;
+    size_t len = end - str + 1;
+    char *out = malloc(len + 1);
+    if (!out) return NULL;
+    strncpy(out, str, len);
+    out[len] = '\0';
+    return out;
+}
 
-	ctx.vars = vars;
-	ctx.env = env;
-	memset(&st, 0, sizeof(st));
-	result = malloc(MAX_TOKEN_LEN);
-	if (!result)
-		return (NULL);
-	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
-	{
-		if (token[st.i] == '\'' && !st.in_double)
-			st.in_single = !st.in_single;
-		else if (token[st.i] == '\"' && !st.in_single)
-			st.in_double = !st.in_double;
-		else if (token[st.i] == '$' && !st.in_single)
-			st.j += expand_variable(token, &(st.i), result + st.j, &ctx);
-		else
-			result[st.j++] = token[st.i];
-		st.i++;
-	}
-	result[st.j] = '\0';
-	return (result);
+char   *expand_token(char *token, t_var *vars, char **env)
+{
+    char                *result;
+    t_token_state       st;
+    t_expand_context    ctx;
+    int                 all_in_double = 0;
+    char                *final_result;
+
+    ctx.vars = vars;
+    ctx.env = env;
+    memset(&st, 0, sizeof(st));
+
+
+    if (token[0] == '"' && token[strlen(token) - 1] == '"' && strlen(token) > 1)
+        all_in_double = 1;
+
+    result = malloc(MAX_TOKEN_LEN);
+    if (!result)
+        return (NULL);
+    while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
+    {
+        if (token[st.i] == '\'' && !st.in_double)
+            st.in_single = !st.in_single;
+        else if (token[st.i] == '"' && !st.in_single)
+            st.in_double = !st.in_double;
+        else if (token[st.i] == '$' && !st.in_single)
+            st.j += expand_variable(token, &(st.i), result + st.j, &ctx);
+        else
+            result[st.j++] = token[st.i];
+        st.i++;
+    }
+    result[st.j] = '\0';
+
+
+    if (!all_in_double)
+    {
+        char *unquoted = remove_quotes(result);
+        final_result = trim_spaces(unquoted);
+        free(result);
+        free(unquoted);
+        return final_result;
+    }
+    else
+    {
+        size_t len = strlen(result);
+        if (len >= 2 && result[0] == '"' && result[len - 1] == '"')
+        {
+            result[len - 1] = '\0';
+            final_result = strdup(result + 1);
+            free(result);
+            return final_result;
+        }
+        return result;
+    }
 }
 
 int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)

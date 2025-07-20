@@ -70,7 +70,8 @@ int	main(int argc, char **argv, char **env)
         if (handle_assignment_or_empty(input, &vars, env))
             continue ;
         handle_command(input, env, &vars, &cmd, &tokens, &myenv);
-        cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
+        if (cmd != NULL)
+            cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
     }
     clear_history();
     return (0);

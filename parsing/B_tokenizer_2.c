@@ -8,12 +8,20 @@ int	is_whitespace(char c)
 
 char	*get_next_token_part(char *line, int *i)
 {
-	if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
-		return (get_operator_token(line, i));
-	else if (line[*i] == '\'' || line[*i] == '\"')
-		return (get_quoted_token(line, i));
-	else
-		return (get_word_token(line, i));
+    if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
+        return (get_operator_token(line, i));
+    else if (line[*i] == '\'' || line[*i] == '"')
+        return (get_quoted_token(line, i));
+    else if (line[*i] == '$')
+    {
+        int start = *i;
+        (*i)++;
+        while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
+            (*i)++;
+        return ft_substr(line, start, *i - start);
+    }
+    else
+        return (get_word_token(line, i));
 }
 
 char	*get_operator_token(char *line, int *i)
@@ -63,20 +71,19 @@ char	*get_quoted_token(char *line, int *i)
 
 char	*get_word_token(char *line, int *i)
 {
-	int		start;
-	int		length;
-	char	*token;
+    int		start;
+    int		length;
+    char	*token;
 
-	start = *i;
-	while (line[*i] && !is_delimiter(line[*i]) && line[*i] != '\''
-		&& line[*i] != '\"')
-		(*i)++;
-	length = *i - start;
-	if (length == 0)
-		return (NULL);
-	token = ft_substr(line, start, length);
-	if (!token)
-		ft_putendl_fd("Error: Memory allocation failed", 2);
-	return (token);
+    start = *i;
+    while (line[*i] && !is_delimiter(line[*i]) && line[*i] != '\''
+        && line[*i] != '"' && line[*i] != '$')
+        (*i)++;
+    length = *i - start;
+    if (length == 0)
+        return (NULL);
+    token = ft_substr(line, start, length);
+    if (!token)
+        ft_putendl_fd("Error: Memory allocation failed", 2);
+    return (token);
 }
- 

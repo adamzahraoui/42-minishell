@@ -109,6 +109,8 @@ int is_delimiter(char c);
 int is_whitespace(char c);
 char *get_next_token_part(char *line, int *i);
 
+
+
 t_cmd *parse_commands(t_token **tokens, t_var *vars, char **env);
 t_cmd *parse_command(t_token **tokens, t_var *vars, char **env);
 t_cmd *init_command(void);

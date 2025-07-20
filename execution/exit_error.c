@@ -36,6 +36,6 @@ void    ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i)
         list_ex = e;
     }
     if(str != NULL)
-        perror(str);
+        printf("%s", str);
     exit(i);
 }

@@ -4,7 +4,8 @@ int	handle_assignment_or_empty(char *input, t_var **vars, char **env)
 {
     char	*eq;
     char	*expanded_value;
-
+    char *clean_value;
+    
     if (*input == '\0')
     {
         free(input);
@@ -15,8 +16,10 @@ int	handle_assignment_or_empty(char *input, t_var **vars, char **env)
     {
         *eq = '\0';
         expanded_value = expand_token(eq + 1, *vars, env);
-        set_shell_var(vars, input, expanded_value);
+        clean_value = remove_quotes(expanded_value);
+        set_shell_var(vars, input, clean_value);
         free(expanded_value);
+        free(clean_value);
         free(input);
         return (1);
     }
