@@ -1,11 +1,11 @@
 #include "../minishell.h"
 
-t_token	*tokenize(char *line)
+t_token *tokenize(char *line)
 {
-	t_token	*head;
-	t_token	*current;
-	int		i;
-	char	*token_value;
+	t_token *head;
+	t_token *current;
+	int i;
+	char *token_value;
 
 	head = NULL;
 	current = NULL;
@@ -15,7 +15,7 @@ t_token	*tokenize(char *line)
 		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 			i++;
 		if (!line[i])
-			break ;
+			break;
 		token_value = get_next_token(line, &i);
 		if (token_value)
 		{
@@ -26,13 +26,13 @@ t_token	*tokenize(char *line)
 	return (head);
 }
 
-char	*get_next_token(char *line, int *i)
+char *get_next_token(char *line, int *i)
 {
-	char	*token;
-	char	*part;
-	char	*tmp;
-	int		start;
-	int		in_single = 0, in_double = 0;
+	char *token;
+	char *part;
+	char *tmp;
+	int start;
+	int in_single = 0, in_double = 0;
 
 	if (!line || !line[*i])
 		return (NULL);
@@ -48,25 +48,30 @@ char	*get_next_token(char *line, int *i)
 			in_double = !in_double;
 		if (line[*i] == '$' && *i > start && !in_single && !in_double)
 		{
-                break;
+			if (!is_whitespace(line[*i + 1]))
+			{
+				free(token);
+				return (NULL);
+			}
+			else
+				break;
 		}
 		part = get_next_token_part(line, i);
 		if (!part)
-			break ;
+			break;
 		tmp = ft_strjoin(token, part);
 		free(token);
 		free(part);
 		token = tmp;
-
 	}
 	if (!*token)
 		return (free(token), NULL);
 	return (token);
 }
 
-int	add_token_to_list(t_token **head, t_token **current, char *token_value)
+int add_token_to_list(t_token **head, t_token **current, char *token_value)
 {
-	t_token	*new;
+	t_token *new;
 
 	new = new_token(token_value);
 	if (!new)
@@ -88,9 +93,9 @@ int	add_token_to_list(t_token **head, t_token **current, char *token_value)
 	return (1);
 }
 
-t_token	*new_token(char *value)
+t_token *new_token(char *value)
 {
-	t_token	*token;
+	t_token *token;
 
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
@@ -101,7 +106,7 @@ t_token	*new_token(char *value)
 	return (token);
 }
 
-t_token_type	determine_token_type(char *value)
+t_token_type determine_token_type(char *value)
 {
 	if (!value)
 		return (TOKEN_ERROR);

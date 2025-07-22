@@ -37,12 +37,19 @@ char    *check_cmd(char **path, char *cmd)
 void    external_executables(t_cmd **cmd, char **path, char **envp)
 {
     __pid_t pid;
+    void (*old_sigint)(int);
+    void (*old_sigquit)(int);
 
-    if(ft_strcmp((*cmd)->args[0], "echo") == 0)
+    if (ft_strcmp((*cmd)->args[0], "echo") == 0)
         return ;
+    old_sigint = signal(SIGINT, SIG_IGN);
+    old_sigquit = signal(SIGQUIT, SIG_IGN);
     pid = fork();
     if (pid == 0)
     {
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+
         char *exec_path;
         if (ft_strchr((*cmd)->args[0], '/'))
             exec_path = (*cmd)->args[0];
@@ -59,7 +66,18 @@ void    external_executables(t_cmd **cmd, char **path, char **envp)
         exit(EXIT_FAILURE);
     }
     else if (pid > 0)
-        waitpid(pid, NULL, 0);
+    {
+        int status;
+        waitpid(pid, &status, 0);
+        signal(SIGINT, old_sigint);
+        signal(SIGQUIT, old_sigquit);
+        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+            write(1, "\n", 1);
+    }
     else
+    {
         perror("fork");
+        signal(SIGINT, old_sigint);
+        signal(SIGQUIT, old_sigquit);
+    }
 }
