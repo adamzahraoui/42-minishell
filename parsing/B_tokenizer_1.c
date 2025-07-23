@@ -38,8 +38,34 @@ char *get_next_token(char *line, int *i)
 	token = ft_strdup("");
 	if (!token)
 		return (NULL);
+	if (!in_single && !in_double)
+	{
+		if (line[*i] == '<' && line[*i + 1] == '<')
+		{
+			free(token);
+			*i += 2;
+			return (ft_strdup("<<"));
+		}
+		if (line[*i] == '>' && line[*i + 1] == '>')
+		{
+			free(token);
+			*i += 2;
+			return (ft_strdup(">>"));
+		}
+		if (line[*i] == '<' || line[*i] == '>' || line[*i] == '|')
+		{
+			free(token);
+			char single_char[2] = {line[*i], '\0'};
+			(*i)++;
+			return (ft_strdup(single_char));
+		}
+	}
 	while (line[*i] && !is_whitespace(line[*i]))
 	{
+		if (!in_single && !in_double && 
+			(line[*i] == '<' || line[*i] == '>' || line[*i] == '|'))
+			break;
+			
 		if (line[*i] == '\'' && !in_double)
 			in_single = !in_single;
 		else if (line[*i] == '"' && !in_single)

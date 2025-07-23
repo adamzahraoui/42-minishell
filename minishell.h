@@ -152,6 +152,7 @@ void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd);
 void set_shell_var(t_var **vars, char *name, char *value);
 char *get_shell_var(t_var *vars, char *name);
 void expand_all_tokens(t_token **tokens, t_var *vars, char **env);
+int validate_syntax(t_token *tokens);
 
 int handle_assignment_or_empty(char *input, t_var **vars, char **env);
 void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv);
