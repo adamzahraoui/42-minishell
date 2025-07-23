@@ -69,38 +69,38 @@ int validate_syntax(t_token *tokens)
 
 
 
-void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
+void handle_command(t_cmd_context *ctx)
 {
     char *trimmed;
     char **current_env;
-    (void)env;
+    (void)ctx->env;
 
-    trimmed = ft_strtrim(input, " \t");
+    trimmed = ft_strtrim(ctx->input, " \t");
     if (trimmed && *trimmed)
         add_history(trimmed);
     free(trimmed);
     
-    if (ft_strncmp(input, "exit", 5) == 0)
+    if (ft_strncmp(ctx->input, "exit", 5) == 0)
     {
-        free(input);
+        free(ctx->input);
         exit(0);
     }
-    (*tokens) = tokenize(input);
-    if (*tokens)
+    *(ctx->tokens) = tokenize(ctx->input);
+    if (*(ctx->tokens))
     {
-        current_env = convert_myenv_to_env(*myenv);
-        expand_all_tokens(tokens, *vars, current_env);
-        if (!validate_syntax(*tokens))
+        current_env = convert_myenv_to_env(*(ctx->myenv));
+        expand_all_tokens(ctx->tokens, *(ctx->vars), current_env);
+        if (!validate_syntax(*(ctx->tokens)))
         {
-            free_tokens(*tokens);
+            free_tokens(*(ctx->tokens));
             free(current_env);
             return;
         }
-        process_commands(tokens, *vars, current_env, cmd);
+        process_commands(ctx->tokens, *(ctx->vars), current_env, ctx->cmd);
         free(current_env);
     }
-    free_tokens(*tokens);
-    free(input);
+    free_tokens(*(ctx->tokens));
+    free(ctx->input);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -129,9 +129,13 @@ int	main(int argc, char **argv, char **env)
             ft_free_error("exit\n", &myenv, &myenv_ex, 139);
         if (handle_assignment_or_empty(input, &vars, env))
             continue ;
-        handle_command(input, env, &vars, &cmd, &tokens, &myenv);
+        t_cmd_context cmd_ctx = {input, env, &vars, &cmd, &tokens, &myenv};
+        handle_command(&cmd_ctx);
         if (cmd != NULL)
-            cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
+        {
+            t_exec_context exec_ctx = {&cmd, &tokens, env, &myenv, &myenv_ex};
+            cmd_ex(&exec_ctx);
+        }
     }
     clear_history();
     return (0);

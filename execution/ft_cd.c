@@ -31,29 +31,29 @@ void    update_path(char *p, t_myenv **myenv, t_myenv_ex **myenv_ex)
     check_double_env(myenv, p);
 }
 
-void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
+void    ft_cd(t_builtin_context *ctx)
 {
     char *path;
     char *temp;
 
-    if((*cmd)->args[1] == NULL)
+    if((*(ctx->cmd))->args[1] == NULL)
     {
         temp = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
-        update_path(temp , myenv, myenv_ex);
-        path = my_get_path(*myenv, "HOME=");
+        update_path(temp , ctx->myenv, ctx->myenv_ex);
+        path = my_get_path(*(ctx->myenv), "HOME=");
         if(chdir(&path[0]) == -1)
-            set_status(myenv, "cd", 1);
+            set_status(ctx->myenv, "cd", 1);
         free(path);
         free(temp);
     }
-    else if(ft_strlen_cmd(cmd) == 2)
+    else if(ft_strlen_cmd(ctx->cmd) == 2)
     {
-        if(chdir((*cmd)->args[1]) == -1)
-            set_status(myenv, "cd", 1);
+        if(chdir((*(ctx->cmd))->args[1]) == -1)
+            set_status(ctx->myenv, "cd", 1);
     }
     else
         ft_putstr_fd("minishell: cd: too many arguments\n", 2);
     temp = ft_strjoin("PWD=", getcwd(NULL, 0));
-    update_path(temp , myenv, myenv_ex);
+    update_path(temp , ctx->myenv, ctx->myenv_ex);
     free(temp);
 }
