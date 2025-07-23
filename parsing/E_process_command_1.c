@@ -76,7 +76,8 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
     {
         if (is_redirection(token_ptr->type))
         {
-            if (!handle_redirection(cmd, &token_ptr, tokens, vars, env))
+            t_redir_context redir_ctx = {NULL, NULL, TOKEN_WORD, vars, env};
+            if (!handle_redirection(cmd, &token_ptr, tokens, &redir_ctx))
                 return (NULL);
             continue ;
         }
@@ -118,7 +119,8 @@ t_cmd	*init_command(void)
 }
 
 
-int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var *vars, char **env)
+int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, 
+					t_redir_context *ctx)
 {
     t_token_type type;
     t_token *next;
@@ -132,7 +134,10 @@ int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var 
         *tokens = NULL;
         return (0);
     }
-    if (!dispatch_redirection(cmd, next, type, vars, env))
+    ctx->cmd = cmd;
+    ctx->next = next;
+    ctx->type = type;
+    if (!dispatch_redirection(ctx))
     {
         free_commands(cmd);
         *tokens = NULL;
