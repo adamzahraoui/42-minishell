@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_var *vars, char **env)
+int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_expand_context *ctx)
 {
     int fd;
 
@@ -13,7 +13,7 @@ int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_var *va
     {
         int saved_stdin = dup(STDIN_FILENO);
 
-        fd = handle_heredoc(next->value, vars, env);
+        fd = handle_heredoc(next->value, ctx);
         if (fd < 0)
         {
             close(saved_stdin);
@@ -108,7 +108,7 @@ int heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
     return pid;
 }
 
-int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_var *vars, char **env, int *lineno)
+int heredoc_child_loop(t_heredoc_context *ctx)
 {
     char *line;
     int got_delim = 0;
@@ -117,7 +117,7 @@ int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_
         line = readline("> ");
         if (!line)
             break;
-        if (ft_strcmp(line, clean_delimiter) == 0)
+        if (ft_strcmp(line, ctx->clean_delimiter) == 0)
         {
             got_delim = 1;
             free(line);
@@ -125,27 +125,37 @@ int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_
         }
         char *to_write = line;
         char *expanded = NULL;
-        if (!quoted)
-            expanded = expand_token(line, vars, env);
+        if (!ctx->quoted)
+            expanded = expand_token(line, ctx->vars, ctx->env);
         if (expanded)
             to_write = expanded;
-        write(write_fd, to_write, strlen(to_write));
-        write(write_fd, "\n", 1);
+        write(ctx->write_fd, to_write, strlen(to_write));
+        write(ctx->write_fd, "\n", 1);
         if (expanded)
             free(expanded);
         free(line);
-        (*lineno)++;
+        (*(ctx->lineno))++;
     }
     return got_delim;
 }
 
-void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_var *vars, char **env)
+void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_expand_context *exp_ctx)
 {
     int lineno = 1;
     int got_delim = 0;
+    t_heredoc_context heredoc_ctx;
+    
     signal(SIGINT, SIG_DFL);
     close(fds[0]);
-    got_delim = heredoc_child_loop(clean_delimiter, quoted, fds[1], vars, env, &lineno);
+    
+    heredoc_ctx.clean_delimiter = clean_delimiter;
+    heredoc_ctx.quoted = quoted;
+    heredoc_ctx.write_fd = fds[1];
+    heredoc_ctx.vars = exp_ctx->vars;
+    heredoc_ctx.env = exp_ctx->env;
+    heredoc_ctx.lineno = &lineno;
+    
+    got_delim = heredoc_child_loop(&heredoc_ctx);
     if (!got_delim)
     {
         ft_putstr_fd("bash: warning: here-document at line ", 2);
@@ -175,7 +185,7 @@ int heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
     return fds[0];
 }
 
-int handle_heredoc(const char *delimiter, t_var *vars, char **env)
+int handle_heredoc(const char *delimiter, t_expand_context *exp_ctx)
 {
     int fds[2];
     pid_t pid;
@@ -187,7 +197,7 @@ int handle_heredoc(const char *delimiter, t_var *vars, char **env)
     if (pid == -1)
         return -1;
     if (pid == 0)
-        heredoc_child(fds, clean_delimiter, quoted, vars, env);
+        heredoc_child(fds, clean_delimiter, quoted, exp_ctx);
     return heredoc_parent(pid, fds, clean_delimiter);
 }
 

@@ -116,7 +116,7 @@ char    *check_val(char *str)
     return(ft_strjoin(first, cupy));
 }
 
-void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
+void    ft_export(t_builtin_context *ctx)
 {
     t_myenv_ex *pr;
     int i;
@@ -124,22 +124,22 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
     t_cmd   *cmd;
     
 
-    pr = *myenv_ex;
+    pr = *(ctx->myenv_ex);
     i = 1;
-    cmd = *str;
-    sort_export(myenv_ex);
+    cmd = *(ctx->cmd);
+    sort_export(ctx->myenv_ex);
     if(cmd->args[1] != NULL)
     {
         while (cmd->args[i])
         {
-            set_env_doubl(myenv, cmd->args[i]);
+            set_env_doubl(ctx->myenv, cmd->args[i]);
             egual = check_val(cmd->args[i]); 
-            if (check_double(myenv_ex, cmd->args[i]) == 1)
+            if (check_double(ctx->myenv_ex, cmd->args[i]) == 1)
             {
                 if (egual != NULL)
-                    add_back(myenv_ex, egual);
+                    add_back(ctx->myenv_ex, egual);
                 else
-                    add_back(myenv_ex, cmd->args[i]);
+                    add_back(ctx->myenv_ex, cmd->args[i]);
             }
             i++;
             free(egual);

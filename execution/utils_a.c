@@ -63,14 +63,19 @@ char    *my_get_path(t_myenv *myenv, char *path)
 int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 {
     t_cmd *cmd;
+    t_builtin_context builtin_ctx;
 
     cmd = *str;
+    builtin_ctx.cmd = str;
+    builtin_ctx.myenv = &myenv;
+    builtin_ctx.myenv_ex = &myenv_ex;
+    
     if(ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])) == 0)
-        ft_cd(str, &myenv, &myenv_ex);
+        ft_cd(&builtin_ctx);
     else if(ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])) == 0)
         ft_pwd();
     else if(ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
-        ft_export(&myenv_ex, &myenv, str);
+        ft_export(&builtin_ctx);
     else if(ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
         ft_unset(&myenv_ex, &myenv, cmd->args[1]);
     else if(ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)

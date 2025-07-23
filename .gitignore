@@ -1,0 +1,11 @@
+# Build artifacts
+*.o
+minishell
+
+# Temporary files
+*~
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
