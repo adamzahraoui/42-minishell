@@ -6,6 +6,7 @@ void	expand_all_tokens(t_token **tokens, t_var *vars, char **env)
     t_token *tok;
     t_token *prev;
     t_token *next;
+    int was_quoted;
 
     tok = *tokens;
     prev = NULL;
@@ -15,8 +16,15 @@ void	expand_all_tokens(t_token **tokens, t_var *vars, char **env)
         if (tok->type == TOKEN_WORD && tok->value && 
             !(prev && prev->type == TOKEN_HEREDOC))
         {
+            was_quoted = (tok->value[0] == '"' || tok->value[0] == '\'');
             expanded = expand_token(tok->value, vars, env);
             if (expanded && *expanded)
+            {
+                free(tok->value);
+                tok->value = expanded;
+                prev = tok;
+            }
+            else if (expanded && was_quoted)
             {
                 free(tok->value);
                 tok->value = expanded;
@@ -48,7 +56,7 @@ char *trim_spaces(const char *str)
     while (*str && isspace((unsigned char)*str))
         str++;
     if (*str == 0)
-        return strdup(""); // all spaces
+        return strdup("");
     const char *end = str + strlen(str) - 1;
     while (end > str && isspace((unsigned char)*end))
         end--;

@@ -19,8 +19,7 @@ void	free_commands(t_cmd *cmds)
             free(tmp->output_file);
         if (tmp->heredoc_delim)
             free(tmp->heredoc_delim);
-      #include "minishell.h"
-  if (tmp->heredoc_file)
+        if (tmp->heredoc_file)
         {
             unlink(tmp->heredoc_file);
             free(tmp->heredoc_file);

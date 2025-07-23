@@ -85,9 +85,6 @@ int heredoc_setup(const char *delimiter, char **clean_delimiter, int *quoted)
     if (!*clean_delimiter)
         return -1;
     *quoted = is_quoted(delimiter);
-    *clean_delimiter = remove_quotes(delimiter);
-    if (!*clean_delimiter)
-        return -1;
     return 0;
 }
 
@@ -120,7 +117,7 @@ int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_
         line = readline("> ");
         if (!line)
             break;
-        if (strcmp(line, clean_delimiter) == 0)
+        if (ft_strcmp(line, clean_delimiter) == 0)
         {
             got_delim = 1;
             free(line);
@@ -150,9 +147,13 @@ void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_var *vars, cha
     close(fds[0]);
     got_delim = heredoc_child_loop(clean_delimiter, quoted, fds[1], vars, env, &lineno);
     if (!got_delim)
-        fprintf(stderr,
-                "bash: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n",
-                lineno, clean_delimiter);
+    {
+        ft_putstr_fd("bash: warning: here-document at line ", 2);
+        ft_putnbr_fd(lineno, 2);
+        ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+        ft_putstr_fd(clean_delimiter, 2);
+        ft_putstr_fd("')\n", 2);
+    }
     close(fds[1]);
     free(clean_delimiter);
     exit(0);

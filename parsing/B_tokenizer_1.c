@@ -31,7 +31,6 @@ char *get_next_token(char *line, int *i)
 	char *token;
 	char *part;
 	char *tmp;
-	int start;
 	int in_single = 0, in_double = 0;
 
 	if (!line || !line[*i])
@@ -39,23 +38,12 @@ char *get_next_token(char *line, int *i)
 	token = ft_strdup("");
 	if (!token)
 		return (NULL);
-	start = *i;
 	while (line[*i] && !is_whitespace(line[*i]))
 	{
 		if (line[*i] == '\'' && !in_double)
 			in_single = !in_single;
 		else if (line[*i] == '"' && !in_single)
 			in_double = !in_double;
-		if (line[*i] == '$' && *i > start && !in_single && !in_double)
-		{
-			if (!is_whitespace(line[*i + 1]))
-			{
-				free(token);
-				return (NULL);
-			}
-			else
-				break;
-		}
 		part = get_next_token_part(line, i);
 		if (!part)
 			break;
