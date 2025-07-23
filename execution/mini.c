@@ -60,26 +60,26 @@ void ft_ft_free(char **str)
     free(str);
 }
 
-void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
+void declare_env(t_env_context *env_ctx)
 {
-    set_env(myenv, env);
-    set_env_ex(myenv_ex, env);
+    set_env(env_ctx->myenv, env_ctx->env);
+    set_env_ex(env_ctx->myenv_ex, env_ctx->env);
 }
 
-void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
+void cmd_ex(t_cmd **args, t_token **tokens, t_env_context *env_ctx)
 {
     char **path;
 
     (void)tokens;
-    path = my_get_path_split(myenv, "PATH=", ':');
+    path = my_get_path_split(env_ctx->myenv, "PATH=", ':');
 
-    if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+    if (check_builtin_cmd(args, *env_ctx->myenv, *env_ctx->myenv_ex) == 1)
     {
         ft_ft_free(path);
     }
     else
     {
-        external_executables(args, path, env);
+        external_executables(args, path, env_ctx->env);
         ft_ft_free(path);
     }
     if ((*args)->saved_stdin != -1)

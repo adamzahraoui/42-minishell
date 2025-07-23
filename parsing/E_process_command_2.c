@@ -1,19 +1,19 @@
 #include "../minishell.h"
 
-int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_var *vars, char **env)
+int dispatch_redirection(t_redirection_context *ctx, t_token *next, t_token_type type)
 {
     int fd;
 
     if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT || type == TOKEN_APPEND)
     {
-        if (!handle_redirections(cmd, next, type))
+        if (!handle_redirections(ctx->cmd, next, type))
             return (0);
     }
     else if (type == TOKEN_HEREDOC)
     {
         int saved_stdin = dup(STDIN_FILENO);
 
-        fd = handle_heredoc(next->value, vars, env);
+        fd = handle_heredoc(next->value, ctx->vars, ctx->env);
         if (fd < 0)
         {
             close(saved_stdin);
@@ -28,7 +28,7 @@ int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_var *va
             return (0);
         }
         close(fd);
-        cmd->saved_stdin = saved_stdin;
+        ctx->cmd->saved_stdin = saved_stdin;
     }
     return (1);
 }
@@ -108,7 +108,7 @@ int heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
     return pid;
 }
 
-int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_var *vars, char **env, int *lineno)
+int heredoc_child_loop(t_heredoc_context *ctx)
 {
     char *line;
     int got_delim = 0;
@@ -117,7 +117,7 @@ int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_
         line = readline("> ");
         if (!line)
             break;
-        if (ft_strcmp(line, clean_delimiter) == 0)
+        if (ft_strcmp(line, ctx->clean_delimiter) == 0)
         {
             got_delim = 1;
             free(line);
@@ -125,37 +125,39 @@ int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_
         }
         char *to_write = line;
         char *expanded = NULL;
-        if (!quoted)
-            expanded = expand_token(line, vars, env);
+        if (!ctx->quoted)
+            expanded = expand_token(line, ctx->vars, ctx->env);
         if (expanded)
             to_write = expanded;
-        write(write_fd, to_write, strlen(to_write));
-        write(write_fd, "\n", 1);
+        write(ctx->write_fd, to_write, strlen(to_write));
+        write(ctx->write_fd, "\n", 1);
         if (expanded)
             free(expanded);
         free(line);
-        (*lineno)++;
+        (*ctx->lineno)++;
     }
     return got_delim;
 }
 
-void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_var *vars, char **env)
+void heredoc_child(int *fds, t_heredoc_context *ctx)
 {
     int lineno = 1;
     int got_delim = 0;
     signal(SIGINT, SIG_DFL);
     close(fds[0]);
-    got_delim = heredoc_child_loop(clean_delimiter, quoted, fds[1], vars, env, &lineno);
+    ctx->write_fd = fds[1];
+    ctx->lineno = &lineno;
+    got_delim = heredoc_child_loop(ctx);
     if (!got_delim)
     {
         ft_putstr_fd("bash: warning: here-document at line ", 2);
         ft_putnbr_fd(lineno, 2);
         ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-        ft_putstr_fd(clean_delimiter, 2);
+        ft_putstr_fd(ctx->clean_delimiter, 2);
         ft_putstr_fd("')\n", 2);
     }
     close(fds[1]);
-    free(clean_delimiter);
+    free(ctx->clean_delimiter);
     exit(0);
 }
 
@@ -181,13 +183,21 @@ int handle_heredoc(const char *delimiter, t_var *vars, char **env)
     pid_t pid;
     int quoted;
     char *clean_delimiter;
+    t_heredoc_context ctx;
+    
     if (heredoc_setup(delimiter, &clean_delimiter, &quoted) == -1)
         return -1;
+    
+    ctx.vars = vars;
+    ctx.env = env;
+    ctx.clean_delimiter = clean_delimiter;
+    ctx.quoted = quoted;
+    
     pid = heredoc_pipe_and_fork(fds, clean_delimiter);
     if (pid == -1)
         return -1;
     if (pid == 0)
-        heredoc_child(fds, clean_delimiter, quoted, vars, env);
+        heredoc_child(fds, &ctx);
     return heredoc_parent(pid, fds, clean_delimiter);
 }
 

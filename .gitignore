@@ -1,0 +1,5 @@
+*.o
+minishell
+*.a
+.DS_Store
+*.dSYM/

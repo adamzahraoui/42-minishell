@@ -69,11 +69,10 @@ int validate_syntax(t_token *tokens)
 
 
 
-void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
+void handle_command(char *input, t_shell_context *shell_ctx)
 {
     char *trimmed;
     char **current_env;
-    (void)env;
 
     trimmed = ft_strtrim(input, " \t");
     if (trimmed && *trimmed)
@@ -85,21 +84,21 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
         free(input);
         exit(0);
     }
-    (*tokens) = tokenize(input);
-    if (*tokens)
+    (*shell_ctx->tokens) = tokenize(input);
+    if (*shell_ctx->tokens)
     {
-        current_env = convert_myenv_to_env(*myenv);
-        expand_all_tokens(tokens, *vars, current_env);
-        if (!validate_syntax(*tokens))
+        current_env = convert_myenv_to_env(*shell_ctx->myenv);
+        expand_all_tokens(shell_ctx->tokens, *shell_ctx->vars, current_env);
+        if (!validate_syntax(*shell_ctx->tokens))
         {
-            free_tokens(*tokens);
+            free_tokens(*shell_ctx->tokens);
             free(current_env);
             return;
         }
-        process_commands(tokens, *vars, current_env, cmd);
+        process_commands(shell_ctx->tokens, *shell_ctx->vars, current_env, shell_ctx->cmd);
         free(current_env);
     }
-    free_tokens(*tokens);
+    free_tokens(*shell_ctx->tokens);
     free(input);
 }
 
@@ -111,27 +110,41 @@ int	main(int argc, char **argv, char **env)
     t_token	*tokens;
     t_myenv *myenv;
     t_myenv_ex *myenv_ex;
+    t_shell_context shell_ctx;
+    t_env_context env_ctx;
 
     vars = NULL;
     cmd = NULL;
     tokens = NULL;
     myenv = NULL;
     myenv_ex = NULL;
-    declare_env(&myenv, &myenv_ex, env);
+    
+    env_ctx.myenv = &myenv;
+    env_ctx.myenv_ex = &myenv_ex;
+    env_ctx.env = env;
+    declare_env(&env_ctx);
+    
     myenv->i = 0;
     (void)argc;
     (void)argv;
     setup_signals();
+    
+    shell_ctx.vars = &vars;
+    shell_ctx.cmd = &cmd;
+    shell_ctx.tokens = &tokens;
+    shell_ctx.myenv = &myenv;
+    shell_ctx.env = env;
+    
     while (1)
     {
         input = readline("minishell> ");
         if (!input)
-            ft_free_error("exit\n", &myenv, &myenv_ex, 139);
+            ft_free_error("exit\n", &env_ctx, 139);
         if (handle_assignment_or_empty(input, &vars, env))
             continue ;
-        handle_command(input, env, &vars, &cmd, &tokens, &myenv);
+        handle_command(input, &shell_ctx);
         if (cmd != NULL)
-            cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
+            cmd_ex(&cmd, &tokens, &env_ctx);
     }
     clear_history();
     return (0);
