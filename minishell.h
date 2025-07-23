@@ -95,6 +95,51 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+typedef struct s_command_context
+{
+	char *input;
+	char **env;
+	t_var **vars;
+	t_cmd **cmd;
+	t_token **tokens;
+	t_myenv **myenv;
+} t_command_context;
+
+typedef struct s_redirection_context
+{
+	t_cmd *cmd;
+	t_token **token_ptr;
+	t_token **tokens;
+	t_var *vars;
+	char **env;
+} t_redirection_context;
+
+typedef struct s_heredoc_context
+{
+	const char *clean_delimiter;
+	int quoted;
+	int write_fd;
+	t_var *vars;
+	char **env;
+	int *lineno;
+} t_heredoc_context;
+
+typedef struct s_builtin_context
+{
+	t_cmd **cmd;
+	t_myenv **myenv;
+	t_myenv_ex **myenv_ex;
+} t_builtin_context;
+
+typedef struct s_execution_context
+{
+	t_cmd **args;
+	t_token **tokens;
+	char **env;
+	t_myenv **myenv;
+	t_myenv_ex **myenv_ex;
+} t_execution_context;
+
 t_token *tokenize(char *line);
 t_token *new_token(char *value);
 int add_token_to_list(t_token **head, t_token **current,
@@ -116,21 +161,21 @@ t_cmd *parse_command(t_token **tokens, t_var *vars, char **env);
 t_cmd *init_command(void);
 int is_redirection(t_token_type type);
 
-int handle_heredoc(const char *delimiter, t_var *vars, char **env);
+int handle_heredoc(const char *delimiter, t_expand_context *exp_ctx);
 int is_quoted(const char *str);
 
-int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_var *vars, char **env);
+int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_expand_context *ctx);
 int handle_redirections(t_cmd *cmd, t_token *next, t_token_type type);
 
-int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var *vars, char **env);
+int handle_redirection(t_redirection_context *ctx);
 int is_quoted(const char *str);
 
 int heredoc_setup(const char *delimiter, char **clean_delimiter, int *quoted);
 int heredoc_pipe_and_fork(int *fds, char *clean_delimiter);
-int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_var *vars, char **env, int *lineno);
-void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_var *vars, char **env);
+int heredoc_child_loop(t_heredoc_context *ctx);
+void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_expand_context *exp_ctx);
 int heredoc_parent(pid_t pid, int *fds, char *clean_delimiter);
-int handle_heredoc(const char *delimiter, t_var *vars, char **env);
+int handle_heredoc(const char *delimiter, t_expand_context *exp_ctx);
 
 char **convert_myenv_to_env(t_myenv *myenv);
 char *get_myenv_value(t_myenv *myenv, char *name);
@@ -155,7 +200,7 @@ void expand_all_tokens(t_token **tokens, t_var *vars, char **env);
 int validate_syntax(t_token *tokens);
 
 int handle_assignment_or_empty(char *input, t_var **vars, char **env);
-void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv);
+void handle_command(t_command_context *ctx);
 int extract_var_name(const char *token, int *i, char *var_name);
 
 int read_heredoc_content(const char *delimiter, const char *temp_file);
@@ -169,9 +214,9 @@ int is_valid_n_flag(const char *str);
 // built-in commands :
 
 void ft_echo(char **cmd);
-void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void ft_cd(t_builtin_context *ctx);
 void ft_pwd();
-void ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
+void ft_export(t_builtin_context *ctx);
 void set_env_ex(t_myenv_ex **myenv, char **env);
 void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
 void print_env(t_myenv *myenv);
@@ -196,7 +241,7 @@ int check_exist(char *str, char *dest);
 int check_builtin_cmd(t_cmd **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
 void free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
 int check_double_env(t_myenv **myenv, char *str);
-void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void cmd_ex(t_execution_context *ctx);
 void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env);
 void    set_status(t_myenv **myenv, char *str, int status);
 

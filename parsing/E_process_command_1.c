@@ -76,7 +76,8 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
     {
         if (is_redirection(token_ptr->type))
         {
-            if (!handle_redirection(cmd, &token_ptr, tokens, vars, env))
+            t_redirection_context redir_ctx = {cmd, &token_ptr, tokens, vars, env};
+            if (!handle_redirection(&redir_ctx))
                 return (NULL);
             continue ;
         }
@@ -118,26 +119,29 @@ t_cmd	*init_command(void)
 }
 
 
-int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var *vars, char **env)
+int handle_redirection(t_redirection_context *ctx)
 {
     t_token_type type;
     t_token *next;
+    t_expand_context exp_ctx;
 
-    type = (*token_ptr)->type;
-    next = (*token_ptr)->next;
+    type = (*(ctx->token_ptr))->type;
+    next = (*(ctx->token_ptr))->next;
     if (!next || next->type != TOKEN_WORD)
     {
         ft_putendl_fd("Error: Invalid redirection", 2);
-        free_commands(cmd);
-        *tokens = NULL;
+        free_commands(ctx->cmd);
+        *(ctx->tokens) = NULL;
         return (0);
     }
-    if (!dispatch_redirection(cmd, next, type, vars, env))
+    exp_ctx.vars = ctx->vars;
+    exp_ctx.env = ctx->env;
+    if (!dispatch_redirection(ctx->cmd, next, type, &exp_ctx))
     {
-        free_commands(cmd);
-        *tokens = NULL;
+        free_commands(ctx->cmd);
+        *(ctx->tokens) = NULL;
         return (0);
     }
-    *token_ptr = next->next;
+    *(ctx->token_ptr) = next->next;
     return (1);
 }

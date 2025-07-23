@@ -66,29 +66,29 @@ void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
     set_env_ex(myenv_ex, env);
 }
 
-void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
+void cmd_ex(t_execution_context *ctx)
 {
     char **path;
 
-    (void)tokens;
-    path = my_get_path_split(myenv, "PATH=", ':');
+    (void)ctx->tokens;
+    path = my_get_path_split(ctx->myenv, "PATH=", ':');
 
-    if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+    if (check_builtin_cmd(ctx->args, *(ctx->myenv), *(ctx->myenv_ex)) == 1)
     {
         ft_ft_free(path);
     }
     else
     {
-        external_executables(args, path, env);
+        external_executables(ctx->args, path, ctx->env);
         ft_ft_free(path);
     }
-    if ((*args)->saved_stdin != -1)
+    if ((*(ctx->args))->saved_stdin != -1)
     {
-        dup2((*args)->saved_stdin, STDIN_FILENO);
-        close((*args)->saved_stdin);
-        (*args)->saved_stdin = -1;
+        dup2((*(ctx->args))->saved_stdin, STDIN_FILENO);
+        close((*(ctx->args))->saved_stdin);
+        (*(ctx->args))->saved_stdin = -1;
     }
-    free_commands(*args);
-    *args = NULL;
+    free_commands(*(ctx->args));
+    *(ctx->args) = NULL;
 }
 
