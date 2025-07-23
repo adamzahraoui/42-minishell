@@ -4,6 +4,13 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 {
     t_cmd	*cur;
 
+    // First validate syntax
+    if (!validate_syntax(*tokens))
+    {
+        *cmd = NULL;
+        return;
+    }
+    
     *cmd = parse_commands(tokens, vars, env);
     if (*cmd)
     {
@@ -139,5 +146,72 @@ int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var 
         return (0);
     }
     *token_ptr = next->next;
+    return (1);
+}
+
+int validate_syntax(t_token *tokens)
+{
+    t_token *current;
+    t_token *next;
+
+    current = tokens;
+    while (current)
+    {
+        next = current->next;
+        
+        // Check for pipe at start or end
+        if (current->type == TOKEN_PIPE)
+        {
+            if (current == tokens)
+            {
+                printf("bash: syntax error near unexpected token `|'\n");
+                return (0);
+            }
+            if (!next)
+            {
+                printf("bash: syntax error: unexpected end of file\n");
+                return (0);
+            }
+            if (next->type == TOKEN_PIPE)
+            {
+                printf("bash: syntax error near unexpected token `|'\n");
+                return (0);
+            }
+        }
+        
+        // Check for redirection followed by pipe or another redirection
+        if (is_redirection(current->type))
+        {
+            if (!next)
+            {
+                printf("bash: syntax error near unexpected token `newline'\n");
+                return (0);
+            }
+            if (next->type == TOKEN_PIPE)
+            {
+                printf("bash: syntax error near unexpected token `|'\n");
+                return (0);
+            }
+            if (is_redirection(next->type))
+            {
+                if (next->type == TOKEN_REDIR_OUT)
+                    printf("bash: syntax error near unexpected token `>'\n");
+                else if (next->type == TOKEN_REDIR_IN)
+                    printf("bash: syntax error near unexpected token `<'\n");
+                else if (next->type == TOKEN_APPEND)
+                    printf("bash: syntax error near unexpected token `>>'\n");
+                else if (next->type == TOKEN_HEREDOC)
+                    printf("bash: syntax error near unexpected token `<<'\n");
+                return (0);
+            }
+            if (next->type != TOKEN_WORD)
+            {
+                printf("bash: syntax error near unexpected token `newline'\n");
+                return (0);
+            }
+        }
+        
+        current = current->next;
+    }
     return (1);
 }

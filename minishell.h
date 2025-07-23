@@ -149,6 +149,7 @@ void builtin_echo(t_cmd *cmd);
 void setup_signals(void);
 void handle_sigint(int sig);
 void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd);
+int validate_syntax(t_token *tokens);
 void set_shell_var(t_var **vars, char *name, char *value);
 char *get_shell_var(t_var *vars, char *name);
 void expand_all_tokens(t_token **tokens, t_var *vars, char **env);
