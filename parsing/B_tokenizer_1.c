@@ -51,6 +51,9 @@ char *get_next_token(char *line, int *i)
 		free(token);
 		free(part);
 		token = tmp;
+		// Break after getting an operator token (unless inside quotes)
+		if (!in_single && !in_double && token && (token[0] == '|' || token[0] == '<' || token[0] == '>'))
+			break;
 	}
 	if (!*token)
 		return (free(token), NULL);
