@@ -144,6 +144,10 @@ char *expand_token(char *token, t_var *vars, char **env);
 int expand_variable(char *token, int *i, char *result,
 					t_expand_context *ctx);
 
+int should_split_expanded_token(const char *original, const char *expanded);
+t_token *split_expanded_token(const char *expanded);
+void replace_token_with_list(t_token **tokens, t_token **prev, t_token *old_token, t_token *new_list);
+
 void builtin_echo(t_cmd *cmd);
 
 void setup_signals(void);

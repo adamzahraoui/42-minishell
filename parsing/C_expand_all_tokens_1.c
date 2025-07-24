@@ -18,6 +18,41 @@ void	expand_all_tokens(t_token **tokens, t_var *vars, char **env)
         {
             was_quoted = (tok->value[0] == '"' || tok->value[0] == '\'');
             expanded = expand_token(tok->value, vars, env);
+            
+            // Check if we need to split the expanded token
+            if (expanded && !was_quoted && strchr(tok->value, '$'))
+            {
+                // Check if the expanded result should be split
+                if (should_split_expanded_token(tok->value, expanded))
+                {
+                    t_token *split_tokens = split_expanded_token(expanded);
+                    if (split_tokens)
+                    {
+                        // Process each split token through expansion as well
+                        t_token *split_tok = split_tokens;
+                        while (split_tok)
+                        {
+                            if (split_tok->value && (split_tok->value[0] == '"' || split_tok->value[0] == '\''))
+                            {
+                                char *split_expanded = expand_token(split_tok->value, vars, env);
+                                if (split_expanded)
+                                {
+                                    free(split_tok->value);
+                                    split_tok->value = split_expanded;
+                                }
+                            }
+                            split_tok = split_tok->next;
+                        }
+                        
+                        // Replace current token with split tokens
+                        replace_token_with_list(tokens, &prev, tok, split_tokens);
+                        free(expanded);
+                        tok = next;
+                        continue;
+                    }
+                }
+            }
+            
             if (expanded && *expanded)
             {
                 free(tok->value);
@@ -209,4 +244,111 @@ char	*get_myenv_value(t_myenv *myenv, char *name)
         myenv = myenv->next;
     }
     return NULL;
+}
+
+int should_split_expanded_token(const char *original, const char *expanded)
+{
+    int i = 0;
+    int expanded_len;
+    
+    if (!original || !expanded)
+        return 0;
+    
+    expanded_len = strlen(expanded);
+    
+    // Look for a pattern like "command$var" where expanded becomes "commandvalue"
+    // We want to split when there's a clear command followed by quoted content
+    
+    // Find the position of '$' in original
+    while (original[i] && original[i] != '$')
+        i++;
+    
+    if (original[i] != '$' || i == 0)
+        return 0;
+    
+    // Check if the expanded version has quotes starting at position i
+    if (i < expanded_len && (expanded[i] == '"' || expanded[i] == '\''))
+        return 1;
+    
+    return 0;
+}
+
+t_token *split_expanded_token(const char *expanded)
+{
+    int i = 0;
+    t_token *first_token = NULL;
+    t_token *second_token = NULL;
+    char *first_part;
+    char *second_part;
+    
+    if (!expanded)
+        return NULL;
+    
+    // Find where to split (look for the first quote)
+    while (expanded[i] && expanded[i] != '"' && expanded[i] != '\'')
+        i++;
+    
+    if (i == 0 || !expanded[i])
+        return NULL; // Nothing to split
+    
+    // Create first token (command part)
+    first_part = ft_substr(expanded, 0, i);
+    if (!first_part)
+        return NULL;
+    
+    first_token = new_token(first_part);
+    if (!first_token)
+    {
+        free(first_part);
+        return NULL;
+    }
+    
+    // Create second token (quoted part)
+    second_part = ft_strdup(expanded + i);
+    if (!second_part)
+    {
+        free(first_token->value);
+        free(first_token);
+        return NULL;
+    }
+    
+    second_token = new_token(second_part);
+    if (!second_token)
+    {
+        free(second_part);
+        free(first_token->value);
+        free(first_token);
+        return NULL;
+    }
+    
+    first_token->next = second_token;
+    return first_token;
+}
+
+void replace_token_with_list(t_token **tokens, t_token **prev, t_token *old_token, t_token *new_list)
+{
+    t_token *last_new;
+    
+    if (!new_list)
+        return;
+    
+    // Find the last token in the new list
+    last_new = new_list;
+    while (last_new->next)
+        last_new = last_new->next;
+    
+    // Connect the new list
+    if (*prev)
+        (*prev)->next = new_list;
+    else
+        *tokens = new_list;
+    
+    last_new->next = old_token->next;
+    
+    // Update prev to point to the last new token
+    *prev = last_new;
+    
+    // Clean up old token
+    free(old_token->value);
+    free(old_token);
 }
