@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_token *tokenize(char *line)
+t_token * tokenize(char *line)
 {
 	t_token *head;
 	t_token *current;
@@ -31,8 +31,12 @@ char *get_next_token(char *line, int *i)
 	char *token;
 	char *part;
 	char *tmp;
-	int in_single = 0, in_double = 0;
+	int in_single;
+	int in_double;
+	char single_char[2];
 
+	in_single = 0;
+	in_double = 0;
 	if (!line || !line[*i])
 		return (NULL);
 	token = ft_strdup("");
@@ -55,7 +59,8 @@ char *get_next_token(char *line, int *i)
 		if (line[*i] == '<' || line[*i] == '>' || line[*i] == '|')
 		{
 			free(token);
-			char single_char[2] = {line[*i], '\0'};
+			single_char[0] = line[*i];
+			single_char[1] = '\0';
 			(*i)++;
 			return (ft_strdup(single_char));
 		}
@@ -70,6 +75,8 @@ char *get_next_token(char *line, int *i)
 			in_single = !in_single;
 		else if (line[*i] == '"' && !in_single)
 			in_double = !in_double;
+		// if (!in_single && line[*i] == '$' && token && *token )
+        // 	break;
 		part = get_next_token_part(line, i);
 		if (!part)
 			break;

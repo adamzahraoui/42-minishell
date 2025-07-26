@@ -8,9 +8,9 @@ int	is_whitespace(char c)
 
 char	*get_next_token_part(char *line, int *i)
 {
-    if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
-        return (get_operator_token(line, i));
-    else if (line[*i] == '\'' || line[*i] == '"')
+    // if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
+    //     return (get_operator_token(line, i));
+    if (line[*i] == '\'' || line[*i] == '"')
         return (get_quoted_token(line, i));
     else if (line[*i] == '$')
     {
@@ -24,25 +24,27 @@ char	*get_next_token_part(char *line, int *i)
         return (get_word_token(line, i));
 }
 
-char	*get_operator_token(char *line, int *i)
-{
-	char	*token;
+// char	*get_operator_token(char *line, int *i)
+// {
+// 	char	*token;
 
-	if ((line[*i] == '<' && line[*i + 1] == '<') || (line[*i] == '>' && line[*i
-				+ 1] == '>'))
-	{
-		token = ft_substr(line, *i, 2);
-		*i += 2;
-	}
-	else
-	{
-		token = ft_substr(line, *i, 1);
-		*i += 1;
-	}
-	if (!token)
-		ft_putendl_fd("Error: Memory allocation failed", 2);
-	return (token);
-}
+// 	if (!line || !line[*i])
+// 		return (NULL);
+// 	if ((line[*i] == '<' && line[*i + 1] == '<') || (line[*i] == '>' && line[*i
+// 				+ 1] == '>'))
+// 	{
+// 		token = ft_substr(line, *i, 2);
+// 		*i += 2;
+// 	}
+// 	else
+// 	{
+// 		token = ft_substr(line, *i, 1);
+// 		*i += 1;
+// 	}
+// 	if (!token)
+// 		ft_putendl_fd("Error: Memory allocation failed", 2);
+// 	return (token);
+// }
 
 char	*get_quoted_token(char *line, int *i)
 {

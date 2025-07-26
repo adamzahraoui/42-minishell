@@ -19,7 +19,6 @@ int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_var *va
             close(saved_stdin);
             return (0);
         }
-
         if (dup2(fd, STDIN_FILENO) == -1)
         {
             perror("dup2 heredoc");
@@ -62,7 +61,7 @@ char *remove_quotes(const char *str)
     if (!str)
         return NULL;
 
-    len = strlen(str);
+    len = ft_strlen(str);
     if (len >= 2 &&
         ((str[0] == '"' && str[len - 1] == '"') ||
          (str[0] == '\'' && str[len - 1] == '\'')))
@@ -70,7 +69,7 @@ char *remove_quotes(const char *str)
         result = malloc(len - 1);
         if (!result)
             return NULL;
-        strncpy(result, str + 1, len - 2);
+        ft_strncpy(result, str + 1, len - 2);
         result[len - 2] = '\0';
         return result;
     }
@@ -129,7 +128,7 @@ int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_
             expanded = expand_token(line, vars, env);
         if (expanded)
             to_write = expanded;
-        write(write_fd, to_write, strlen(to_write));
+        write(write_fd, to_write, ft_strlen(to_write));
         write(write_fd, "\n", 1);
         if (expanded)
             free(expanded);
@@ -162,12 +161,14 @@ void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_var *vars, cha
 int heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 {
     int status;
+    void (*old_handler)(int);
+    
     close(fds[1]);
     free(clean_delimiter);
-    void (*old_handler)(int) = signal(SIGINT, SIG_IGN);
+    old_handler = signal(SIGINT, SIG_IGN);
     waitpid(pid, &status, 0);
     signal(SIGINT, old_handler);
-    if (WIFSIGNALED(status))
+    if (status != 0)
     {
         close(fds[0]);
         return -1;
@@ -197,7 +198,6 @@ int is_quoted(const char *str)
 
     if (!str)
         return 0;
-
     len = strlen(str);
     return (len >= 2 && ((str[0] == '"' && str[len - 1] == '"') ||
                          (str[0] == '\'' && str[len - 1] == '\'')));

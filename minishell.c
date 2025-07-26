@@ -74,6 +74,7 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     char *trimmed;
     char **current_env;
     (void)env;
+    (void)myenv;
 
     trimmed = ft_strtrim(input, " \t");
     if (trimmed && *trimmed)
@@ -127,8 +128,8 @@ int	main(int argc, char **argv, char **env)
         input = readline("minishell> ");
         if (!input)
             ft_free_error("exit\n", &myenv, &myenv_ex, 139);
-        if (handle_assignment_or_empty(input, &vars, env))
-            continue ;
+        // if (handle_assignment_or_empty(input, &vars, env))
+        //     continue ;
         handle_command(input, env, &vars, &cmd, &tokens, &myenv);
         if (cmd != NULL)
             cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
