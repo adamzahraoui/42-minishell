@@ -20,25 +20,16 @@ int validate_syntax(t_token *tokens)
     t_token *current = tokens;
     
     if (current && current->type == TOKEN_PIPE)
-    {
-        ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-        return 0;
-    }
+        return (ft_putendl_fd("bash: syntax error near unexpected token `|'", 2), 0);
     while (current)
     {
         if (is_redirection(current->type))
         {
             t_token *next = current->next;
             if (!next)
-            {
-                ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
-                return 0;
-            }
+                return (ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2), 0);
             if (next->type == TOKEN_PIPE)
-            {
-                ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-                return 0;
-            }
+                return ( ft_putendl_fd("bash: syntax error near unexpected token `|'", 2), 0);
             if (is_redirection(next->type))
             {
                 ft_putstr_fd("bash: syntax error near unexpected token `", 2);
@@ -51,23 +42,14 @@ int validate_syntax(t_token *tokens)
         {
             t_token *next = current->next;
             if (!next)
-            {
-                ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
-                return 0;
-            }
+                return (ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2), 0);
             if (next->type == TOKEN_PIPE)
-            {
-                ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-                return 0;
-            }
+                return (ft_putendl_fd("bash: syntax error near unexpected token `|'", 2), 0);
         }
         current = current->next;
     }
-    
     return 1;
 }
-
-
 
 void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
 {
@@ -80,7 +62,6 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     if (trimmed && *trimmed)
         add_history(trimmed);
     free(trimmed);
-    
     if (ft_strncmp(input, "exit", 5) == 0)
     {
         free(input);
@@ -92,16 +73,11 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
         current_env = convert_myenv_to_env(*myenv);
         expand_all_tokens(tokens, *vars, current_env);
         if (!validate_syntax(*tokens))
-        {
-            free_tokens(*tokens);
-            free(current_env);
-            return;
-        }
+            return (free_tokens(*tokens), free(current_env));
         process_commands(tokens, *vars, current_env, cmd);
         free(current_env);
     }
-    free_tokens(*tokens);
-    free(input);
+    return (free_tokens(*tokens), free(input));
 }
 
 int	main(int argc, char **argv, char **env)
