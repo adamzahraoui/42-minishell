@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:59 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/19 13:58:38 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:44:12 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
         path = my_get_path(*myenv, "HOME=");
         if(chdir(&path[0]) == -1)
             set_status(myenv, "cd", 1);
-        free(path);
         free(temp);
     }
     else if(ft_strlen_cmd(cmd) == 2)
