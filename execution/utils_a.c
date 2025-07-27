@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_a.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/26 18:33:21 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/13 04:08:30 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
         ft_pwd();
     else if(ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])) == 0)
         ft_export(&myenv_ex, &myenv, str);
-    else if(ft_strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])) == 0)
-        ft_echo(&cmd);
     else if(ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])) == 0)
         ft_unset(&myenv_ex, &myenv, cmd->args[1]);
     else if(ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])) == 0)

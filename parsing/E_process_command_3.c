@@ -55,29 +55,29 @@ void	add_argument(t_cmd *cmd, char *arg)
     cmd->args[cmd->arg_count++] = arg;
 }
 
-// void builtin_echo(t_cmd *cmd)
-// {
-//     int i;
-//     int newline;
+void builtin_echo(t_cmd *cmd)
+{
+    int i;
+    int newline;
 
-//     i = 1;
-//     newline = 1;
+    i = 1;
+    newline = 1;
 
-//     while (cmd->args[i] && is_valid_n_flag(cmd->args[i]))
-//     {
-//         newline = 0;
-//         i++;
-//     }
-//     while (cmd->args[i])
-//     {
-//         printf("%s", cmd->args[i]);
-//         if (cmd->args[i + 1])
-//             printf(" ");
-//         i++;
-//     }
-//     if (newline)
-//         printf("\n");
-// }
+    while (cmd->args[i] && is_valid_n_flag(cmd->args[i]))
+    {
+        newline = 0;
+        i++;
+    }
+    while (cmd->args[i])
+    {
+        printf("%s", cmd->args[i]);
+        if (cmd->args[i + 1])
+            printf(" ");
+        i++;
+    }
+    if (newline)
+        printf("\n");
+}
 
 int is_valid_n_flag(const char *str)
 {

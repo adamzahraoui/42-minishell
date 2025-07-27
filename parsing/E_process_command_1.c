@@ -1,8 +1,8 @@
 #include "../minishell.h"
 
-void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
+void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 {
-    t_cmd	*cur;
+    t_cmd *cur;
 
     *cmd = parse_commands(tokens, vars, env);
     if (*cmd)
@@ -10,19 +10,27 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
         cur = *cmd;
         while (cur)
         {
-            if (cur->arg_count == 0 && (cur->heredoc_delim || cur->input_file || cur->output_file))
+            if (cur->arg_count == 0 && (cur->input_file ))
             {
-                printf("minishell: syntax error near unexpected token\n");
+                if (cur->input_file)
+                    printf("minishell: %s: No such file or directory\n", cur->input_file);
                 free_commands(*cmd);
                 *cmd = NULL;
                 return;
             }
-            
-            if (cur->arg_count > 0)
+
+            else if (cur->arg_count > 0)
             {
-                if (ft_strchr(cur->args[0], ':') && ft_strchr(cur->args[0], '/'))
+                if (ft_strchr(cur->args[0], '/'))
                 {
                     printf("minishell: %s: No such file or directory\n", cur->args[0]);
+                    free_commands(*cmd);
+                    *cmd = NULL;
+                    return;
+                }
+                if (strcmp(cur->args[0], "echo") == 0)
+                {
+                    builtin_echo(cur);
                 }
             }
             cur = cur->next;
@@ -30,11 +38,11 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
     }
 }
 
-t_cmd	*parse_commands(t_token **tokens, t_var *vars, char **env)
+t_cmd *parse_commands(t_token **tokens, t_var *vars, char **env)
 {
-    t_cmd	*head;
-    t_cmd	*current;
-    t_token	*token_ptr;
+    t_cmd *head;
+    t_cmd *current;
+    t_token *token_ptr;
 
     head = NULL;
     current = NULL;
@@ -57,10 +65,10 @@ t_cmd	*parse_commands(t_token **tokens, t_var *vars, char **env)
     return (head);
 }
 
-t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
+t_cmd *parse_command(t_token **tokens, t_var *vars, char **env)
 {
-    t_cmd	*cmd;
-    t_token	*token_ptr;
+    t_cmd *cmd;
+    t_token *token_ptr;
 
     (void)vars;
     (void)env;
@@ -74,7 +82,7 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
         {
             if (!handle_redirection(cmd, &token_ptr, tokens, vars, env))
                 return (NULL);
-            continue ;
+            continue;
         }
         add_argument(cmd, ft_strdup(token_ptr->value));
         token_ptr = token_ptr->next;
@@ -83,10 +91,10 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
     return (cmd);
 }
 
-t_cmd	*init_command(void)
+t_cmd *init_command(void)
 {
-    t_cmd	*cmd;
-    int        i;
+    t_cmd *cmd;
+    int i;
 
     cmd = (t_cmd *)malloc(sizeof(t_cmd));
     if (!cmd)
@@ -112,7 +120,6 @@ t_cmd	*init_command(void)
     }
     return (cmd);
 }
-
 
 int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var *vars, char **env)
 {

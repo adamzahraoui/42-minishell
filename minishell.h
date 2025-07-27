@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/26 18:34:54 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/19 12:55:04 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int is_valid_n_flag(const char *str);
 
 // built-in commands :
 
-void ft_echo(t_cmd **str);
+void ft_echo(char **cmd);
 void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void ft_pwd();
 void ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
