@@ -95,6 +95,8 @@ typedef struct s_cmd
 	struct s_cmd *next;
 } t_cmd;
 
+
+int split_token_string(t_token **token_ptr);
 t_token *tokenize(char *line);
 t_token *new_token(char *value);
 int add_token_to_list(t_token **head, t_token **current,
@@ -165,6 +167,7 @@ void print_cmds(t_cmd *cmd);
 int extract_var_name(const char *token, int *i, char *var_name);
 void builtin_echo(t_cmd *cmd);
 int is_valid_n_flag(const char *str);
+
 
 // built-in commands :
 

@@ -4,7 +4,7 @@ char	*get_shell_var(t_var *vars, char *name)
 {
 	while (vars)
 	{
-		if (strcmp(vars->name, name) == 0)
+		if (ft_strcmp(vars->name, name) == 0)
 			return (vars->value);
 		vars = vars->next;
 	}

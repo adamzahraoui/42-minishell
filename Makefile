@@ -1,5 +1,5 @@
 CC= cc
-CFLAGS= -Wall -Wextra -Werror -Ilibft -I. -g
+CFLAGS= -g -Wall -Wextra -Werror -Ilibft -I.
 RM= rm -f
 LDFLAGS = -Llibft -lreadline
 

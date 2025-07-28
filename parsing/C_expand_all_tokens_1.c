@@ -12,6 +12,8 @@ void expand_all_tokens(t_token **tokens, t_var *vars, char **env)
     prev = NULL;
     while (tok)
     {
+        split_token_string(&tok);
+        tok = tok->next;
         next = tok->next;
         if (tok->type == TOKEN_WORD && tok->value &&
             !(prev && prev->type == TOKEN_HEREDOC))
@@ -51,6 +53,30 @@ void expand_all_tokens(t_token **tokens, t_var *vars, char **env)
     }
 }
 
+int split_token_string(t_token **token_ptr)
+{
+    t_token *token = *token_ptr;
+    char *str = token->value;
+    int split_pos = 0;
+
+    while (str[split_pos] && (ft_isalpha(str[split_pos]) || str[split_pos] == '_'))
+        split_pos++;
+    if (split_pos > 0 && str[split_pos] && (str[split_pos] == ' ' || str[split_pos] == '\t'))
+    {
+        t_token *new_token = malloc(sizeof(t_token));
+        if (!new_token)
+            return 0;
+        new_token->value = ft_strdup(str + split_pos);
+        new_token->type = TOKEN_WORD;
+        new_token->next = token->next;
+        token->value[split_pos] = '\0';
+        token->next = new_token;
+        return 1;
+    }
+
+    return 0;
+}
+
 char *expand_token(char *token, t_var *vars, char **env)
 {
     char *result;
@@ -83,8 +109,8 @@ char *expand_token(char *token, t_var *vars, char **env)
         st.i++;
     }
     result[st.j] = '\0';
-
     if (!all_in_double)
+
     {
         char *unquoted = remove_quotes(result);
         final_result = ft_strtrim(unquoted, " \t\n\v\f\r");
@@ -104,9 +130,15 @@ int expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 {
     char var_name[256];
     int len;
-    char *val;
+    char *val = NULL;
     int var_name_len;
 
+    if (token[*i] == '$' && ft_isdigit(token[*i + 1]))
+    {
+        (*i) += 1;
+        result[0] = '\0';
+        return 0;
+    }
     len = 0;
     var_name_len = extract_var_name(token, i, var_name);
     if (var_name_len == 0)

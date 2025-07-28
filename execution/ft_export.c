@@ -87,7 +87,7 @@ char    *check_val(char *str)
     char *first;
     
     i = 1;
-    a = 2;
+    a = 1;
     dest = ft_strchr(str, '=');
     if (dest != NULL && dest[1] == '"')
     return ft_strdup(str);
@@ -97,10 +97,10 @@ char    *check_val(char *str)
     if(dest != NULL && cupy != NULL)
     {
         cupy[0] = '=';
-        cupy[1] = '"';
+        // cupy[1] = '"';
         while(dest[i])
             cupy[a++] = dest[i++];
-        cupy[a++] = '"';
+        // cupy[a++] = '"';
         cupy[a] = '\0';
     }
     else
@@ -122,6 +122,7 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
     int i;
     char *egual;
     t_cmd   *cmd;
+    int f;
     
 
     pr = *myenv_ex;
@@ -148,8 +149,25 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
     else
         while(pr)
         {
+            i = 0;
+            f = 0;
+            printf("declare -x ");
             if(pr->data != NULL)
-                printf("declare -x %s\n", pr->data);
+            {
+                while(pr->data[i])
+                {
+                    printf("%c", pr->data[i]);
+                    if(pr->data[i] == '=' && f == 0) 
+                    {
+                        printf("\"");
+                        f = 1;
+                    }
+                    else if(pr->data[i + 1] == '\0')
+                    printf("\"");
+                    i++;
+                }
+                printf("\n");
+            }
             pr = pr->next;   
         }
 }

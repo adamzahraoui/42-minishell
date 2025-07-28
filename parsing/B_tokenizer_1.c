@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_token * tokenize(char *line)
+t_token *tokenize(char *line)
 {
 	t_token *head;
 	t_token *current;
@@ -25,6 +25,37 @@ t_token * tokenize(char *line)
 	}
 	return (head);
 }
+// t_token *tokenize(char *line)
+// {
+// 	t_token *head;
+// 	t_token *current;
+// 	int i;
+// 	char *token_value;
+// 	char *unquoted_value;
+
+// 	head = NULL;
+// 	current = NULL;
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+// 			i++;
+// 		if (!line[i])
+// 			break;
+// 		token_value = get_next_token(line, &i);
+// 		if (token_value)
+// 		{
+// 			unquoted_value = remove_quotes(token_value);
+// 			free(token_value);
+// 			if (!add_token_to_list(&head, &current, unquoted_value))
+// 			{
+// 				free(unquoted_value);
+// 				return (NULL);
+// 			}
+// 		}
+// 	}
+// 	return (head);
+// }
 
 char *get_next_token(char *line, int *i)
 {
@@ -67,16 +98,13 @@ char *get_next_token(char *line, int *i)
 	}
 	while (line[*i] && !is_whitespace(line[*i]))
 	{
-		if (!in_single && !in_double && 
+		if (!in_single && !in_double &&
 			(line[*i] == '<' || line[*i] == '>' || line[*i] == '|'))
 			break;
-			
 		if (line[*i] == '\'' && !in_double)
 			in_single = !in_single;
 		else if (line[*i] == '"' && !in_single)
 			in_double = !in_double;
-		// if (!in_single && line[*i] == '$' && token && *token )
-        // 	break;
 		part = get_next_token_part(line, i);
 		if (!part)
 			break;
