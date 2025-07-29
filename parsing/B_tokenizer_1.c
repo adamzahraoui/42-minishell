@@ -106,8 +106,6 @@ char *get_next_token(char *line, int *i)
 		if (!in_single && !in_double &&
 			(line[*i] == '<' || line[*i] == '>' || line[*i] == '|'))
 			break;
-
-			
 		part = get_next_token_part(line, i);
 		if (!part)
 			break;

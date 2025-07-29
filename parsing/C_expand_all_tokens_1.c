@@ -72,6 +72,8 @@ int split_token_string(t_token **token_ptr)
     char *str = token->value;
     int split_pos = 0;
 
+    if (ft_strncmp(str, "echo", 4) != 0)
+        return 0;
     while (str[split_pos] && (ft_isalpha(str[split_pos]) || str[split_pos] == '_'))
         split_pos++;
     if (split_pos > 0 && str[split_pos] && (str[split_pos] == ' ' || str[split_pos] == '\t'))
@@ -169,6 +171,7 @@ int expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
     }
     else
         result[0] = '\0';
+
     return (len);
 }
 

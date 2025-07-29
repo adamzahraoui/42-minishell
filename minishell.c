@@ -98,7 +98,7 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
             return;
         }
         process_commands(tokens, *vars, current_env, cmd);
-        print_tokens(tokens, *vars, current_env);
+        // print_tokens(tokens, *vars, current_env);
         free(current_env);
     }
     free_tokens(*tokens);
