@@ -27,7 +27,7 @@ void expand_all_tokens(t_token **tokens, t_var *vars, char **env)
                 t_token *current = tok;
                 while (current && current != next)
                 {
-                    if (current->value)
+                    if (current->value && !was_quoted)
                     {
                         trimmed = ft_strtrim(current->value, " \t\n\v\f\r");
                         if (trimmed)
