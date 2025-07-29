@@ -29,7 +29,7 @@ void expand_all_tokens(t_token **tokens, t_var *vars, char **env)
                 {
                     if (current->value)
                     {
-                        trimmed = ft_strtrim(current->value, " \t");
+                        trimmed = ft_strtrim(current->value, " \t\n\v\f\r");
                         if (trimmed)
                         {
                             free(current->value);
@@ -128,10 +128,10 @@ char *expand_token(char *token, t_var *vars, char **env)
 
     {
         char *unquoted = remove_quotes(result);
-        final_result = ft_strtrim(unquoted, " \t\n\v\f\r");
+        // final_result = ft_strtrim(unquoted, " \t\n\v\f\r");
         free(result);
-        free(unquoted);
-        return final_result;
+        // free(unquoted);
+        return unquoted;
     }
     else
     {
