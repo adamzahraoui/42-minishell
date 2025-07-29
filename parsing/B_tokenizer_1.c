@@ -98,13 +98,16 @@ char *get_next_token(char *line, int *i)
 	}
 	while (line[*i] && !is_whitespace(line[*i]))
 	{
-		if (!in_single && !in_double &&
-			(line[*i] == '<' || line[*i] == '>' || line[*i] == '|'))
-			break;
 		if (line[*i] == '\'' && !in_double)
 			in_single = !in_single;
 		else if (line[*i] == '"' && !in_single)
 			in_double = !in_double;
+			
+		if (!in_single && !in_double &&
+			(line[*i] == '<' || line[*i] == '>' || line[*i] == '|'))
+			break;
+
+			
 		part = get_next_token_part(line, i);
 		if (!part)
 			break;

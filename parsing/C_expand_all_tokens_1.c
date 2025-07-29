@@ -3,6 +3,7 @@
 void expand_all_tokens(t_token **tokens, t_var *vars, char **env)
 {
     char *expanded;
+    char *trimmed;
     t_token *tok;
     t_token *prev;
     t_token *next;
@@ -12,25 +13,37 @@ void expand_all_tokens(t_token **tokens, t_var *vars, char **env)
     prev = NULL;
     while (tok)
     {
-        split_token_string(&tok);
-        tok = tok->next;
         next = tok->next;
         if (tok->type == TOKEN_WORD && tok->value &&
             !(prev && prev->type == TOKEN_HEREDOC))
         {
             was_quoted = (tok->value[0] == '"' || tok->value[0] == '\'');
             expanded = expand_token(tok->value, vars, env);
-            if (expanded && *expanded)
+            if (expanded && (*expanded || was_quoted))
             {
                 free(tok->value);
                 tok->value = expanded;
+                split_token_string(&tok);
+                t_token *current = tok;
+                while (current && current != next)
+                {
+                    if (current->value)
+                    {
+                        trimmed = ft_strtrim(current->value, " \t");
+                        if (trimmed)
+                        {
+                            free(current->value);
+                            current->value = trimmed;
+                        }
+                    }
+                    if (current->next == next)
+                        break;
+                    current = current->next;
+                }
+
                 prev = tok;
-            }
-            else if (expanded && was_quoted)
-            {
-                free(tok->value);
-                tok->value = expanded;
-                prev = tok;
+                while (tok->next && tok->next != next)
+                    tok = tok->next;
             }
             else
             {

@@ -43,7 +43,7 @@ void    ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
         path = my_get_path(*myenv, "HOME=");
         if(chdir(&path[0]) == -1)
             set_status(myenv, "cd", 1);
-        free(path);
+        // free(path);(she has not reserved a place  for her before)
         free(temp);
     }
     else if(ft_strlen_cmd(cmd) == 2)

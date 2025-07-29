@@ -28,9 +28,14 @@ void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
                     *cmd = NULL;
                     return;
                 }
-                if (strcmp(cur->args[0], "echo") == 0)
-                {
+                if (ft_strcmp(cur->args[0], "echo") == 0)
                     builtin_echo(cur);
+                else
+                {
+                    printf("%s: command not found\n", cur->args[0]);
+                    free_commands(*cmd);
+                    *cmd = NULL;
+                    return;
                 }
             }
             cur = cur->next;
