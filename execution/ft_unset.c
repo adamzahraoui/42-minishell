@@ -16,6 +16,8 @@ int     ft_com(char *str, char *dest)
 {
     int i;
 
+    if (!str || !dest)
+		return (0);
     i = 0;
     while(str[i] == dest[i] && str[i] && str[i] != '\0')
         i++;

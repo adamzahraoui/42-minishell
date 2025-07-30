@@ -21,13 +21,13 @@ void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 
             else if (cur->arg_count > 0)
             {
-                if (ft_strchr(cur->args[0], '/'))
-                {
-                    printf("minishell: %s: No such file or directory\n", cur->args[0]);
-                    free_commands(*cmd);
-                    *cmd = NULL;
-                    return;
-                }
+                // if (ft_strchr(cur->args[0], '/'))
+                // {
+                //     printf("minishell: %s: No such file or directory\n", cur->args[0]);
+                //     free_commands(*cmd);
+                //     *cmd = NULL;
+                //     return;
+                // }
                 if (strcmp(cur->args[0], "echo") == 0)
                     builtin_echo(cur);
             }
