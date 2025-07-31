@@ -80,7 +80,6 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     if (trimmed && *trimmed)
         add_history(trimmed);
     free(trimmed);
-    
     if (ft_strncmp(input, "exit", 5) == 0)
     {
         free(input);
@@ -90,15 +89,14 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     if (*tokens)
     {
         current_env = convert_myenv_to_env(*myenv);
-        expand_all_tokens(tokens, *vars, current_env);
         if (!validate_syntax(*tokens))
         {
             free_tokens(*tokens);
             free(current_env);
             return;
         }
+        expand_all_tokens(tokens, *vars, current_env);
         process_commands(tokens, *vars, current_env, cmd);
-        // print_tokens(tokens, *vars, current_env);
         free(current_env);
     }
     free_tokens(*tokens);

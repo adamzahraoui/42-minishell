@@ -10,7 +10,14 @@ void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
         cur = *cmd;
         while (cur)
         {
-            if (cur->arg_count == 0 && (cur->input_file ))
+            if (cur->arg_count > 0 && (!cur->args[0] || cur->args[0][0] == '\0'))
+            {
+                printf("bash: : command not found\n");
+                free_commands(*cmd);
+                *cmd = NULL;
+                return;
+            }
+            if (cur->arg_count == 0 && (cur->input_file))
             {
                 if (cur->input_file)
                     printf("minishell: %s: No such file or directory\n", cur->input_file);
@@ -18,16 +25,8 @@ void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
                 *cmd = NULL;
                 return;
             }
-
             else if (cur->arg_count > 0)
             {
-                // if (ft_strchr(cur->args[0], '/'))
-                // {
-                //     printf("minishell: %s: No such file or directory\n", cur->args[0]);
-                //     free_commands(*cmd);
-                //     *cmd = NULL;
-                //     return;
-                // }
                 if (strcmp(cur->args[0], "echo") == 0)
                     builtin_echo(cur);
             }
@@ -126,6 +125,7 @@ int handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens, t_var 
 
     type = (*token_ptr)->type;
     next = (*token_ptr)->next;
+
     if (!next || next->type != TOKEN_WORD)
     {
         ft_putendl_fd("Error: Invalid redirection", 2);

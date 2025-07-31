@@ -58,7 +58,7 @@ void    external_executables(t_cmd **cmd, char **path, char **envp)
 
         if (!exec_path)
         {
-            printf("%s: command not found\n", (*cmd)->args[0]);
+            printf("miniahell: %s: command not found\n", (*cmd)->args[0]);
             exit(127);
         }
         execve(exec_path, (*cmd)->args, envp);
