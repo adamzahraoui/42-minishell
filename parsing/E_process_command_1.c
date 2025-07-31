@@ -17,10 +17,12 @@ void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
                 *cmd = NULL;
                 return;
             }
-            if (cur->arg_count == 0 && (cur->input_file))
+            if (cur->arg_count == 0 && (cur->input_file || cur->output_file))
             {
                 if (cur->input_file)
                     printf("minishell: %s: No such file or directory\n", cur->input_file);
+                else if (cur->output_file)
+                    printf("minishell: %s: No such file or directory\n", cur->output_file);
                 free_commands(*cmd);
                 *cmd = NULL;
                 return;
