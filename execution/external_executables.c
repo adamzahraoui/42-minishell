@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 09:17:14 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/01 00:51:17 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,11 @@ void    external_executables(t_cmd **cmd, char **path, char **envp)
     {
         signal(SIGINT, SIG_DFL);
         signal(SIGQUIT, SIG_DFL);
-
         char *exec_path;
         if (ft_strchr((*cmd)->args[0], '/'))
             exec_path = (*cmd)->args[0];
         else
             exec_path = check_cmd(path, (*cmd)->args[0]);
-
         if (!exec_path)
         {
             printf("miniahell: %s: command not found\n", (*cmd)->args[0]);

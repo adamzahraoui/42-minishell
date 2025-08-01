@@ -8,22 +8,12 @@ int	is_whitespace(char c)
 
 char	*get_next_token_part(char *line, int *i)
 {
-    int start;
+    // if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
+    //     return (get_operator_token(line, i));
     if (line[*i] == '\'' || line[*i] == '"')
-        return get_quoted_token(line, i);
-
+        return (get_quoted_token(line, i));
     else if (line[*i] == '$')
     {
-        if (line[*i + 1] == '\'' && line[*i + 2])
-        {
-            start = *i + 2;
-            (*i) += 2;
-            while (line[*i] && line[*i] != '\'')
-                (*i)++;
-            if (line[*i] == '\'') 
-                (*i)++;
-            return ft_substr(line, start, (*i - start - 1));
-        }
         int start = *i;
         (*i)++;
         while (line[*i] && (ft_isalnum(line[*i]) || line[*i] == '_'))
@@ -31,9 +21,8 @@ char	*get_next_token_part(char *line, int *i)
         return ft_substr(line, start, *i - start);
     }
     else
-        return get_word_token(line, i);
+        return (get_word_token(line, i));
 }
-
 
 // char	*get_operator_token(char *line, int *i)
 // {

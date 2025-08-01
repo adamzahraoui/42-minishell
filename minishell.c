@@ -4,6 +4,7 @@
 void	setup_signals(void)
 {
     signal(SIGINT, handle_sigint);
+    signal(SIGQUIT, SIG_IGN);
 }
 
 void	handle_sigint(int sig)
@@ -111,8 +112,12 @@ int	main(int argc, char **argv, char **env)
     t_token	*tokens;
     t_myenv *myenv;
     t_myenv_ex *myenv_ex;
-    
-    (1) && (vars = NULL,  cmd = NULL, tokens = NULL, myenv = NULL, myenv_ex = NULL);
+
+    vars = NULL;
+    cmd = NULL;
+    tokens = NULL;
+    myenv = NULL;
+    myenv_ex = NULL;
     declare_env(&myenv, &myenv_ex, env);
     myenv->i = 0;
     (void)argc;
@@ -123,6 +128,8 @@ int	main(int argc, char **argv, char **env)
         input = readline("minishell> ");
         if (!input)
             ft_free_error("exit\n", &myenv, &myenv_ex, 139);
+        // if (handle_assignment_or_empty(input, &vars, env))
+        //     continue ;
         handle_command(input, env, &vars, &cmd, &tokens, &myenv);
         if (cmd != NULL)
             cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);

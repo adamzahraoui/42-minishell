@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/13 10:03:41 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/01 03:55:07 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,15 @@ void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
 
 void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
+    t_cmd *cmd;
     char **path;
-
     (void)tokens;
     path = my_get_path_split(myenv, "PATH=", ':');
-
-    if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+    cmd = *args;
+    
+    if(cmd->next != NULL)
+        ft_pipe(args, path, myenv, env);
+    else if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
     {
         ft_ft_free(path);
     }

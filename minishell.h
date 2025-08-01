@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:45:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/19 12:55:04 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/01 03:56:32 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_myenv
 	char *data;
 	struct s_myenv *next;
 	int i;
+	int fd[2];
 } t_myenv;
 
 typedef struct s_myenv_ex
@@ -183,7 +184,7 @@ void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
 char *remove_quotes(const char *str);
 
 // external executables
-
+void    ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char ** or_env);
 void external_executables(t_cmd **cmd, char **path, char **env);
 
 // help funcion
@@ -202,5 +203,6 @@ int check_double_env(t_myenv **myenv, char *str);
 void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env);
 void    set_status(t_myenv **myenv, char *str, int status);
+char    *check_cmd(char **path, char *cmd);
 
 #endif
