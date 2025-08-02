@@ -28,9 +28,10 @@ void	process_token_character(char *token, t_token_state *st, char *result,
 
 int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 {
-	char	var_name[256];
-	int		len;
-	int		process_result;
+	t_var_extraction_params	params;
+	char					var_name[256];
+	int						len;
+	int						process_result;
 
 	if (token[*i] == '$' && ft_isdigit(token[*i + 1]))
 	{
@@ -39,8 +40,12 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 		return (0);
 	}
 	len = 0;
-	process_result = process_variable_extraction(token, i, result, ctx,
-			var_name, &len);
+	params.token = token;
+	params.i = i;
+	params.result = result;
+	params.var_name = var_name;
+	params.len = &len;
+	process_result = process_variable_extraction(&params, ctx);
 	if (process_result != 0)
 		return (process_result);
 	if (!result[0])
@@ -48,26 +53,26 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 	return (len);
 }
 
-int	process_variable_extraction(char *token, int *i, char *result,
-		t_expand_context *ctx, char *var_name, int *len)
+int	process_variable_extraction(t_var_extraction_params *params,
+		t_expand_context *ctx)
 {
 	char	*val;
 	int		var_name_len;
 
 	val = NULL;
-	var_name_len = extract_var_name(token, i, var_name);
+	var_name_len = extract_var_name(params->token, params->i, params->var_name);
 	if (var_name_len == 0)
 	{
-		result[0] = '$';
+		params->result[0] = '$';
 		return (1);
 	}
-	val = get_shell_var(ctx->vars, var_name);
+	val = get_shell_var(ctx->vars, params->var_name);
 	if (!val)
-		val = get_env_value(ctx->env, var_name);
+		val = get_env_value(ctx->env, params->var_name);
 	if (val)
 	{
-		*len = ft_strlen(val);
-		ft_strlcpy(result, val, MAX_TOKEN_LEN);
+		*params->len = ft_strlen(val);
+		ft_strlcpy(params->result, val, MAX_TOKEN_LEN);
 	}
 	return (0);
 }

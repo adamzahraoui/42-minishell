@@ -48,15 +48,19 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 void	heredoc_child(int *fds, char *clean_delimiter,
 	int quoted, t_expand_context *ctx)
 {
-	int	lineno;
-	int	got_delim;
+	t_heredoc_loop_params	loop_params;
+	int						lineno;
+	int						got_delim;
 
 	lineno = 1;
 	got_delim = 0;
 	signal(SIGINT, SIG_DFL);
 	close(fds[0]);
-	got_delim = heredoc_child_loop(clean_delimiter, quoted, fds[1], ctx,
-			&lineno);
+	loop_params.clean_delimiter = clean_delimiter;
+	loop_params.quoted = quoted;
+	loop_params.write_fd = fds[1];
+	loop_params.lineno = &lineno;
+	got_delim = heredoc_child_loop(&loop_params, ctx);
 	if (!got_delim)
 	{
 		ft_putstr_fd("bash: warning: here-document at line ", 2);
@@ -88,18 +92,21 @@ int	heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 	return (fds[0]);
 }
 
-int	heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd,
-		t_expand_context *ctx, int *lineno)
+int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx)
 {
-	int	got_delim;
+	t_heredoc_params	line_params;
+	int					got_delim;
 
 	got_delim = 0;
+	line_params.clean_delimiter = params->clean_delimiter;
+	line_params.quoted = params->quoted;
+	line_params.write_fd = params->write_fd;
+	line_params.got_delim = &got_delim;
 	while (1)
 	{
-		if (process_heredoc_line(clean_delimiter, quoted, write_fd, ctx,
-				&got_delim) == -1)
+		if (process_heredoc_line(&line_params, ctx) == -1)
 			break ;
-		(*lineno)++;
+		(*params->lineno)++;
 	}
 	return (got_delim);
 }

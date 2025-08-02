@@ -14,9 +14,10 @@
 
 void	expand_all_tokens(t_token **tokens, t_expand_context *ctx)
 {
-	t_token	*tok;
-	t_token	*prev;
-	t_token	*next;
+	t_token_expansion_params	params;
+	t_token						*tok;
+	t_token						*prev;
+	t_token						*next;
 
 	tok = *tokens;
 	prev = NULL;
@@ -26,7 +27,11 @@ void	expand_all_tokens(t_token **tokens, t_expand_context *ctx)
 		if (tok->type == TOKEN_WORD && tok->value
 			&& !(prev && prev->type == TOKEN_HEREDOC))
 		{
-			if (process_token_expansion(tokens, &tok, &prev, next, ctx))
+			params.tokens = tokens;
+			params.tok = &tok;
+			params.prev = &prev;
+			params.next = next;
+			if (process_token_expansion(&params, ctx))
 				continue ;
 		}
 		else
@@ -35,23 +40,32 @@ void	expand_all_tokens(t_token **tokens, t_expand_context *ctx)
 	}
 }
 
-int	process_token_expansion(t_token **tokens, t_token **tok, t_token **prev,
-		t_token *next, t_expand_context *ctx)
+int	process_token_expansion(t_token_expansion_params *params,
+		t_expand_context *ctx)
 {
-	char	*expanded;
-	int		was_quoted;
+	t_failed_expansion_params	fail_params;
+	char						*expanded;
+	int							was_quoted;
 
-	was_quoted = ((*tok)->value[0] == '"' || (*tok)->value[0] == '\'');
-	expanded = expand_token((*tok)->value, ctx->vars, ctx->env);
+	expanded = NULL;
+	fail_params.tokens = params->tokens;
+	fail_params.tok = *params->tok;
+	fail_params.prev = *params->prev;
+	fail_params.next = params->next;
+	fail_params.expanded = expanded;
+	was_quoted = ((*params->tok)->value[0] == '"'
+			|| (*params->tok)->value[0] == '\'');
+	expanded = expand_token((*params->tok)->value, ctx->vars, ctx->env);
 	if (expanded && (*expanded || was_quoted))
 	{
-		*tok = handle_successful_expansion(*tok, expanded, next, was_quoted);
-		*prev = *tok;
+		*params->tok = handle_successful_expansion(*params->tok,
+				expanded, params->next, was_quoted);
+		*params->prev = *params->tok;
 		return (0);
 	}
 	else
 	{
-		*tok = handle_failed_expansion(tokens, *tok, *prev, next, expanded);
+		*params->tok = handle_failed_expansion(&fail_params);
 		return (1);
 	}
 }
@@ -68,17 +82,16 @@ t_token	*handle_successful_expansion(t_token *tok, char *expanded,
 	return (tok);
 }
 
-t_token	*handle_failed_expansion(t_token **tokens, t_token *tok, t_token *prev,
-		t_token *next, char *expanded)
+t_token	*handle_failed_expansion(t_failed_expansion_params *params)
 {
-	if (prev)
-		prev->next = next;
+	if (params->prev)
+		params->prev->next = params->next;
 	else
-		*tokens = next;
-	free(tok->value);
-	free(expanded);
-	free(tok);
-	return (next);
+		*params->tokens = params->next;
+	free(params->tok->value);
+	free(params->expanded);
+	free(params->tok);
+	return (params->next);
 }
 
 char	*expand_token(char *token, t_var *vars, char **env)

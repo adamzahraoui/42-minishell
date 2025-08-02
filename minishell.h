@@ -112,15 +112,12 @@ char *remove_quotes(const char *str);
 
 
 void expand_all_tokens(t_token **tokens, t_expand_context *ctx);
-int process_token_expansion(t_token **tokens, t_token **tok, t_token **prev, t_token *next, t_expand_context *ctx);
 t_token *handle_successful_expansion(t_token *tok, char *expanded, t_token *next, int was_quoted);
-t_token *handle_failed_expansion(t_token **tokens, t_token *tok, t_token *prev, t_token *next, char *expanded);
 char *expand_token(char *token, t_var *vars, char **env);
 
 
 void process_token_character(char *token, t_token_state *st, char *result, t_expand_context *ctx);
 int expand_variable(char *token, int *i, char *result, t_expand_context *ctx);
-int process_variable_extraction(char *token, int *i, char *result, t_expand_context *ctx, char *var_name, int *len);
 void trim_token_values(t_token *tok, t_token *next, int was_quoted);
 int split_token_string(t_token **token_ptr);
 
@@ -160,14 +157,12 @@ int heredoc_setup(const char *delimiter, char **clean_delimiter, int *quoted);
 int heredoc_pipe_and_fork(int *fds, char *clean_delimiter);
 void heredoc_child(int *fds, char *clean_delimiter, int quoted, t_expand_context *ctx);
 int heredoc_parent(pid_t pid, int *fds, char *clean_delimiter);
-int heredoc_child_loop(const char *clean_delimiter, int quoted, int write_fd, t_expand_context *ctx, int *lineno);
 
 
 
 
 void builtin_echo(t_cmd *cmd);
 int is_valid_n_flag(const char *str);
-int process_heredoc_line(const char *clean_delimiter, int quoted, int write_fd, t_expand_context *ctx, int *got_delim);
 int create_and_link_token(t_token *token, char *str, int split_pos);
 
 
@@ -200,6 +195,7 @@ int check_double(t_myenv_ex **myenv_ex, char *str);
 int check_double_env(t_myenv **myenv, char *str);
 int check_exist(char *str, char *dest);
 char *check_val(char *str);
+void print_export(t_myenv_ex **myenv_ex);
 
 void ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i);
 void free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
@@ -210,5 +206,54 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
 
 
 int ft_strcmp(const char *s1, const char *s2);
+int	ft_strncmp_nv(const char *s1, const char *s2, size_t n);
+
+typedef struct s_heredoc_params
+{
+	const char	*clean_delimiter;
+	int			quoted;
+	int			write_fd;
+	int			*got_delim;
+}	t_heredoc_params;
+
+typedef struct s_heredoc_loop_params
+{
+	const char	*clean_delimiter;
+	int			quoted;
+	int			write_fd;
+	int			*lineno;
+}	t_heredoc_loop_params;
+
+typedef struct s_var_extraction_params
+{
+	char	*token;
+	int		*i;
+	char	*result;
+	char	*var_name;
+	int		*len;
+}	t_var_extraction_params;
+
+typedef struct s_token_expansion_params
+{
+	t_token	**tokens;
+	t_token	**tok;
+	t_token	**prev;
+	t_token	*next;
+}	t_token_expansion_params;
+
+typedef struct s_failed_expansion_params
+{
+	t_token	**tokens;
+	t_token	*tok;
+	t_token	*prev;
+	t_token	*next;
+	char	*expanded;
+}	t_failed_expansion_params;
+
+int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx);
+int	process_variable_extraction(t_var_extraction_params *params, t_expand_context *ctx);
+int	process_token_expansion(t_token_expansion_params *params, t_expand_context *ctx);
+t_token	*handle_failed_expansion(t_failed_expansion_params *params);
+int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx);
 
 #endif

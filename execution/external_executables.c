@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/01 00:51:17 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/02 17:05:19 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char    *check_cmd(char **path, char *cmd)
 
 void    external_executables(t_cmd **cmd, char **path, char **envp)
 {
-    __pid_t pid;
+    pid_t pid;
     void (*old_sigint)(int);
     void (*old_sigquit)(int);
 

@@ -1,7 +1,7 @@
 CC= cc
-CFLAGS= -g -Wall -Wextra -Werror -Ilibft -I.
 RM= rm -f
-LDFLAGS = -Llibft -lreadline
+CFLAGS= -Wall -Wextra -Werror -Ilibft -I. -I/usr/local/Cellar/readline/8.3/include -g
+LDFLAGS = -Llibft -L/usr/local/Cellar/readline/8.3/lib -lreadline -lncurses
 
 SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c libft/ft_isprint.c \
     libft/ft_strlen.c libft/ft_memset.c libft/ft_bzero.c libft/ft_memcpy.c libft/ft_memmove.c libft/ft_strlcpy.c \
