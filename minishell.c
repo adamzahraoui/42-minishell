@@ -70,11 +70,10 @@ int validate_syntax(t_token *tokens)
 
 
 
-void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
+void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
 {
     char *trimmed;
-    char **current_env;
-    (void)env;
+    // char **current_env;
     (void)myenv;
 
     trimmed = ft_strtrim(input, " \t");
@@ -89,16 +88,16 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
     (*tokens) = tokenize(input);
     if (*tokens)
     {
-        current_env = convert_myenv_to_env(*myenv);
+        ctx->env = convert_myenv_to_env(*myenv);
         if (!validate_syntax(*tokens))
         {
             free_tokens(*tokens);
-            free(current_env);
+            free(ctx->env);
             return;
         }
-        expand_all_tokens(tokens, *vars, current_env);
-        process_commands(tokens, *vars, current_env, cmd);
-        free(current_env);
+        expand_all_tokens(tokens, ctx );
+        process_commands(tokens, ctx->vars, ctx->env, cmd);
+        free(ctx->env);
     }
     free_tokens(*tokens);
     free(input);
@@ -107,13 +106,12 @@ void handle_command(char *input, char **env, t_var **vars, t_cmd **cmd, t_token 
 int	main(int argc, char **argv, char **env)
 {
     char	*input;
-    t_var	*vars;
     t_cmd	*cmd;
     t_token	*tokens;
     t_myenv *myenv;
     t_myenv_ex *myenv_ex;
+    t_expand_context ctx;
 
-    vars = NULL;
     cmd = NULL;
     tokens = NULL;
     myenv = NULL;
@@ -128,9 +126,7 @@ int	main(int argc, char **argv, char **env)
         input = readline("minishell> ");
         if (!input)
             ft_free_error("exit\n", &myenv, &myenv_ex, 139);
-        // if (handle_assignment_or_empty(input, &vars, env))
-        //     continue ;
-        handle_command(input, env, &vars, &cmd, &tokens, &myenv);
+        handle_command(input, &ctx, &cmd, &tokens, &myenv);
         if (cmd != NULL)
             cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
     }

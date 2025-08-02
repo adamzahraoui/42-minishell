@@ -1,0 +1,836 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.4.1
+# Built for x86_64-unknown-linux-gnu
+# Copyright (C) 1988-2023 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+ 
+
+# Make data base, printed on Sat Aug  2 03:12:21 2025
+
+# Variables
+
+# makefile (from 'Makefile', line 24)
+OBJ = $(SRC:.c=.o)
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# makefile (from 'Makefile', line 6)
+SRC = libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c libft/ft_isprint.c libft/ft_strlen.c libft/ft_memset.c libft/ft_bzero.c libft/ft_memcpy.c libft/ft_memmove.c libft/ft_strlcpy.c libft/ft_strlcat.c libft/ft_toupper.c libft/ft_tolower.c libft/ft_strchr.c libft/ft_strrchr.c libft/ft_strncmp.c libft/ft_memchr.c libft/ft_memcmp.c libft/ft_strnstr.c libft/ft_atoi.c libft/ft_calloc.c libft/ft_strdup.c libft/ft_substr.c libft/ft_strjoin.c libft/ft_strtrim.c libft/ft_split.c libft/ft_strncpy.c libft/ft_putchar_fd.c libft/ft_putstr_fd.c libft/ft_putendl_fd.c libft/ft_putnbr_fd.c libft/ft_lstnew_bonus.c libft/ft_lstadd_front_bonus.c libft/ft_lstsize_bonus.c libft/ft_lstlast_bonus.c libft/ft_lstadd_back_bonus.c libft/ft_lstdelone_bonus.c libft/ft_lstclear_bonus.c libft/ft_lstiter_bonus.c libft/ft_lstmap_bonus.c execution/mini.c execution/utils_a.c execution/ft_env.c execution/ft_cd.c execution/ft_export.c execution/ft_export_ex.c execution/ft_exit.c execution/ft_pwd.c execution/ft_unset.c execution/external_executables.c execution/exit_error.c execution/utils_b.c parsing/01_tokenizer_core.c parsing/02_token_utils.c parsing/03_token_extraction.c parsing/04_expansion_core.c parsing/05_expansion_processing.c parsing/06_environment_utils.c parsing/07_command_parsing.c parsing/08_command_management.c parsing/09_redirection_handling.c parsing/10_heredoc_processing.c parsing/11_builtin_commands.c minishell.c execution/ft_pipe.c
+# environment
+SSH_AGENT_LAUNCHER = gnome-keyring
+# environment
+PULSE_SERVER = unix:/run/flatpak/pulse/native
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# environment
+SBX_CHROME_API_RQ = 1
+# environment
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
+# environment
+VSCODE_CWD = /home/mlaidi
+# environment
+LIBVIRT_DEFAULT_URI = qemu:///system
+# default
+MAKE_COMMAND := make
+# environment
+QT_ACCESSIBILITY = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /goinfre/mlaidi/mamashell (copy)
+# environment
+ZYPAK_ZYGOTE_STRATEGY_SPAWN = 1
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+GI_TYPELIB_PATH = /app/lib/girepository-1.0
+# environment
+XDG_DATA_DIRS = /app/share:/usr/share:/usr/share/runtime/share:/run/host/user-share:/run/host/share
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/mlaidi/.var/app/com.visualstudio.code/config/Code/CachedData/2901c5ac6db8a986a5666c3af51ff804d05af0d4
+# environment
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session1
+# environment
+LANG = C
+# environment
+XAUTHORITY = /run/flatpak/Xauthority
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS := /usr/include
+# environment
+ALSA_CONFIG_DIR = /usr/share/alsa
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /goinfre/mlaidi/mamashell (copy)
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+ZYPAK_LIB = /app/bin/../lib
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /run/flatpak/ssh-auth
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_CONFIG_DIRS = /app/etc/xdg:/etc/xdg
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+ALSA_CONFIG_PATH = /usr/share/alsa/alsa-flatpak.conf
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# environment
+FLATPAK_SANDBOX_DIR = /home/mlaidi/.var/app/com.visualstudio.code/sandbox
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_PID = 22
+# environment
+KRB5CCNAME = FILE:/tmp/krb5cc_101284_Mkx8mT
+# environment
+XDG_SESSION_TYPE = x11
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+PYTHONUSERBASE = /var/data/python
+# environment
+AT_SPI_BUS_ADDRESS = unix:path=/run/flatpak/at-spi-bus
+# environment
+XDG_DATA_HOME = /home/mlaidi/.var/app/com.visualstudio.code/data
+# environment
+SESSION_MANAGER = local/c1r3p13.1337.ma:@/tmp/.ICE-unix/25870,unix/c1r3p13.1337.ma:/tmp/.ICE-unix/25870
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/flatpak/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"en-us","resolvedLanguage":"en","defaultMessagesFile":"/app/extra/vscode/resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}
+# environment
+__EGL_EXTERNAL_PLATFORM_CONFIG_DIRS = /etc/egl/egl_external_platform.d:/usr/lib/x86_64-linux-gnu/GL/egl/egl_external_platform.d:/usr/share/egl/egl_external_platform.d
+# default
+MAKE_HOST := x86_64-unknown-linux-gnu
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# makefile
+SHELL = /bin/sh
+ 
+# default
+MAKECMDGOALS := all
+# environment
+XMODIFIERS = @im=ibus
+# environment
+LD_LIBRARY_PATH = /app/lib
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
+SANDBOX_LD_LIBRARY_PATH = /app/lib
+# environment
+SHLVL = 0
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /app/bin:/app/bin:/app/bin:/usr/bin:/home/mlaidi/.var/app/com.visualstudio.code/data/node_modules/bin
+# environment
+XCURSOR_PATH = /run/host/user-share/icons:/run/host/share/icons
+# default
+MAKEFILES := 
+# automatic
+^F = $(notdir $^)
+# environment
+DBUS_SYSTEM_BUS_ADDRESS = unix:path=/run/dbus/system_bus_socket
+# environment
+APPLICATION_INSIGHTS_NO_STATSBEAT = true
+# environment
+XDG_CONFIG_HOME = /home/mlaidi/.var/app/com.visualstudio.code/config
+# environment
+INVOCATION_ID = 8c17f727a0cb4ffd8a3c3d58be033212
+# environment
+DOCKER_HOST = unix:///run/user/101284/docker.sock
+# automatic
+?F = $(notdir $?)
+# makefile (from 'Makefile', line 25)
+NAME = minishell
+# environment
+GTK_IM_MODULE = ibus
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# automatic
++F = $(notdir $+)
+# environment
+XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
+# environment
+DESKTOP_SESSION = ubuntu
+# environment
+GST_PLUGIN_SYSTEM_PATH = /app/lib/gstreamer-1.0:/usr/lib/extensions/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = mlaidi
+# environment
+container = flatpak
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /var/lib/flatpak/exports/share/applications/com.visualstudio.code.desktop
+# makefile
+.DEFAULT_GOAL := all
+# environment
+SYSTEMD_EXEC_PID = 25893
+# makefile (from 'Makefile', line 3)
+RM = rm -f
+# environment
+NPM_CONFIG_GLOBALCONFIG = /app/etc/npmrc
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+USER = mlaidi
+# environment
+DISPLAY = :99.0
+# default
+MAKE_VERSION := 4.4.1
+# makefile (from 'Makefile', line 4)
+LDFLAGS = -Llibft -lreadline
+# environment
+MANAGERPID = 25294
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 26318
+# environment
+_ = /usr/bin/make
+# environment
+XDG_RUNTIME_DIR = /run/user/101284
+# makefile (from 'Makefile', line 2)
+CFLAGS = -g -Wall -Wextra -Werror -Ilibft -I.
+# environment
+GPG_AGENT_INFO = /run/user/101284/gnupg/S.gpg-agent:0:1
+ 
+# environment
+PULSE_CLIENTCONFIG = /run/flatpak/pulse/config
+# environment
+JOURNAL_STREAM = 8:281348
+# environment
+XDG_SESSION_CLASS = user
+# environment
+HOME = /home/mlaidi
+# environment
+QT_IM_MODULE = ibus
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/101284/vscode-c64387f3-1.10-main.sock
+# environment
+FT_HOOK_PATHNAME = login-user.d
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# default
+SUFFIXES := 
+# environment
+XDG_CACHE_HOME = /home/mlaidi/.var/app/com.visualstudio.code/cache
+# environment
+VSCODE_CLI = 1
+# environment
+FT_HOOK_NAME = login-user
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/mlaidi
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs notintermediate shell-export archives jobserver jobserver-fifo output-sync check-symlink load
+# makefile (from 'Makefile', line 1)
+CC = cc
+# environment
+FLATPAK_ID = com.visualstudio.code
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+ZYPAK_BIN = /app/bin
+# environment
+GDMSESSION = ubuntu
+# variable set hash-table stats:
+ 
+# Load=130/1024=13%, Rehash=0, Collisions=18/166=11%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# libft (device 64513, inode 2752827): 47 files, no impossibilities so far.
+# . (device 64513, inode 2752824): 13 files, no impossibilities.
+
+# 60 files, no impossibilities in 2 directories.
+
+# Implicit Rules
+
+%.o: %.c libft/libft.h minishell.h
+#  recipe to execute (from 'Makefile', line 30):
+	@$(CC) -c $(CFLAGS) $<  -o  $@
+
+# 1 implicit rules, 0 (0.0%) terminal.
+# Files
+
+# Not a target:
+libft/ft_toupper.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_isalpha.c:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-08-01 18:19:07
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+parsing/08_command_management.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_lstlast_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_memcpy.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_export_ex.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/10_heredoc_processing.o:
+ 
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/05_expansion_processing.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+minishell: libft/ft_isalpha.o libft/ft_isdigit.o libft/ft_isalnum.o libft/ft_isascii.o libft/ft_isprint.o libft/ft_strlen.o libft/ft_memset.o libft/ft_bzero.o libft/ft_memcpy.o libft/ft_memmove.o libft/ft_strlcpy.o libft/ft_strlcat.o libft/ft_toupper.o libft/ft_tolower.o libft/ft_strchr.o libft/ft_strrchr.o libft/ft_strncmp.o libft/ft_memchr.o libft/ft_memcmp.o libft/ft_strnstr.o libft/ft_atoi.o libft/ft_calloc.o libft/ft_strdup.o libft/ft_substr.o libft/ft_strjoin.o libft/ft_strtrim.o libft/ft_split.o libft/ft_strncpy.o libft/ft_putchar_fd.o libft/ft_putstr_fd.o libft/ft_putendl_fd.o libft/ft_putnbr_fd.o libft/ft_lstnew_bonus.o libft/ft_lstadd_front_bonus.o libft/ft_lstsize_bonus.o libft/ft_lstlast_bonus.o libft/ft_lstadd_back_bonus.o libft/ft_lstdelone_bonus.o libft/ft_lstclear_bonus.o libft/ft_lstiter_bonus.o libft/ft_lstmap_bonus.o execution/mini.o execution/utils_a.o execution/ft_env.o execution/ft_cd.o execution/ft_export.o execution/ft_export_ex.o execution/ft_exit.o execution/ft_pwd.o execution/ft_unset.o execution/external_executables.o execution/exit_error.o execution/utils_b.o parsing/01_tokenizer_core.o parsing/02_token_utils.o parsing/03_token_extraction.o parsing/04_expansion_core.o parsing/05_expansion_processing.o parsing/06_environment_utils.o parsing/07_command_parsing.o parsing/08_command_management.o parsing/09_redirection_handling.o parsing/10_heredoc_processing.o parsing/11_builtin_commands.o minishell.o execution/ft_pipe.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+#  recipe to execute (from 'Makefile', line 33):
+	@$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+# Not a target:
+execution/utils_a.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_isprint.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+ 
+
+# Not a target:
+libft/ft_lstmap_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_isalnum.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strlcpy.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strncmp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_lstadd_back_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_exit.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-08-01 23:51:37.463409
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+ 
+libft/libft.h:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-08-01 18:19:07
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+libft/ft_putstr_fd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_atoi.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_cd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/utils_b.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strlen.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bonus:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+ 
+#  File has not been updated.
+
+# Not a target:
+parsing/01_tokenizer_core.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_lstclear_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_putchar_fd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/03_token_extraction.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 36):
+	@$(RM) $(OBJ) $(BONUS_OBJ)
+
+# Not a target:
+libft/ft_strjoin.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_isascii.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+ 
+
+# Not a target:
+libft/ft_lstadd_front_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_split.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/06_environment_utils.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strchr.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+re: fclean all
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_export.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/07_command_parsing.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/09_redirection_handling.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_calloc.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+# Not a target:
+libft/ft_memcmp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_lstsize_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/exit_error.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/mini.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_env.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_bzero.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strtrim.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+minishell.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_lstnew_bonus.o:
+#  Implicit rule search has not been done.
+ 
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strrchr.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_pipe.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_tolower.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: minishell
+#  Phony target (prerequisite of .PHONY).
+#  Command line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+ 
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+
+# Not a target:
+minishell.h:
+#  Implicit rule search has been done.
+#  File is secondary (prerequisite of .SECONDARY).
+#  Last modified 2025-08-02 01:13:25.387101
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+libft/ft_isdigit.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+fclean: clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 38):
+	@$(RM) $(NAME)
+
+# Not a target:
+libft/ft_lstiter_bonus.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/02_token_utils.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+# Not a target:
+libft/ft_substr.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_unset.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_putendl_fd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/11_builtin_commands.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strlcat.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+execution/ft_pwd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_lstdelone_bonus.o:
+#  Implicit rule search has not been done.
+ 
+#  Modification time never checked.
+#  File has not been updated.
+
+libft/ft_isalpha.o: libft/ft_isalpha.c libft/libft.h minishell.h
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'libft/ft_isalpha'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := libft/ft_isalpha.o
+# automatic
+# * := libft/ft_isalpha
+# automatic
+# < := libft/ft_isalpha.c
+# automatic
+# + := libft/ft_isalpha.c libft/libft.h minishell.h
+# automatic
+# % := 
+# automatic
+# ^ := libft/ft_isalpha.c libft/libft.h minishell.h
+# automatic
+# ? := libft/ft_isalpha.c libft/libft.h minishell.h
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/15=13%
+#  recipe to execute (from 'Makefile', line 30):
+	@$(CC) -c $(CFLAGS) $<  -o  $@
+
+ 
+# Not a target:
+execution/external_executables.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_memset.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+parsing/04_expansion_core.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strdup.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_memchr.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_putnbr_fd.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_memmove.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+ 
+#  File has not been updated.
+
+.PHONY: all clean re bonus
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strncpy.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+libft/ft_strnstr.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=79/1024=8%, Rehash=0, Collisions=13/173=8%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 139 / storage = 2318 B / avg = 16 B
+# current buf: size = 8162 B / used = 2318 B / count = 139 / avg = 16 B
+
+# strcache performance: lookups = 165 / hit rate = 15%
+# hash-table stats:
+ 
+# Load=139/8192=2%, Rehash=0, Collisions=6/165=4%
+# Finished Make data base on Sat Aug  2 03:12:21 2025
+
+ 
