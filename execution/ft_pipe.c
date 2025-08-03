@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/01 04:39:03 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/03 03:36:50 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
                 close(env->fd[0]);
                 close(env->fd[1]);
             }
-
+            if (redirecter() > 0)
+            {
+                exit(1);
+            }
             char *exec_path;
             if (ft_strchr(arg->args[0], '/'))
                 exec_path = arg->args[0];
@@ -95,79 +98,3 @@ void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
 
     free(pids);
 }
-
-
-
-// void    ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
-// {
-//     t_cmd *arg;
-//     t_myenv *env;
-//     int count;
-//     int *arr;
-//     int i = 0;
-//     count = 0;
-//     arg = *cmd;
-//     env = *myenv;
-//     int prev_fd = -1; // Save previous read-end
-    
-//     while(arg)
-//     {
-//         arg = arg->next;
-//         count++;
-//     }
-//     arg = *cmd;
-//     arr = malloc(sizeof(int) * count);
-//     if(!arr)
-//         return ;
-//     while(arg)
-//     {
-//         if(arg->next && pipe(env->fd) == -1)
-//             perror("error in pipe");
-//         arr[i] = fork();
-//         if(arr[i] == 0)
-//         {
-//             if(prev_fd != -1)
-//             {
-//                 dup2(prev_fd, 0);
-//                 close(prev_fd);
-//             }
-//             if(i < count - 1)
-//             {
-//                 dup2(env->fd[1], 1);
-//                 close(env->fd[1]);
-//                 close(env->fd[0]);
-//             }
-//             char *exec_path;
-//             if (ft_strchr(arg->args[0], '/'))
-//                 exec_path = arg->args[0];
-//             else
-//                 exec_path = check_cmd(path, arg->args[0]);
-//             if (!exec_path)
-//             {
-//                 printf("miniahell: %s: command not found\n", arg->args[0]);
-//                 exit(127);
-//             }
-//             execve(exec_path, arg->args, or_env);
-//             perror("execve");
-//             exit(EXIT_FAILURE);          
-//         }   
-//         arg = arg->next;
-//         if (prev_fd != -1)
-//             close(prev_fd);
-//         if (arg->next)
-//         {
-//             close(env->fd[1]);
-//             prev_fd = env->fd[0];
-//         }
-//         else
-//         {
-//             prev_fd = -1; // nothing more to pass
-//         }   
-
-//         i++;
-//     }
-//     close(prev_fd);
-//     i = 0;
-//     while (i < count)
-//         waitpid(arr[i++], NULL, 0);
-// }

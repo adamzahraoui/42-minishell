@@ -195,6 +195,7 @@ int check_double(t_myenv_ex **myenv_ex, char *str);
 int check_double_env(t_myenv **myenv, char *str);
 int check_exist(char *str, char *dest);
 char *check_val(char *str);
+void print_export(t_myenv_ex **myenv_ex);
 
 void ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i);
 void free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
@@ -205,6 +206,7 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
 
 
 int ft_strcmp(const char *s1, const char *s2);
+int	ft_strncmp_nv(const char *s1, const char *s2, size_t n);
 
 typedef struct s_heredoc_params
 {

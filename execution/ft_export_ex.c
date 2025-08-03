@@ -6,24 +6,24 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 01:32:13 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/03 03:18:54 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:03:03 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int     ft_strcmp(const char *s1, const char *s2)
-// {
-// 	int	i;
+int     ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-// 		i++;
-//     if (s1[i] == '=' && s2[i] == '\0')
-//         return (0);
-//     else
-// 	    return (s1[i] - s2[i]);
-// }
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+    if (s1[i] == '=' && s2[i] == '\0')
+        return (0);
+    else
+	    return (s1[i] - s2[i]);
+}
 
 int check_exist(char *str, char *dest)
 {
