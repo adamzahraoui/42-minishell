@@ -116,6 +116,7 @@ int	main(int argc, char **argv, char **env)
     tokens = NULL;
     myenv = NULL;
     myenv_ex = NULL;
+    ctx.vars = NULL;
     declare_env(&myenv, &myenv_ex, env);
     myenv->i = 0;
     (void)argc;

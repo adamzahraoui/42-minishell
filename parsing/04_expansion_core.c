@@ -110,11 +110,12 @@ char	*expand_token(char *token, t_var *vars, char **env)
 	if (!result)
 		return (NULL);
 	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
-	{
 		process_token_character(token, &st, result, &ctx);
-	}
 	result[st.j] = '\0';
-	final_result = remove_quotes(result);
+	if (token[0] == '"' || token[0] == '\'')
+		final_result = ft_strdup(result);
+	else
+		final_result = remove_quotes(result);
 	free(result);
 	return (final_result);
 }

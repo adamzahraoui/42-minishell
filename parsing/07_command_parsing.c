@@ -67,7 +67,8 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
 	t_token				*token_ptr;
 	t_cmd				*cmd;
 
-	(void)vars;
+	ctx.vars = vars;
+	ctx.env = env;
 	(void)env;
 	cmd = init_command();
 	if (!cmd)

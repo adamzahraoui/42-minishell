@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_environment_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:07:01 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:07:03 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/03 03:15:35 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*get_shell_var(t_var *vars, char *name)
 {
+	if (!vars || !name)
+        return (NULL);
 	while (vars)
 	{
 		if (ft_strcmp(vars->name, name) == 0)
