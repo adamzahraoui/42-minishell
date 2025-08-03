@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/03 03:36:50 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/03 03:43:06 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
                 close(env->fd[0]);
                 close(env->fd[1]);
             }
-            if (redirecter() > 0)
-            {
-                exit(1);
-            }
+            // if (redirecter() > 0)
+            // {
+            //     exit(1);
+            // }
             char *exec_path;
             if (ft_strchr(arg->args[0], '/'))
                 exec_path = arg->args[0];
