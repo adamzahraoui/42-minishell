@@ -80,6 +80,7 @@ typedef struct s_cmd
 	char *heredoc_delim;
 	char *heredoc_file;
 	int saved_stdin;
+	int saved_stdout;
 	struct s_cmd *next;
 } t_cmd;
 
