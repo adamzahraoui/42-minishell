@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   07_command_parsing.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:07:59 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:08:01 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:35:25 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 		{
 			if (validate_command(cur, cmd))
 				return ;
-			else if (cur->arg_count > 0)
-			{
-				if (strcmp(cur->args[0], "echo") == 0)
-					builtin_echo(cur);
-			}
 			cur = cur->next;
 		}
 	}

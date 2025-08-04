@@ -3,53 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   11_builtin_commands.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:09:12 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:09:14 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/04 15:35:15 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	builtin_echo(t_cmd *cmd)
-{
-	int	i;
-	int	newline;
-
-	i = 1;
-	newline = 1;
-	while (cmd->args[i] && is_valid_n_flag(cmd->args[i]))
-	{
-		newline = 0;
-		i++;
-	}
-	while (cmd->args[i])
-	{
-		printf("%s", cmd->args[i]);
-		if (cmd->args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (newline)
-		printf("\n");
-}
-
-int	is_valid_n_flag(const char *str)
-{
-	int	i;
-
-	i = 1;
-	if (str[0] != '-' || str[1] != 'n')
-		return (0);
-	while (str[i])
-	{
-		if (str[i] != 'n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	create_and_link_token(t_token *token, char *str, int split_pos)
 {
