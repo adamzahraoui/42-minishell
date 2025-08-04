@@ -36,12 +36,14 @@ int	initialize_command_fields(t_cmd *cmd)
 	cmd->args = NULL;
 	cmd->arg_count = 0;
 	cmd->arg_capacity = 10;
+	cmd->redirections = NULL;
 	cmd->input_file = NULL;
 	cmd->output_file = NULL;
 	cmd->append_output = 0;
 	cmd->heredoc_delim = NULL;
 	cmd->heredoc_file = NULL;
 	cmd->saved_stdin = -1;
+	cmd->saved_stdout = -1;
 	cmd->next = NULL;
 	cmd->args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
 	if (!cmd->args)
@@ -79,6 +81,7 @@ void	add_argument(t_cmd *cmd, char *arg)
 void	free_commands(t_cmd *cmds)
 {
 	t_cmd	*tmp;
+	t_redirection *redir_tmp;
 	int		i;
 
 	while (cmds)
@@ -88,7 +91,14 @@ void	free_commands(t_cmd *cmds)
 		i = 0;
 		while (i < tmp->arg_count)
 			free(tmp->args[i++]);
-		free(tmp->args);
+		free(tmp->args);		
+		while (tmp->redirections)
+		{
+			redir_tmp = tmp->redirections;
+			tmp->redirections = tmp->redirections->next;
+			free(redir_tmp->filename_or_delim);
+			free(redir_tmp);
+		}
 		if (tmp->input_file)
 			free(tmp->input_file);
 		if (tmp->output_file)
@@ -100,6 +110,7 @@ void	free_commands(t_cmd *cmds)
 			unlink(tmp->heredoc_file);
 			free(tmp->heredoc_file);
 		}
+		
 		free(tmp);
 	}
 }

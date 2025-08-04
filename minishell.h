@@ -69,20 +69,37 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
+typedef enum e_redir_type
+{
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+}	t_redir_type;
+
+typedef struct s_redirection
+{
+	t_redir_type type;
+	char *filename_or_delim;
+	struct s_redirection *next;
+} t_redirection;
+
 typedef struct s_cmd
 {
 	char **args;
 	int arg_count;
 	int arg_capacity;
-	char *input_file;
-	char *output_file;
-	int append_output;
-	char *heredoc_delim;
-	char *heredoc_file;
+	t_redirection *redirections; 
+	char *input_file;      
+	char *output_file;     
+	int append_output;     
+	char *heredoc_delim;   
+	char *heredoc_file;   
 	int saved_stdin;
 	int saved_stdout;
 	struct s_cmd *next;
 } t_cmd;
+
 
 
 #define MAX_TOKEN_LEN 4096
@@ -256,5 +273,14 @@ int	process_variable_extraction(t_var_extraction_params *params, t_expand_contex
 int	process_token_expansion(t_token_expansion_params *params, t_expand_context *ctx);
 t_token	*handle_failed_expansion(t_failed_expansion_params *params);
 int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx);
+
+
+
+int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_expand_context *ctx);
+int handle_redirections(t_cmd *cmd, t_token *next, t_token_type type);
+t_redirection *create_redirection(t_redir_type type, char *filename_or_delim);
+void add_redirection(t_cmd *cmd, t_redirection *redir);
+
+
 
 #endif

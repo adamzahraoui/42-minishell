@@ -98,14 +98,9 @@ int	validate_command(t_cmd *cur, t_cmd **cmd)
 		*cmd = NULL;
 		return (1);
 	}
-	if (cur->arg_count == 0 && (cur->input_file || cur->output_file))
+	if (cur->arg_count == 0 && cur->redirections)
 	{
-		if (cur->input_file)
-			printf("minishell: %s: No such file or directory\n",
-				cur->input_file);
-		else if (cur->output_file)
-			printf("minishell: %s: No such file or directory\n",
-				cur->output_file);
+		printf("minishell: syntax error near unexpected token\n");
 		free_commands(*cmd);
 		*cmd = NULL;
 		return (1);
