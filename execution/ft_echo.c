@@ -51,4 +51,5 @@ void	ft_echo(t_cmd *cmd, t_myenv **myenv)
 	}
 	if (newline)
 		printf("\n");
+    set_status(myenv, NULL, 0);
 }

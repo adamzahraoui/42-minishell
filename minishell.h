@@ -185,14 +185,14 @@ int create_and_link_token(t_token *token, char *str, int split_pos);
 
 
 void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
-void ft_pwd(void);
+void ft_pwd(t_myenv **myenv);
 void ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
 void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
 void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
-void	ft_echo(t_cmd *cmd, t_myenv **myenv);
+void ft_echo(t_cmd *cmd, t_myenv **myenv);
 
 void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env);
-void external_executables(t_cmd **cmd, char **path, char **env);
+void    external_executables(t_cmd **cmd, char **path, char **envp, t_myenv **myenv);
 
 
 void set_env_ex(t_myenv_ex **myenv, char **env);

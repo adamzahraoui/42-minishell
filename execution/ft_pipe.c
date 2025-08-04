@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/03 08:24:14 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:16:08 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,13 @@ void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
         waitpid(pids[j], &status, 0);
         if(WIFEXITED(status))
             env->i = WEXITSTATUS(status);
-        // else
-        // {
-            // /*signal*/
-        // }
+        if (j == count - 1)
+        {
+            if (WIFEXITED(status))
+                set_status(myenv, NULL, WEXITSTATUS(status));
+            else if (WIFSIGNALED(status))
+                set_status(myenv, NULL, 128 + WTERMSIG(status));
+        }
     }
     free(pids);
 }

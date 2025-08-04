@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:59 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/19 13:58:38 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:20:04 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void update_path(char *p, t_myenv **myenv, t_myenv_ex **myenv_ex)
     check_double_env(myenv, p);
 }
 
+// Ensure all error paths set status
+
 void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
     char *path;
@@ -40,26 +42,45 @@ void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
         temp = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
         update_path(temp, myenv, myenv_ex);
         path = my_get_path(*myenv, "HOME=");
+        if (path == NULL)
+        {
+            ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+            set_status(myenv, NULL, 1);
+            free(temp);
+            return;
+        }
         if (chdir(&path[0]) == -1)
-
-
+        {
             set_status(myenv, "cd", 1);
-        // free(path);(she has not reserved a place  for her before)
+            free(temp);
+            return;
+        }
+        set_status(myenv, NULL, 0);
         free(temp);
     }
     else if (ft_strlen_cmd(cmd) == 2)
     {
+        temp = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+        update_path(temp, myenv, myenv_ex);
         if (chdir((*cmd)->args[1]) == -1)
         {
             ft_putstr_fd("minishell: cd: ", 2);
             ft_putstr_fd((*cmd)->args[1], 2);
             ft_putstr_fd(": No such file or directory\n", 2);
-            // dakchi li zet kay3ti (minishell: cd: /hh: No such file or directory)
-            // set_status(myenv, "cd", 1); dyalk kat3ti(cd: No such file or directory)
+            set_status(myenv, NULL, 1);
+            free(temp);
+            return;
         }
+        set_status(myenv, NULL, 0);
+        free(temp);
     }
     else
+    {
         ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+        set_status(myenv, NULL, 1);
+        return;
+    }
+    
     temp = ft_strjoin("PWD=", getcwd(NULL, 0));
     update_path(temp, myenv, myenv_ex);
     free(temp);

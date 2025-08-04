@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/02 17:05:19 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:17:35 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char    *check_cmd(char **path, char *cmd)
     return (NULL);
 }
 
-void    external_executables(t_cmd **cmd, char **path, char **envp)
+void    external_executables(t_cmd **cmd, char **path, char **envp, t_myenv **myenv)
 {
     pid_t pid;
     void (*old_sigint)(int);
@@ -67,6 +67,10 @@ void    external_executables(t_cmd **cmd, char **path, char **envp)
     {
         int status;
         waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+            set_status(myenv, NULL, WEXITSTATUS(status));
+        else if (WIFSIGNALED(status))
+            set_status(myenv, NULL, 128 + WTERMSIG(status));
         signal(SIGINT, old_sigint);
         signal(SIGQUIT, old_sigquit);
         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
