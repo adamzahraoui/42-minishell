@@ -11,8 +11,46 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+void error(char *arg, char *error, int exit_code)
+{
+    ft_putstr_fd("minshell: ", 2);
+    ft_putstr_fd(arg, 2);
+    ft_putstr_fd(error, 2);
+    exit(exit_code);
+}
 
-void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
+void exec_extranal_cmd(t_cmd *arg, char **path, char **or_env)
+{
+    char *exec_path;
+    struct stat stats;
+
+    if (ft_strchr(arg->args[0], '/'))
+    {
+        exec_path = arg->args[0];
+        if (access(exec_path, F_OK) == -1)
+            error(arg->args[0], ": No such file or directory\n", 127);
+        stat(exec_path, &stats);
+        if (S_ISDIR(stats.st_mode))
+            error(arg->args[0], ": Is a directory\n", 126);
+    }
+    exec_path = check_cmd(path, arg->args[0]);
+    if (!exec_path)
+        error(arg->args[0], ": command not found", 127);
+    execve(exec_path, arg->args, or_env);
+    error(arg->args[0], ": Permission denied\n", 126);
+}
+
+void exec_all(t_cmd *cmd, char **path, t_myenv *my_env, t_myenv_ex *env_ex, char **or_env)
+{
+    if (cmd->redirections)
+        redirection(cmd);
+    if (check_builtin_cmd(&cmd, my_env, env_ex))
+        exit(my_env->i);
+    else
+        exec_extranal_cmd(cmd, path, or_env);
+}
+
+void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, t_myenv_ex **env_ex, char **or_env)
 {
     t_cmd *arg = *cmd;
     t_myenv *env = *myenv;
@@ -52,24 +90,7 @@ void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env)
                 close(env->fd[0]);
                 close(env->fd[1]);
             }
-            // if (redirecter() > 0)
-            // {
-            //     exit(1);
-            // }
-            char *exec_path;
-            if (ft_strchr(arg->args[0], '/'))
-                exec_path = arg->args[0];
-            else
-                exec_path = check_cmd(path, arg->args[0]);
-
-            if (!exec_path)
-            {
-                printf("minishell: %s: command not found\n", arg->args[0]);
-                exit(127);
-            }
-            execve(exec_path, arg->args, or_env);
-            perror("execve");
-            exit(EXIT_FAILURE);
+            exec_all(arg, path, *myenv, *env_ex, or_env);
         }
         if (prev_fd != -1)
             close(prev_fd);

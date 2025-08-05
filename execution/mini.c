@@ -74,24 +74,21 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
     path = my_get_path_split(myenv, "PATH=", ':');
     cmd = *args;
     
-    if(cmd->next != NULL)
-        ft_pipe(args, path, myenv, env);
-    else if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+    cmd->saved_stdin = -1;
+    cmd->saved_stdout = -1;
+    if(cmd)
+        ft_pipe(args, path, myenv, myenv_ex, env);    
+    if (cmd->redirections)
     {
+        redirection(cmd);
+    }
+    if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+    {
+        restor_fd(cmd);
         ft_ft_free(path);
+        return ;
     }
-    else
-    {
-        external_executables(args, path, env, myenv);
-        ft_ft_free(path);
-    }
-    if ((*args)->saved_stdin != -1)
-    {
-        dup2((*args)->saved_stdin, STDIN_FILENO);
-        close((*args)->saved_stdin);
-        (*args)->saved_stdin = -1;
-    }
+    restor_fd(cmd);
     free_commands(*args);
     *args = NULL;
 }
-

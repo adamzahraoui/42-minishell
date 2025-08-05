@@ -191,7 +191,7 @@ void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
 void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
 void ft_echo(t_cmd *cmd, t_myenv **myenv);
 
-void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, char **or_env);
+void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, t_myenv_ex **env_ex, char **or_env);
 void    external_executables(t_cmd **cmd, char **path, char **envp, t_myenv **myenv);
 
 
@@ -279,6 +279,9 @@ int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_expand_
 int handle_redirections(t_cmd *cmd, t_token *next, t_token_type type);
 t_redirection *create_redirection(t_redir_type type, char *filename_or_delim);
 void add_redirection(t_cmd *cmd, t_redirection *redir);
+
+int redirection(t_cmd *cmd);
+void restor_fd(t_cmd *cmd);
 
 
 
