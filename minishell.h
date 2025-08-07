@@ -69,6 +69,9 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
+// cat << ll
+
+
 typedef enum e_redir_type
 {
 	REDIR_IN,
@@ -79,6 +82,7 @@ typedef enum e_redir_type
 
 typedef struct s_redirection
 {
+	int fd;
 	t_redir_type type;
 	char *filename_or_delim;
 	struct s_redirection *next;
@@ -139,7 +143,7 @@ int expand_variable(char *token, int *i, char *result, t_expand_context *ctx);
 void trim_token_values(t_token *tok, t_token *next, int was_quoted);
 int split_token_string(t_token **token_ptr);
 
-
+void	print_error_ex(t_myenv **myenv, char *str);
 
 char *get_shell_var(t_var *vars, char *name);
 char *get_env_value(char **env, char *name);
@@ -161,7 +165,6 @@ int initialize_command_fields(t_cmd *cmd);
 void add_argument(t_cmd *cmd, char *arg);
 void free_commands(t_cmd *cmds);
 void free_tokens(t_token *tokens);
-
 
 
 int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_expand_context *ctx);
@@ -282,7 +285,6 @@ void add_redirection(t_cmd *cmd, t_redirection *redir);
 
 int redirection(t_cmd *cmd);
 void restor_fd(t_cmd *cmd);
-
 
 
 #endif

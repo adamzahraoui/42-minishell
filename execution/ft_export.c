@@ -115,13 +115,28 @@ char    *check_val(char *str)
 int check_arg_export(t_myenv **myenv, t_cmd **str, int i)
 {
     t_cmd *cmd;
+    int j;
 
+    j = 0;
     cmd = *str;
     if((cmd->args[i][0] >= 'a' && cmd->args[i][0] <= 'z') || (cmd->args[i][0] >= 'A' && cmd->args[i][0] <= 'Z') || (cmd->args[i][0] == '_'))
-        return (1);
-    set_status(myenv, NULL, 1);
-    printf("minishell: export: `%s' :not a valid identifier\n", cmd->args[i]);
-    return (0);
+    {
+        while(cmd->args[i][j])
+        {
+            if(!ft_isalnum(cmd->args[i][j]) && cmd->args[i][j] != '_')
+            {
+                print_error_ex(myenv, cmd->args[i]);
+                return (0);
+            }
+            j++;
+        }
+    }
+    else
+    {
+        print_error_ex(myenv, cmd->args[i]);
+        return (0);
+    }
+    return (1);
 }
 
 void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)

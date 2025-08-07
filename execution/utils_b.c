@@ -39,3 +39,11 @@ int	ft_strncmp_nv(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
+void	print_error_ex(t_myenv **myenv, char *str)
+{
+	set_status(myenv, NULL, 1);
+    ft_putstr_fd("minishell: export: ", 2);
+    ft_putstr_fd(str, 2);
+    ft_putstr_fd(" :not a valid identifier\n", 2);
+}

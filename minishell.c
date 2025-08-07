@@ -80,11 +80,6 @@ void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **t
     if (trimmed && *trimmed)
         add_history(trimmed);
     free(trimmed);
-    if (ft_strncmp(input, "exit", 5) == 0)
-    {
-        free(input);
-        exit(0);
-    }
     (*tokens) = tokenize(input);
     if (*tokens)
     {

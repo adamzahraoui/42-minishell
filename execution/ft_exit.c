@@ -15,20 +15,26 @@
 void    ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv)
 {
     t_myenv *list_env;
+    t_myenv *temp_env;
     t_myenv_ex *list_ex;
+    t_myenv_ex *temp_ex;
 
     list_env = *myenv;
-    list_ex = *myenv_ex;
     while(list_env)
     {
+        temp_env = list_env->next;
         free(list_env->data);
-        list_env = list_env->next;
+        free(list_env);
+        list_env = temp_env;
     }
+    list_ex = *myenv_ex;
     while(list_ex)
     {
+        temp_ex = list_ex->next;
         free(list_ex->data);
-        list_ex = list_ex->next;
-    }
+        free(list_ex);
+        list_ex = temp_ex;
+    }    
     printf("exit\n");
     exit(0);
 }

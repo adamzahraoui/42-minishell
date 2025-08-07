@@ -38,16 +38,24 @@ int open_files(t_redirection *redirection)
     int fd;
 
     fd = 0;
+    
     if (redirection->type == REDIR_IN)
         fd = open(redirection->filename_or_delim, O_RDONLY);
-    // if (redirection->type == TOKEN_HEREDOC)
-    //     fd = redirection.;
+    if (redirection->type == REDIR_HEREDOC)
+        fd = redirection->fd;
+
     if (redirection->type == REDIR_OUT)
         fd = open(redirection->filename_or_delim, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     if (redirection->type == REDIR_APPEND)
         fd = open(redirection->filename_or_delim, O_CREAT | O_WRONLY | O_APPEND, 0644);
     if (fd == -1)
-        perror("open");
+    {
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(redirection->filename_or_delim, 2);
+        ft_putstr_fd(": ", 2);
+        ft_putstr_fd(strerror(errno), 2);
+        ft_putstr_fd("\n", 2);
+    }
     return (fd);
 }
 
@@ -55,6 +63,8 @@ int append_fd(t_redirection *redirection, int fd)
 {
     int ret = 0;
     if (redirection->type == REDIR_IN)
+        ret = dup2(fd, 0);
+    else if (redirection->type == REDIR_HEREDOC)
         ret = dup2(fd, 0);
     else if (redirection->type == REDIR_OUT || redirection->type == REDIR_APPEND)
         ret = dup2(fd, 1);

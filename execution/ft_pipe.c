@@ -16,6 +16,7 @@ void error(char *arg, char *error, int exit_code)
     ft_putstr_fd("minshell: ", 2);
     ft_putstr_fd(arg, 2);
     ft_putstr_fd(error, 2);
+    ft_putstr_fd("\n", 2);
     exit(exit_code);
 }
 

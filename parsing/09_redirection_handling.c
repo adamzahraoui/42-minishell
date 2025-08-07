@@ -23,8 +23,10 @@ int	dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type,
 	}
 	else if (type == TOKEN_HEREDOC)
 	{
+
 		if (!handle_heredoc_redirection(cmd, next, ctx))
 			return (0);
+
 	}
 	return (1);
 }
@@ -38,6 +40,7 @@ t_redirection	*create_redirection(t_redir_type type, char *filename_or_delim)
 		return (NULL);
 	redir->type = type;
 	redir->filename_or_delim = ft_strdup(filename_or_delim);
+	redir->fd = -1;
 	redir->next = NULL;
 	return (redir);
 }
@@ -80,79 +83,24 @@ int	handle_redirections(t_cmd *cmd, t_token *next, t_token_type type)
 	return (1);
 }
 
-
 int	handle_heredoc_redirection(t_cmd *cmd, t_token *next, t_expand_context *ctx)
 {
-	t_redirection	*redir;
-	int				fd;
-	int				saved_stdin;
+	t_redirection *redir;
+	int	fd;
 
-	// Create redirection entry for heredoc
 	redir = create_redirection(REDIR_HEREDOC, next->value);
-	if (!redir)
-		return (0);
-	add_redirection(cmd, redir);
-
-	// Handle the heredoc immediately (your existing logic)
-	saved_stdin = dup(STDIN_FILENO);
+	if(!redir)
+		return(0);
 	fd = handle_heredoc(next->value, ctx);
-	if (fd < 0)
+	if(fd < 0)
 	{
-		close(saved_stdin);
+		free(redir-> filename_or_delim);
+		free(redir);
 		return (0);
 	}
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		perror("dup2 heredoc");
-		close(fd);
-		close(saved_stdin);
-		return (0);
-	}
-	close(fd);
-	cmd->saved_stdin = saved_stdin;
+	redir->fd = fd;
+	add_redirection(cmd, redir);
 	return (1);
-}
-
-void	convert_redirections_for_execution(t_cmd *cmd)
-{
-	t_redirection	*redir;
-	t_redirection	*last_input;
-	t_redirection	*last_output;
-
-	last_input = NULL;
-	last_output = NULL;
-	
-	// Find the last input and output redirections
-	redir = cmd->redirections;
-	while (redir)
-	{
-		if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
-			last_input = redir;
-		else if (redir->type == REDIR_OUT || redir->type == REDIR_APPEND)
-			last_output = redir;
-		redir = redir->next;
-	}
-	
-	// Convert to old format for execution
-	if (last_input)
-	{
-		if (last_input->type == REDIR_IN)
-		{
-			cmd->input_file = ft_strdup(last_input->filename_or_delim);
-			cmd->heredoc_file = NULL;
-		}
-		else if (last_input->type == REDIR_HEREDOC)
-		{
-			cmd->input_file = NULL;
-			cmd->heredoc_file = ft_strdup(last_input->filename_or_delim);
-		}
-	}
-	
-	if (last_output)
-	{
-		cmd->output_file = ft_strdup(last_output->filename_or_delim);
-		cmd->append_output = (last_output->type == REDIR_APPEND);
-	}
 }
 
 int	handle_heredoc(const char *delimiter, t_expand_context *ctx)

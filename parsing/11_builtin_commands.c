@@ -35,7 +35,10 @@ int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
 
 	line = readline("> ");
 	if (!line)
+	{
+		*params->got_delim = 0;
 		return (-1);
+	}
 	if (ft_strcmp(line, params->clean_delimiter) == 0)
 	{
 		*params->got_delim = 1;

@@ -76,19 +76,37 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
     
     cmd->saved_stdin = -1;
     cmd->saved_stdout = -1;
-    if(cmd)
-        ft_pipe(args, path, myenv, myenv_ex, env);    
-    if (cmd->redirections)
+    if (cmd && cmd->redirections)
     {
-        redirection(cmd);
-    }
-    if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
-    {
+        if (redirection(cmd) == 0)
+        {
+            if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+            {
+                restor_fd(cmd);
+                ft_ft_free(path);
+                free_commands(*args);
+                *args = NULL;
+                return;
+            }
+            external_executables(args, path, env, myenv);
+        }
         restor_fd(cmd);
-        ft_ft_free(path);
-        return ;
     }
-    restor_fd(cmd);
+    else
+    {
+        if(cmd)
+        {
+            if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+            {
+                ft_ft_free(path);
+                free_commands(*args);
+                *args = NULL;
+                return;
+            }
+            ft_pipe(args, path, myenv, myenv_ex, env);
+        }
+    }
+    ft_ft_free(path);
     free_commands(*args);
     *args = NULL;
 }
