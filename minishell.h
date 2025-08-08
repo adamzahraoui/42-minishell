@@ -16,6 +16,13 @@
 #include <sys/types.h>
 
 
+typedef	struct s_free
+{
+	void	*ptr;
+	struct s_free *next;
+} t_free;
+
+
 typedef struct s_myenv
 {
 	char *data;
@@ -188,7 +195,7 @@ void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void ft_pwd(t_myenv **myenv);
 void ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
 void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
-void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv);
+void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd);
 void ft_echo(t_cmd *cmd, t_myenv **myenv);
 
 void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, t_myenv_ex **env_ex, char **or_env);

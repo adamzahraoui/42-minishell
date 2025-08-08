@@ -21,12 +21,11 @@ void	ft_echo(t_cmd *cmd, t_myenv **myenv)
 {
 	int	i;
 	int	newline;
-    t_myenv *env;
     int j;
 
 	i = 1;
-    env = *myenv;
 	newline = 1;
+	(void)myenv;
 	while (cmd->args[i] && is_valid_n_flag(cmd->args[i]))
 	{
 		newline = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_a.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/04 16:21:39 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:47:02 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
     else if(ft_strncmp_nv(cmd->args[0], "env", ft_strlen("env")) == 0)
         print_env(myenv);
     else if(ft_strncmp_nv(cmd->args[0], "exit", ft_strlen("exit")) == 0)
-        ft_exit(&myenv_ex, &myenv);
+        ft_exit(&myenv_ex, &myenv, cmd);
     else
         return 0;
     return (1);
