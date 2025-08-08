@@ -69,9 +69,6 @@ typedef struct s_token
 	struct s_token *next;
 } t_token;
 
-// cat << ll
-
-
 typedef enum e_redir_type
 {
 	REDIR_IN,
@@ -228,6 +225,10 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
 int ft_strcmp(const char *s1, const char *s2);
 int	ft_strncmp_nv(const char *s1, const char *s2, size_t n);
 
+
+void    add_back(t_myenv_ex **myenv_ex, char *str);
+
+
 typedef struct s_heredoc_params
 {
 	const char	*clean_delimiter;
@@ -275,8 +276,6 @@ int	process_variable_extraction(t_var_extraction_params *params, t_expand_contex
 int	process_token_expansion(t_token_expansion_params *params, t_expand_context *ctx);
 t_token	*handle_failed_expansion(t_failed_expansion_params *params);
 int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx);
-
-
 
 int dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type, t_expand_context *ctx);
 int handle_redirections(t_cmd *cmd, t_token *next, t_token_type type);

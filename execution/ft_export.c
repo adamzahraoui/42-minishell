@@ -112,18 +112,32 @@ char    *check_val(char *str)
     return(ft_strjoin(first, cupy));
 }
 
-int check_arg_export(t_myenv **myenv, t_cmd **str, int i)
+int check_arg_export(t_myenv **myenv, t_cmd *str, int i)
 {
     t_cmd *cmd;
     int j;
+    int equals_index;
 
     j = 0;
-    cmd = *str;
-    if((cmd->args[i][0] >= 'a' && cmd->args[i][0] <= 'z') || (cmd->args[i][0] >= 'A' && cmd->args[i][0] <= 'Z') || (cmd->args[i][0] == '_'))
+    cmd = str;
+    equals_index = -1;
+    while (cmd->args[i][j])
     {
-        while(cmd->args[i][j])
+        if (cmd->args[i][j] == '=')
         {
-            if(!ft_isalnum(cmd->args[i][j]) && cmd->args[i][j] != '_')
+            equals_index = j;
+            break;
+        }
+        j++;
+    }
+    j = 0;
+    if ((cmd->args[i][0] >= 'a' && cmd->args[i][0] <= 'z') ||
+        (cmd->args[i][0] >= 'A' && cmd->args[i][0] <= 'Z') ||
+        (cmd->args[i][0] == '_'))
+    {
+        while (cmd->args[i][j] && (equals_index == -1 || j < equals_index))
+        {
+            if (!ft_isalnum(cmd->args[i][j]) && cmd->args[i][j] != '_')
             {
                 print_error_ex(myenv, cmd->args[i]);
                 return (0);
@@ -151,7 +165,7 @@ void    ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **str)
     {
         while (cmd->args[i])
         {
-            if(check_arg_export(myenv, str, i) == 1)
+            if(check_arg_export(myenv, *str, i) == 1)
             {
                 set_env_doubl(myenv, cmd->args[i]);
                 egual = check_val(cmd->args[i]); 

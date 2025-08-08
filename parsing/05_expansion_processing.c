@@ -33,12 +33,7 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 	int						len;
 	int						process_result;
 
-	if (token[*i] == '$' && ft_isdigit(token[*i + 1]))
-	{
-		(*i) += 1;
-		result[0] = '\0';
-		return (0);
-	}
+
 	len = 0;
 	params.token = token;
 	params.i = i;

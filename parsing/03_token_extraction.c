@@ -80,7 +80,7 @@ int	extract_var_name(const char *token, int *i, char *var_name)
 
 	j = 0;
 	(*i)++;
-	while (token[*i] && (ft_isalnum(token[*i]) || token[*i] == '_') && j < 255)
+	while (token[*i] && (ft_isalnum(token[*i]) || token[*i] == '_' || token[*i] == '?') && j < 255)
 		var_name[j++] = token[(*i)++];
 	var_name[j] = '\0';
 	(*i)--;

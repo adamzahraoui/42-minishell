@@ -84,6 +84,9 @@ void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **t
     if (*tokens)
     {
         ctx->env = convert_myenv_to_env(*myenv);
+        // int i = 0;
+        // while (ctx->env[i])
+        //     printf("%s\n", ctx->env[i++]);
         if (!validate_syntax(*tokens))
         {
             free_tokens(*tokens);
@@ -113,6 +116,7 @@ int	main(int argc, char **argv, char **env)
     myenv_ex = NULL;
     ctx.vars = NULL;
     declare_env(&myenv, &myenv_ex, env);
+    add_back_env(&myenv, "?=0");
     myenv->i = 0;
     (void)argc;
     (void)argv;
@@ -125,6 +129,7 @@ int	main(int argc, char **argv, char **env)
         handle_command(input, &ctx, &cmd, &tokens, &myenv);
         if (cmd != NULL)
             cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
+        
     }
     clear_history();
     return (0);

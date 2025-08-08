@@ -37,12 +37,6 @@ void	ft_echo(t_cmd *cmd, t_myenv **myenv)
         j = 0;
         while(cmd->args[i][j])
         {
-            if(ft_strncmp(&cmd->args[i][j], "$?", 2) == 0)
-            {
-                printf("%d", env->i);
-                j += 2;
-				continue;
-            }
             printf("%c", cmd->args[i][j]);
             j++;
         } 
