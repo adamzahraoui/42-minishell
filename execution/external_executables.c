@@ -40,6 +40,8 @@ void    external_executables(t_cmd **cmd, char **path, char **envp, t_myenv **my
     void (*old_sigint)(int);
     void (*old_sigquit)(int);
 
+    if (!(*cmd)->args[0])
+        return ;
     if (ft_strcmp((*cmd)->args[0], "echo") == 0)
         return ;
     old_sigint = signal(SIGINT, SIG_IGN);

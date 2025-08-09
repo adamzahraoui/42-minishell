@@ -65,19 +65,21 @@ int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
     t_cmd *cmd;
 
     cmd = *str;
-    if(ft_strncmp_nv(cmd->args[0], "cd", ft_strlen("cd")) == 0)
+    if (!cmd->args[0])
+        return (0);
+    if(ft_strncmp_nv(cmd->args[0], "cd", ft_strlen("cd")) == 0 && ft_strlen(cmd->args[0]) == 2)
         ft_cd(str, &myenv, &myenv_ex);
-    else if(ft_strncmp_nv(cmd->args[0], "pwd", ft_strlen("pwd")) == 0)
+    else if(ft_strncmp_nv(cmd->args[0], "pwd", ft_strlen("pwd")) == 0 && ft_strlen(cmd->args[0]) == 3)
         ft_pwd(&myenv);
-    else if(ft_strncmp_nv(cmd->args[0], "echo", ft_strlen("echo")) == 0)
+    else if(ft_strncmp_nv(cmd->args[0], "echo", ft_strlen("echo")) == 0 && ft_strlen(cmd->args[0]) == 4)
         ft_echo(cmd, &myenv);
-    else if(ft_strncmp_nv(cmd->args[0], "export", ft_strlen("export")) == 0)
+    else if(ft_strncmp_nv(cmd->args[0], "export", ft_strlen("export")) == 0 && ft_strlen(cmd->args[0]) == 6)
         ft_export(&myenv_ex, &myenv, str);
-    else if(ft_strncmp_nv(cmd->args[0], "unset", ft_strlen("unset")) == 0)
+    else if(ft_strncmp_nv(cmd->args[0], "unset", ft_strlen("unset")) == 0 && ft_strlen(cmd->args[0]) == 5)
         ft_unset(&myenv_ex, &myenv, cmd->args[1]);
-    else if(ft_strncmp_nv(cmd->args[0], "env", ft_strlen("env")) == 0)
+    else if(ft_strncmp_nv(cmd->args[0], "env", ft_strlen("env")) == 0 && ft_strlen(cmd->args[0]) == 3)
         print_env(myenv);
-    else if(ft_strncmp_nv(cmd->args[0], "exit", ft_strlen("exit")) == 0)
+    else if(ft_strncmp_nv(cmd->args[0], "exit", ft_strlen("exit")) == 0 && ft_strlen(cmd->args[0]) == 4)
         ft_exit(&myenv_ex, &myenv, cmd);
     else
         return 0;

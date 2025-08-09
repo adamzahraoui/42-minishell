@@ -68,12 +68,9 @@ int validate_syntax(t_token *tokens)
     return 1;
 }
 
-
-
 void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **tokens, t_myenv **myenv)
 {
     char *trimmed;
-    // char **current_env;
     (void)myenv;
 
     trimmed = ft_strtrim(input, " \t");
@@ -84,9 +81,6 @@ void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **t
     if (*tokens)
     {
         ctx->env = convert_myenv_to_env(*myenv);
-        // int i = 0;
-        // while (ctx->env[i])
-        //     printf("%s\n", ctx->env[i++]);
         if (!validate_syntax(*tokens))
         {
             free_tokens(*tokens);

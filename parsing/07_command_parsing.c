@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
+void process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 {
-	t_cmd	*cur;
+	t_cmd *cur;
 
 	*cmd = parse_commands(tokens, vars, env);
 	if (*cmd)
@@ -22,13 +22,18 @@ void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 		cur = *cmd;
 		while (cur)
 		{
-			if (validate_command(cur, cmd))
-				return ;
+			if ((cur->arg_count == 0 && !cur->redirections)
+				|| (cur->args[0] && cur->args[0][0] == '\0'))
+			{
+				printf("minishell: : command not found\n");
+				free_commands(*cmd);
+				*cmd = NULL;
+				return;
+			}
 			cur = cur->next;
 		}
 	}
 }
-
 t_cmd	*parse_commands(t_token **tokens, t_var *vars, char **env)
 {
 	t_cmd	*head;
@@ -82,25 +87,6 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
 	}
 	*tokens = token_ptr;
 	return (cmd);
-}
-
-int	validate_command(t_cmd *cur, t_cmd **cmd)
-{
-	if (cur->arg_count > 0 && (!cur->args[0] || cur->args[0][0] == '\0'))
-	{
-		printf("bash: : command not found\n");
-		free_commands(*cmd);
-		*cmd = NULL;
-		return (1);
-	}
-	if (cur->arg_count == 0 && cur->redirections)
-	{
-		printf("minishell: syntax error near unexpected token\n");
-		free_commands(*cmd);
-		*cmd = NULL;
-		return (1);
-	}
-	return (0);
 }
 
 int	handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens,
