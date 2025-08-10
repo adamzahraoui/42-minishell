@@ -29,6 +29,11 @@ t_token	*tokenize(char *line)
 		if (!line[i])
 			break ;
 		token_value = get_next_token(line, &i);
+		if (!token_value)
+		{
+			free_tokens(head);
+			return (NULL);
+		}
 		if (token_value)
 		{
 			if (!add_token_to_list(&head, &current, token_value))
@@ -51,6 +56,8 @@ char	*get_next_token(char *line, int *i)
 	if (!token)
 		return (NULL);
 	token = process_token_content(line, i, token, &st);
+	if (!token)
+		return (NULL);
 	if (!*token)
 		return (free(token), NULL);
 	return (token);
@@ -72,6 +79,8 @@ char	*process_token_content(char *line, int *i, char *token,
 	{
 		tmp = token;
 		token = process_token_part(line, i, token, st);
+		if (!token)
+			return (NULL);
 		if (token == tmp)
 			break ;
 	}
@@ -114,12 +123,15 @@ char	*process_token_part(char *line, int *i, char *token, t_token_state *st)
 		st->in_single = !st->in_single;
 	else if (line[*i] == '"' && !st->in_single)
 		st->in_double = !st->in_double;
-	if (!st->in_single && !st->in_double
-		&& (line[*i] == '<' || line[*i] == '>' || line[*i] == '|'))
+	if (!st->in_single && !st->in_double && (line[*i] == '<' || line[*i] == '>'
+			|| line[*i] == '|'))
 		return (token);
 	part = get_next_token_part(line, i);
 	if (!part)
-		return (token);
+	{
+		free(token);
+		return (NULL);
+	}
 	tmp = ft_strjoin(token, part);
 	free(token);
 	free(part);

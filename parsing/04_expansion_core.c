@@ -24,8 +24,8 @@ void	expand_all_tokens(t_token **tokens, t_expand_context *ctx)
 	while (tok)
 	{
 		next = tok->next;
-		if (tok->type == TOKEN_WORD && tok->value
-			&& !(prev && prev->type == TOKEN_HEREDOC))
+		if (tok->type == TOKEN_WORD && tok->value && !(prev
+				&& prev->type == TOKEN_HEREDOC))
 		{
 			params.tokens = tokens;
 			params.tok = &tok;
@@ -58,8 +58,8 @@ int	process_token_expansion(t_token_expansion_params *params,
 	expanded = expand_token((*params->tok)->value, ctx->vars, ctx->env);
 	if (expanded && (*expanded || was_quoted))
 	{
-		*params->tok = handle_successful_expansion(*params->tok,
-				expanded, params->next, was_quoted);
+		*params->tok = handle_successful_expansion(*params->tok, expanded,
+				params->next, was_quoted);
 		*params->prev = *params->tok;
 		return (0);
 	}
@@ -112,10 +112,7 @@ char	*expand_token(char *token, t_var *vars, char **env)
 	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
 		process_token_character(token, &st, result, &ctx);
 	result[st.j] = '\0';
-	if (token[0] == '"' || token[0] == '\'')
-		final_result = ft_strdup(result);
-	else
-		final_result = remove_quotes(result);
+	final_result = remove_quotes(result);
 	free(result);
 	return (final_result);
 }

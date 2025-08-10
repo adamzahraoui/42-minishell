@@ -81,12 +81,13 @@ int	extract_var_name(const char *token, int *i, char *var_name)
 	j = 0;
 	(*i)++;
 	if (token[*i] == '?')
-    {
-        var_name[j++] = '?';
-        var_name[j] = '\0';
-        return (j);
-    }
-	while (token[*i] && (ft_isalnum(token[*i]) || token[*i] == '_' || token[*i] == '?') && j < 255)
+	{
+		var_name[j++] = '?';
+		var_name[j] = '\0';
+		return (j);
+	}
+	while (token[*i] && (ft_isalnum(token[*i]) || token[*i] == '_'
+			|| token[*i] == '?') && j < 255)
 		var_name[j++] = token[(*i)++];
 	var_name[j] = '\0';
 	(*i)--;
@@ -96,21 +97,27 @@ int	extract_var_name(const char *token, int *i, char *var_name)
 char	*remove_quotes(const char *str)
 {
 	char	*result;
+	int		i;
+	int		j;
 	int		len;
 
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	if (len >= 2
-		&& ((str[0] == '"' && str[len - 1] == '"')
-			|| (str[0] == '\'' && str[len - 1] == '\'')))
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (str[i])
 	{
-		result = malloc(len - 1);
-		if (!result)
-			return (NULL);
-		ft_strncpy(result, str + 1, len - 2);
-		result[len - 2] = '\0';
-		return (result);
+		if (str[i] != '\'' && str[i] != '"')
+		{
+			result[j] = str[i];
+			j++;
+		}
+		i++;
 	}
-	return (ft_strdup(str));
+	result[j] = '\0';
+	return (result);
 }

@@ -58,3 +58,59 @@ int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
 	free(line);
 	return (0);
 }
+
+char	*remove_all_quotes(const char *str)
+{
+	char	*result;
+	int		i;
+	int		j;
+	int		len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+		{
+			result[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+int	handle_heredoc(const char *delimiter, t_expand_context *ctx)
+{
+	char	*clean_delimiter;
+	int		fds[2];
+	pid_t	pid;
+	int		quoted;
+
+	if (heredoc_setup(delimiter, &clean_delimiter, &quoted) == -1)
+		return (-1);
+	pid = heredoc_pipe_and_fork(fds, clean_delimiter);
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+		heredoc_child(fds, clean_delimiter, quoted, ctx);
+	return (heredoc_parent(pid, fds, clean_delimiter));
+}
+
+int	is_quoted(const char *str)
+{
+	int	len;
+
+	if (!str)
+		return (0);
+	len = strlen(str);
+	return (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
+			|| (str[0] == '\'' && str[len - 1] == '\'')));
+}

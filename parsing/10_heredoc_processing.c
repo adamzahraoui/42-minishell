@@ -16,7 +16,7 @@ int	heredoc_setup(const char *delimiter, char **clean_delimiter, int *quoted)
 {
 	if (!delimiter)
 		return (-1);
-	*clean_delimiter = remove_quotes(delimiter);
+	*clean_delimiter = remove_all_quotes(delimiter);
 	if (!*clean_delimiter)
 		return (-1);
 	*quoted = is_quoted(delimiter);
@@ -45,8 +45,8 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 	return (pid);
 }
 
-void	heredoc_child(int *fds, char *clean_delimiter,
-	int quoted, t_expand_context *ctx)
+void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
+		t_expand_context *ctx)
 {
 	t_heredoc_loop_params	loop_params;
 	int						lineno;

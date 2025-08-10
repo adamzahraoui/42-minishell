@@ -125,6 +125,6 @@ int	main(int argc, char **argv, char **env)
             cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
         
     }
-    clear_history();
+    rl_clear_history();
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:12 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 01:34:59 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 14:28:43 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,71 +26,72 @@ int     ft_com(char *str, char *dest)
     return (0);
 }
 
-void    ft_unset_env(t_myenv **myenv, char *str)
+void ft_unset_env(t_myenv **myenv, t_cmd *cmd)
 {
-    t_myenv      *list;
-    t_myenv      *crr;
-    t_myenv      *p;
+    int         i;
+    t_myenv    *cur;
+    t_myenv    *prev;
+    t_myenv    *tmp;
 
-    list = *myenv;
-    p = list;
-    if(ft_com(list->data, str) == 1)
+    i = 0;
+    while (cmd->args[++i])
     {
-        *myenv = list->next;
-        crr = list;
-        list = list->next;
-        free(crr->data);
-        free(crr);
-    }
-    while(list)
-    {
-        if(ft_com(list->data, str) == 1)
+        cur = *myenv;
+        prev = NULL;
+        while (cur)
         {
-            p->next = list->next;
-            crr = list;
-            list = list->next;
-            free(crr->data);
-            free(crr);
-        }
-        else
-        {
-            p = list;
-            list = list->next;
+            if (ft_com(cur->data, cmd->args[i]) == 1)
+            {
+                tmp = cur;
+                if (prev)
+                    prev->next = cur->next;
+                else
+                    *myenv = cur->next;
+                cur = cur->next;
+                free(tmp->data);
+                free(tmp);
+            }
+            else
+            {
+                prev = cur;
+                cur = cur->next;
+            }
         }
     }
+    set_status(myenv, NULL, 0);
 }
 
-void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str)
+void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 {
-    t_myenv_ex      *list_ex;
-    t_myenv_ex      *crr;
-    t_myenv_ex      *p;
+    int         i;
+    t_myenv_ex  *cur;
+    t_myenv_ex  *prev;
+    t_myenv_ex  *tmp;
 
-    list_ex = *myenv_ex;
-    p = list_ex;
-    ft_unset_env(myenv, str);
-    if(ft_com(list_ex->data, str) == 1)
+    ft_unset_env(myenv, cmd);
+    i = 0;
+    while (cmd->args[++i])
     {
-        *myenv_ex = list_ex->next;
-        crr = list_ex;
-        list_ex = list_ex->next;
-        free(crr->data);
-        free(crr);
-    }
-    while(list_ex)
-    {
-        if(ft_com(list_ex->data, str) == 1)
+        cur = *myenv_ex;
+        prev = NULL;
+        while (cur)
         {
-            p->next = list_ex->next;
-            crr = list_ex;
-            list_ex = list_ex->next;
-            free(crr->data);
-            free(crr);
-        }
-        else
-        {
-            p = list_ex;
-            list_ex = list_ex->next;
+            if (ft_com(cur->data, cmd->args[i]) == 1)
+            {
+                tmp = cur;
+                if (prev)
+                    prev->next = cur->next;
+                else
+                    *myenv_ex = cur->next;
+                cur = cur->next;
+                free(tmp->data);
+                free(tmp);
+            }
+            else
+            {
+                prev = cur;
+                cur = cur->next;
+            }
         }
     }
     set_status(myenv, NULL, 0);

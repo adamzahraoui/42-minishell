@@ -80,9 +80,9 @@ void	add_argument(t_cmd *cmd, char *arg)
 
 void	free_commands(t_cmd *cmds)
 {
-	t_cmd	*tmp;
-	t_redirection *redir_tmp;
-	int		i;
+	t_redirection	*redir_tmp;
+	t_cmd			*tmp;
+	int				i;
 
 	while (cmds)
 	{
@@ -91,7 +91,7 @@ void	free_commands(t_cmd *cmds)
 		i = 0;
 		while (i < tmp->arg_count)
 			free(tmp->args[i++]);
-		free(tmp->args);		
+		free(tmp->args);
 		while (tmp->redirections)
 		{
 			redir_tmp = tmp->redirections;
@@ -110,7 +110,6 @@ void	free_commands(t_cmd *cmds)
 			unlink(tmp->heredoc_file);
 			free(tmp->heredoc_file);
 		}
-		
 		free(tmp);
 	}
 }

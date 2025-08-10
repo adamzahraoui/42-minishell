@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/08 18:47:02 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 14:09:26 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int    check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
     else if(ft_strncmp_nv(cmd->args[0], "export", ft_strlen("export")) == 0 && ft_strlen(cmd->args[0]) == 6)
         ft_export(&myenv_ex, &myenv, str);
     else if(ft_strncmp_nv(cmd->args[0], "unset", ft_strlen("unset")) == 0 && ft_strlen(cmd->args[0]) == 5)
-        ft_unset(&myenv_ex, &myenv, cmd->args[1]);
+        ft_unset(&myenv_ex, &myenv, cmd);
     else if(ft_strncmp_nv(cmd->args[0], "env", ft_strlen("env")) == 0 && ft_strlen(cmd->args[0]) == 3)
         print_env(myenv);
     else if(ft_strncmp_nv(cmd->args[0], "exit", ft_strlen("exit")) == 0 && ft_strlen(cmd->args[0]) == 4)

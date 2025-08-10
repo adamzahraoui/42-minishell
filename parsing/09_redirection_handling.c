@@ -23,10 +23,8 @@ int	dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type,
 	}
 	else if (type == TOKEN_HEREDOC)
 	{
-
 		if (!handle_heredoc_redirection(cmd, next, ctx))
 			return (0);
-
 	}
 	return (1);
 }
@@ -75,7 +73,6 @@ int	handle_redirections(t_cmd *cmd, t_token *next, t_token_type type)
 		redir_type = REDIR_APPEND;
 	else
 		return (0);
-
 	redir = create_redirection(redir_type, next->value);
 	if (!redir)
 		return (0);
@@ -85,48 +82,20 @@ int	handle_redirections(t_cmd *cmd, t_token *next, t_token_type type)
 
 int	handle_heredoc_redirection(t_cmd *cmd, t_token *next, t_expand_context *ctx)
 {
-	t_redirection *redir;
-	int	fd;
+	t_redirection	*redir;
+	int				fd;
 
 	redir = create_redirection(REDIR_HEREDOC, next->value);
-	if(!redir)
-		return(0);
+	if (!redir)
+		return (0);
 	fd = handle_heredoc(next->value, ctx);
-	if(fd < 0)
+	if (fd < 0)
 	{
-		free(redir-> filename_or_delim);
+		free(redir->filename_or_delim);
 		free(redir);
 		return (0);
 	}
 	redir->fd = fd;
 	add_redirection(cmd, redir);
 	return (1);
-}
-
-int	handle_heredoc(const char *delimiter, t_expand_context *ctx)
-{
-	char				*clean_delimiter;
-	int					fds[2];
-	pid_t				pid;
-	int					quoted;
-
-	if (heredoc_setup(delimiter, &clean_delimiter, &quoted) == -1)
-		return (-1);
-	pid = heredoc_pipe_and_fork(fds, clean_delimiter);
-	if (pid == -1)
-		return (-1);
-	if (pid == 0)
-		heredoc_child(fds, clean_delimiter, quoted, ctx);
-	return (heredoc_parent(pid, fds, clean_delimiter));
-}
-
-int	is_quoted(const char *str)
-{
-	int	len;
-
-	if (!str)
-		return (0);
-	len = strlen(str);
-	return (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
-			|| (str[0] == '\'' && str[len - 1] == '\'')));
 }

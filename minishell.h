@@ -194,7 +194,7 @@ int create_and_link_token(t_token *token, char *str, int split_pos);
 void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void ft_pwd(t_myenv **myenv);
 void ft_export(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd **cmd);
-void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str);
+void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *str);
 void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd);
 void ft_echo(t_cmd *cmd, t_myenv **myenv);
 
@@ -232,6 +232,7 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
 int ft_strcmp(const char *s1, const char *s2);
 int	ft_strncmp_nv(const char *s1, const char *s2, size_t n);
 
+char    *check_cmd(char **path, char *cmd);
 
 void    add_back(t_myenv_ex **myenv_ex, char *str);
 
@@ -292,5 +293,8 @@ void add_redirection(t_cmd *cmd, t_redirection *redir);
 int redirection(t_cmd *cmd);
 void restor_fd(t_cmd *cmd);
 
+
+char *remove_all_quotes(const char *str);
+char	*process_and_write_line(char *line, t_heredoc_params *params, t_expand_context *ctx);
 
 #endif

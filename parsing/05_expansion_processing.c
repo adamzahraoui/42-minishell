@@ -33,7 +33,6 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 	int						len;
 	int						process_result;
 
-
 	len = 0;
 	params.token = token;
 	params.i = i;
@@ -116,21 +115,3 @@ int	split_token_string(t_token **token_ptr)
 	}
 	return (0);
 }
-
-
-
-// void herdoc(stuct herdoc, t_token cmd)
-// {
-// 	char *line;
-// 	while (cmd)
-// 	{
-// 		if (cmd->type == herdoc)
-// 		{
-// 			line = redline("herdoc> ");
-// 			if (strcmp(line, clean_delemeter) == 0 && cmd->next->value == herdoc)
-// 				contune;
-			
-// 		}
-// 		cmd = cmd->next;
-// 	}
-// }
