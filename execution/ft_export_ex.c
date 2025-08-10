@@ -12,62 +12,60 @@
 
 #include "../minishell.h"
 
-int     ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 
 	i = 0;
 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
 		i++;
-    if (s1[i] == '=' && s2[i] == '\0')
-        return (0);
-    else
-	    return (s1[i] - s2[i]);
+	if (s1[i] == '=' && s2[i] == '\0')
+		return (0);
+	else
+		return (s1[i] - s2[i]);
 }
 
-int check_exist(char *str, char *dest)
+int	check_exist(char *str, char *dest)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if(!str || !dest)
-        return (0);
-    while (str[i] && dest[i] && str[i] != '=' && dest[i] != '=')
-    {
-        if (str[i] != dest[i])
-            return 0;
-        i++;
-    }
-
-    if ((str[i] == '=' && dest[i] == '=') ||
-        (str[i] == '=' && dest[i] == '\0') ||
-        (str[i] == '\0' && dest[i] == '=') ||
-        (str[i] == '\0' && dest[i] == '\0'))
-        return 1;
-    return (0);
+	i = 0;
+	if (!str || !dest)
+		return (0);
+	while (str[i] && dest[i] && str[i] != '=' && dest[i] != '=')
+	{
+		if (str[i] != dest[i])
+			return (0);
+		i++;
+	}
+	if ((str[i] == '=' && dest[i] == '=') || (str[i] == '=' && dest[i] == '\0')
+		|| (str[i] == '\0' && dest[i] == '=') || (str[i] == '\0'
+			&& dest[i] == '\0'))
+		return (1);
+	return (0);
 }
 
-int check_double(t_myenv_ex **myenv_ex, char *str)
+int	check_double(t_myenv_ex **myenv_ex, char *str)
 {
-    t_myenv_ex *list;
-    char *p;
+	t_myenv_ex	*list;
+	char		*p;
 
-    list = *myenv_ex;
-    while (list)
-    {
-        if(ft_strcmp(list->data, str) == 0)
-            return 0;
-        if (check_exist(list->data, str) == 1)
-        {
-            p = check_val(str);
-            if (p)
-            {
-                free(list->data);
-                list->data = p;
-                return (0);
-            }
-        }
-        list = list->next;
-    }
-    return (1);
+	list = *myenv_ex;
+	while (list)
+	{
+		if (ft_strcmp(list->data, str) == 0)
+			return (0);
+		if (check_exist(list->data, str) == 1)
+		{
+			p = check_val(str);
+			if (p)
+			{
+				free(list->data);
+				list->data = p;
+				return (0);
+			}
+		}
+		list = list->next;
+	}
+	return (1);
 }
