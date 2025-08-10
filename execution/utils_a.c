@@ -110,7 +110,6 @@ int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 	cmd = *str;
 	if (!cmd->args[0])
 		return (0);
-
 	if (is_builtin_cmd(cmd->args[0]))
 	{
 		if (cmd->redirections)
@@ -120,6 +119,5 @@ int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 			restor_fd(cmd);
 		return (1);
 	}
-
 	return (0);
 }

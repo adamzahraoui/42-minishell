@@ -73,13 +73,13 @@ static void	print_export_data(char *data)
 
 void	print_export(t_myenv_ex **myenv_ex)
 {
-	char **split;
+	char		**split;
 	t_myenv_ex	*pr;
 
 	pr = *myenv_ex;
 	while (pr)
 	{
-		split =ft_split(pr->data, '=');
+		split = ft_split(pr->data, '=');
 		if (ft_strcmp(split[0], "$?"))
 		{
 			printf("declare -x ");

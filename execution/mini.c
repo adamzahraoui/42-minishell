@@ -77,16 +77,15 @@ void	cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv,
 	cmd = *args;
 	cmd->saved_stdin = -1;
 	cmd->saved_stdout = -1;
-	
 	if (cmd)
 	{
-			if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
-			{
-				*args = NULL;
-				return ;
-			}
-			else
-				ft_pipe(args, path, myenv, myenv_ex, env);
+		if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+		{
+			*args = NULL;
+			return ;
+		}
+		else
+			ft_pipe(args, path, myenv, myenv_ex, env);
 	}
 	else if (cmd->redirections)
 	{
