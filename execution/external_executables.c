@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_executables.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 05:10:57 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/04 16:17:35 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:06:40 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,43 @@ void    external_executables(t_cmd **cmd, char **path, char **envp, t_myenv **my
         signal(SIGQUIT, SIG_DFL);
         char *exec_path;
         if (ft_strchr((*cmd)->args[0], '/'))
+        {
             exec_path = (*cmd)->args[0];
+            if (access(exec_path, F_OK) == -1)
+            {
+                ft_putstr_fd("minishell: ", 2);
+                ft_putstr_fd((*cmd)->args[0], 2);
+                ft_putstr_fd(": No such file or directory\n", 2);
+                exit(127);
+            }
+            if (access(exec_path, X_OK) == -1)
+            {
+                ft_putstr_fd("minishell: ", 2);
+                ft_putstr_fd((*cmd)->args[0], 2);
+                ft_putstr_fd(": Permission denied\n", 2);
+                exit(126);
+            }
+        }
         else
+        {
             exec_path = check_cmd(path, (*cmd)->args[0]);
+        }
         if (!exec_path)
         {
-            printf("miniahell: %s: command not found\n", (*cmd)->args[0]);
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd((*cmd)->args[0], 2);
+            ft_putstr_fd(": command not found\n", 2);
             exit(127);
         }
         execve(exec_path, (*cmd)->args, envp);
-        perror("execve");
+        if (errno == EACCES)
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd((*cmd)->args[0], 2);
+            ft_putstr_fd(": Permission denied\n", 2);
+            exit(126);
+        }
+        ft_putstr_fd("minishell: execve error\n", 2);
         exit(EXIT_FAILURE);
     }
     else if (pid > 0)

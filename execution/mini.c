@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/04 16:18:00 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/10 01:44:12 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,16 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
             if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
             {
                 restor_fd(cmd);
-                ft_ft_free(path);
-                free_commands(*args);
+                // ft_ft_free(path);
+                // free_commands(*args);
                 *args = NULL;
                 return;
             }
             external_executables(args, path, env, myenv);
+        }
+        else
+        {
+            set_status(myenv, NULL, 1);
         }
         restor_fd(cmd);
     }
@@ -98,15 +102,13 @@ void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv
         {
             if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
             {
-                ft_ft_free(path);
-                free_commands(*args);
+                // ft_ft_free(path);
+                // free_commands(*args);
                 *args = NULL;
                 return;
             }
             ft_pipe(args, path, myenv, myenv_ex, env);
         }
     }
-    ft_ft_free(path);
-    free_commands(*args);
     *args = NULL;
 }

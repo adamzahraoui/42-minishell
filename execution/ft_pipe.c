@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/04 16:16:08 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/10 02:06:05 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 void error(char *arg, char *error, int exit_code)
 {
-    ft_putstr_fd("minshell: ", 2);
+    ft_putstr_fd("minishell: ", 2);
     ft_putstr_fd(arg, 2);
     ft_putstr_fd(error, 2);
-    ft_putstr_fd("\n", 2);
     exit(exit_code);
 }
 
@@ -33,18 +32,24 @@ void exec_extranal_cmd(t_cmd *arg, char **path, char **or_env)
         stat(exec_path, &stats);
         if (S_ISDIR(stats.st_mode))
             error(arg->args[0], ": Is a directory\n", 126);
+        if (access(exec_path, X_OK) == -1)
+            error(arg->args[0], ": Permission denied\n", 126);
     }
-    exec_path = check_cmd(path, arg->args[0]);
-    if (!exec_path)
-        error(arg->args[0], ": command not found", 127);
+    else
+    {
+        exec_path = check_cmd(path, arg->args[0]);
+        if (!exec_path)
+            error(arg->args[0], ": command not found\n", 127);
+    }
     execve(exec_path, arg->args, or_env);
-    error(arg->args[0], ": Permission denied\n", 126);
+    if (errno == EACCES)
+        error(arg->args[0], ": Permission denied\n", 126);
 }
 
 void exec_all(t_cmd *cmd, char **path, t_myenv *my_env, t_myenv_ex *env_ex, char **or_env)
 {
-    if (cmd->redirections)
-        redirection(cmd);
+    if (cmd->redirections && redirection(cmd) == 1)
+        exit(1);
     if (check_builtin_cmd(&cmd, my_env, env_ex))
         exit(my_env->i);
     else

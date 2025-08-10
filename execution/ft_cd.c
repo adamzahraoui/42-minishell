@@ -51,6 +51,9 @@ void ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
         }
         if (chdir(&path[0]) == -1)
         {
+            ft_putstr_fd("minishell: cd: ", 2);
+            ft_putstr_fd(&path[0], 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
             set_status(myenv, "cd", 1);
             free(temp);
             return;

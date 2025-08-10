@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:12 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/11 04:03:09 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/10 01:34:59 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,5 @@ void    ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, char *str)
             list_ex = list_ex->next;
         }
     }
+    set_status(myenv, NULL, 0);
 }

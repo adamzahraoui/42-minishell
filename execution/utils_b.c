@@ -20,7 +20,7 @@ void    set_status(t_myenv **myenv, char *str, int status)
 	if(str != NULL)
     	perror(str);
     env->i = status;
-	check_double_env(myenv, ft_strjoin("?=", ft_itoa((*myenv)->i)));
+	check_double_env(myenv, ft_strjoin("?=", ft_itoa(status)));
 }
 
 int	ft_strncmp_nv(const char *s1, const char *s2, size_t n)
