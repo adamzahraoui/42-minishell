@@ -12,14 +12,15 @@ SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c
     libft/ft_lstnew_bonus.c libft/ft_lstadd_front_bonus.c libft/ft_lstsize_bonus.c \
     libft/ft_lstlast_bonus.c libft/ft_lstadd_back_bonus.c libft/ft_lstdelone_bonus.c \
     libft/ft_lstclear_bonus.c libft/ft_lstiter_bonus.c libft/ft_lstmap_bonus.c \
-    execution/mini.c execution/utils_a.c execution/ft_env.c execution/ft_cd.c execution/ft_export.c \
+    execution/mini.c execution/utils_a.c execution/ft_env.c execution/ft_cd.c execution/ft_export_a.c \
     execution/ft_export_ex.c execution/ft_exit.c execution/ft_pwd.c execution/ft_unset.c \
     execution/external_executables.c execution/exit_error.c execution/utils_b.c \
     parsing/01_tokenizer_core.c parsing/02_token_utils.c parsing/03_token_extraction.c \
     parsing/04_expansion_core.c parsing/05_expansion_processing.c parsing/06_environment_utils.c \
     parsing/07_command_parsing.c parsing/08_command_management.c parsing/09_redirection_handling.c \
     parsing/10_heredoc_processing.c parsing/11_builtin_commands.c \
-    minishell.c execution/ft_pipe.c execution/ft_echo.c execution/ft_redirection.c
+    minishell.c execution/ft_pipe.c execution/ft_echo.c execution/ft_redirection.c execution/utils_c.c execution/ft_export_b.c \
+    execution/utils_d.c
 
 OBJ= $(SRC:.c=.o)
 NAME= minishell

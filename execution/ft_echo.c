@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:39:55 by akira             #+#    #+#             */
-/*   Updated: 2025/08/10 16:44:40 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 18:50:41 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,14 @@ void	ft_echo(t_cmd *cmd, t_myenv **myenv)
 		newline = 0;
 		i++;
 	}
-	while (cmd->args[i++])
+	while (cmd->args[i])
 	{
 		j = 0;
 		while (cmd->args[i][j])
-		{
-			printf("%c", cmd->args[i][j]);
-			j++;
-		}
+			printf("%c", cmd->args[i][j++]);
 		if (cmd->args[i + 1])
 			printf(" ");
+		i++;
 	}
 	if (newline)
 		printf("\n");

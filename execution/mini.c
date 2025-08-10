@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 01:44:12 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 23:55:39 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,38 +77,26 @@ void	cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv,
 	cmd = *args;
 	cmd->saved_stdin = -1;
 	cmd->saved_stdout = -1;
-	if (cmd && cmd->redirections)
+	
+	if (cmd)
 	{
-		if (redirection(cmd) == 0)
-		{
-			if (check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+			if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
 			{
-				restor_fd(cmd);
-				// ft_ft_free(path);
-				// free_commands(*args);
 				*args = NULL;
 				return ;
 			}
-			external_executables(args, path, env, myenv);
+			else
+				ft_pipe(args, path, myenv, myenv_ex, env);
+	}
+	else if (cmd->redirections)
+	{
+		if (redirection(cmd) == 0)
+		{
+			restor_fd(cmd);
 		}
 		else
 		{
 			set_status(myenv, NULL, 1);
-		}
-		restor_fd(cmd);
-	}
-	else
-	{
-		if (cmd)
-		{
-			if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
-			{
-				// ft_ft_free(path);
-				// free_commands(*args);
-				*args = NULL;
-				return ;
-			}
-			ft_pipe(args, path, myenv, myenv_ex, env);
 		}
 	}
 	*args = NULL;

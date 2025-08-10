@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:51:55 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 16:42:46 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 23:22:55 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_error_ex(t_myenv **myenv, char *str)
 	set_status(myenv, NULL, 1);
 	ft_putstr_fd("minishell: export: ", 2);
 	ft_putstr_fd(str, 2);
-	ft_putstr_fd(" :not a valid identifier\n", 2);
+	ft_putstr_fd(": not a valid identifier\n", 2);
 }
 
 char	*check_cmd(char **path, char *cmd)

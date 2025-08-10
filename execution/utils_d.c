@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_error.c                                       :+:      :+:    :+:   */
+/*   utils_d.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 03:59:44 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 22:48:55 by akira            ###   ########.fr       */
+/*   Created: 2025/08/10 21:26:04 by akira             #+#    #+#             */
+/*   Updated: 2025/08/10 21:34:08 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i)
+void	add_back(t_myenv_ex **myenv_ex, char *str)
 {
-	t_myenv		*list;
-	t_myenv		*p;
-	t_myenv_ex	*list_ex;
-	t_myenv_ex	*e;
+	t_myenv_ex	*list;
+	t_myenv_ex	*new;
 
-	list = *myenv;
-	while (list)
-	{
-		p = list->next;
-		free(list->data);
-		free(list);
-		list = p;
-	}
-	list_ex = *myenv_ex;
-	while (list_ex)
-	{
-		e = list_ex->next;
-		free(list_ex->data);
-		free(list_ex);
-		list_ex = e;
-	}
-	if (str != NULL)
-		printf("%s", str);
-	exit(i);
+	list = *myenv_ex;
+	new = malloc(sizeof(t_myenv_ex));
+	if (!new || !(*myenv_ex) || !str)
+		return ;
+	while (list->next)
+		list = list->next;
+	new->data = ft_strdup(str);
+	new->next = NULL;
+	list->next = new;
 }

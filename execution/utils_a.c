@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 14:09:26 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 23:10:27 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,49 @@ char	*my_get_path(t_myenv *myenv, char *path)
 	return (av);
 }
 
+int	is_builtin_cmd(char *cmd)
+{
+	if (!cmd)
+		return (0);
+	if ((ft_strncmp_nv(cmd, "cd", 2) == 0 && ft_strlen(cmd) == 2)
+		|| (ft_strncmp_nv(cmd, "pwd", 3) == 0 && ft_strlen(cmd) == 3)
+		|| (ft_strncmp_nv(cmd, "echo", 4) == 0 && ft_strlen(cmd) == 4)
+		|| (ft_strncmp_nv(cmd, "export", 6) == 0 && ft_strlen(cmd) == 6)
+		|| (ft_strncmp_nv(cmd, "unset", 5) == 0 && ft_strlen(cmd) == 5)
+		|| (ft_strncmp_nv(cmd, "env", 3) == 0 && ft_strlen(cmd) == 3)
+		|| (ft_strncmp_nv(cmd, "exit", 4) == 0 && ft_strlen(cmd) == 4))
+		return (1);
+	return (0);
+}
+
+void	execute_builtin(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
+{
+	t_cmd	*cmd;
+
+	cmd = *str;
+	if (ft_strncmp_nv(cmd->args[0], "cd", 2) == 0
+		&& ft_strlen(cmd->args[0]) == 2)
+		ft_cd(str, &myenv, &myenv_ex);
+	else if (ft_strncmp_nv(cmd->args[0], "pwd", 3) == 0
+		&& ft_strlen(cmd->args[0]) == 3)
+		ft_pwd(&myenv);
+	else if (ft_strncmp_nv(cmd->args[0], "echo", 4) == 0
+		&& ft_strlen(cmd->args[0]) == 4)
+		ft_echo(cmd, &myenv);
+	else if (ft_strncmp_nv(cmd->args[0], "export", 6) == 0
+		&& ft_strlen(cmd->args[0]) == 6)
+		ft_export(&myenv_ex, &myenv, str);
+	else if (ft_strncmp_nv(cmd->args[0], "unset", 5) == 0
+		&& ft_strlen(cmd->args[0]) == 5)
+		ft_unset(&myenv_ex, &myenv, cmd);
+	else if (ft_strncmp_nv(cmd->args[0], "env", 3) == 0
+		&& ft_strlen(cmd->args[0]) == 3)
+		print_env(myenv);
+	else if (ft_strncmp_nv(cmd->args[0], "exit", 4) == 0
+		&& ft_strlen(cmd->args[0]) == 4)
+		ft_exit(&myenv_ex, &myenv, cmd);
+}
+
 int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 {
 	t_cmd	*cmd;
@@ -67,61 +110,16 @@ int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 	cmd = *str;
 	if (!cmd->args[0])
 		return (0);
-	if (ft_strncmp_nv(cmd->args[0], "cd", ft_strlen("cd")) == 0
-		&& ft_strlen(cmd->args[0]) == 2)
-		ft_cd(str, &myenv, &myenv_ex);
-	else if (ft_strncmp_nv(cmd->args[0], "pwd", ft_strlen("pwd")) == 0
-		&& ft_strlen(cmd->args[0]) == 3)
-		ft_pwd(&myenv);
-	else if (ft_strncmp_nv(cmd->args[0], "echo", ft_strlen("echo")) == 0
-		&& ft_strlen(cmd->args[0]) == 4)
-		ft_echo(cmd, &myenv);
-	else if (ft_strncmp_nv(cmd->args[0], "export", ft_strlen("export")) == 0
-		&& ft_strlen(cmd->args[0]) == 6)
-		ft_export(&myenv_ex, &myenv, str);
-	else if (ft_strncmp_nv(cmd->args[0], "unset", ft_strlen("unset")) == 0
-		&& ft_strlen(cmd->args[0]) == 5)
-		ft_unset(&myenv_ex, &myenv, cmd);
-	else if (ft_strncmp_nv(cmd->args[0], "env", ft_strlen("env")) == 0
-		&& ft_strlen(cmd->args[0]) == 3)
-		print_env(myenv);
-	else if (ft_strncmp_nv(cmd->args[0], "exit", ft_strlen("exit")) == 0
-		&& ft_strlen(cmd->args[0]) == 4)
-		ft_exit(&myenv_ex, &myenv, cmd);
-	else
-		return (0);
-	return (1);
-}
 
-void	add_env_node_ex(t_myenv_ex **myenv, char *env)
-{
-	t_myenv_ex	*new_node;
-	t_myenv_ex	*last;
-
-	new_node = malloc(sizeof(t_myenv_ex));
-	new_node->data = ft_strdup(env);
-	if (!new_node->data)
-		return ;
-	new_node->next = NULL;
-	if (*myenv == NULL)
+	if (is_builtin_cmd(cmd->args[0]))
 	{
-		*myenv = new_node;
-		return ;
+		if (cmd->redirections)
+			redirection(cmd);
+		execute_builtin(str, myenv, myenv_ex);
+		if (cmd->redirections)
+			restor_fd(cmd);
+		return (1);
 	}
-	last = *myenv;
-	while (last->next)
-		last = last->next;
-	last->next = new_node;
-}
 
-void	set_env_ex(t_myenv_ex **myenv, char **env)
-{
-	int	y;
-
-	y = 0;
-	while (env[y])
-	{
-		add_env_node_ex(myenv, env[y]);
-		y++;
-	}
+	return (0);
 }

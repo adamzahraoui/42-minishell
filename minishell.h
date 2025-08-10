@@ -235,6 +235,20 @@ int	ft_strncmp_nv(const char *s1, const char *s2, size_t n);
 char    *check_cmd(char **path, char *cmd);
 
 void    add_back(t_myenv_ex **myenv_ex, char *str);
+void	swap_stack_b(t_myenv_ex **myenv_ex);
+void	process_export_data(t_myenv_ex *list);
+void	sort_export(t_myenv_ex **myenv_ex);
+int	validate_chars_before_equals(char *arg, int equals_index, t_myenv **myenv);
+int	is_valid_first_char(char c);
+int	find_equals_index(char *arg);
+char	*check_val(char *str);
+char	*create_cupy(char *dest);
+void	process_export_arg(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd, int i);
+char	*create_cupy(char *dest);
+char	*check_val(char *str);
+int	find_equals_index(char *arg);
+int	validate_chars_before_equals(char *arg, int equals_index, t_myenv **myenv);
+int	is_valid_first_char(char c);
 
 
 typedef struct s_heredoc_params
