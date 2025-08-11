@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 18:47:09 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/11 19:21:48 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,13 @@ int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 	if (is_builtin_cmd(cmd->args[0]))
 	{
 		if (cmd->redirections)
+		{
 			if (redirection(cmd))
 			{
 				set_status(&myenv, NULL, 1);
 				return (1);
 			}
+		}
 		execute_builtin(str, myenv, myenv_ex);
 		if (cmd->redirections)
 			restor_fd(cmd);

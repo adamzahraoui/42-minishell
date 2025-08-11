@@ -15,6 +15,14 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+typedef struct s_pipe
+{
+	int		prev_fd;
+	int		i;
+	int		status;
+	int		count;
+	int		*pids;
+} t_pipe;
 
 typedef	struct s_free
 {
@@ -204,7 +212,7 @@ void ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *str);
 void ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd);
 void ft_echo(t_cmd *cmd, t_myenv **myenv);
 
-void ft_pipe(t_cmd **cmd, char **path, t_myenv **myenv, t_myenv_ex **env_ex, char **or_env);
+void ft_pipe(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **env_ex, char **or_env);
 void    external_executables(t_cmd **cmd, char **path, char **envp, t_myenv **myenv);
 
 
@@ -232,7 +240,7 @@ void free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void set_status(t_myenv **myenv, char *str, int status);
 
 
-void cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex);
 
 
 int ft_strcmp(const char *s1, const char *s2);

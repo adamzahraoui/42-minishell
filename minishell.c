@@ -122,7 +122,7 @@ int	main(int argc, char **argv, char **env)
             ft_free_error("exit\n", &myenv, &myenv_ex, 139);
         handle_command(input, &ctx, &cmd, &tokens, &myenv);
         if (cmd != NULL)
-            cmd_ex(&cmd, &tokens, env, &myenv, &myenv_ex);
+            cmd_ex(&cmd, env, &myenv, &myenv_ex);
         
     }
     rl_clear_history();

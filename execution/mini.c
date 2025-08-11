@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 18:39:12 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/11 19:22:37 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,10 @@ void	declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
 	set_env_ex(myenv_ex, env);
 }
 
-void	cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv,
-		t_myenv_ex **myenv_ex)
+void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
 	t_cmd	*cmd;
-	char	**path;
 
-	(void)tokens;
-	path = my_get_path_split(myenv, "PATH=", ':');
 	cmd = *args;
 	cmd->saved_stdin = -1;
 	cmd->saved_stdout = -1;
@@ -85,7 +81,7 @@ void	cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv,
 			return ;
 		}
 		else
-			ft_pipe(args, path, myenv, myenv_ex, env);
+			ft_pipe(args, myenv, myenv_ex, env);
 	}
 	else if (cmd->redirections)
 	{
