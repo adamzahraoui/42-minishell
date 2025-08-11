@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 23:55:39 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/11 18:39:12 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,9 @@ void	cmd_ex(t_cmd **args, t_token **tokens, char **env, t_myenv **myenv,
 	else if (cmd->redirections)
 	{
 		if (redirection(cmd) == 0)
-		{
 			restor_fd(cmd);
-		}
 		else
-		{
 			set_status(myenv, NULL, 1);
-		}
 	}
 	*args = NULL;
 }
