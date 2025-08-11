@@ -60,8 +60,8 @@ int	count_word(char *src, char sep)
 void	*ft_free(char **p, int index)
 {
 	while (index--)
-		free (p[index]);
-	free (p);
+		free(p[index]);
+	free(p);
 	return (NULL);
 }
 

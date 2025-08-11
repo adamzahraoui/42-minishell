@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 19:20:52 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/11 21:21:50 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,70 +67,25 @@ void	ft_pipe(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **env_ex,
 	t_myenv	*env;
 	t_pipe	pipe_data;
 
-	arg = *cmd;
-	env = *myenv;
-	pipe_data.prev_fd = -1;
-	pipe_data.i = 0;
-	pipe_data.status = 0;
-	pipe_data.count = 0;
-	pipe_data.pids = NULL;
-	for (t_cmd *tmp = arg; tmp; tmp = tmp->next)
-		pipe_data.count++;
+	(1) && (arg = *cmd, env = *myenv);
+	init_pipe_data(*cmd, *myenv, &pipe_data);
 	pipe_data.pids = malloc(sizeof(int) * pipe_data.count);
 	if (!pipe_data.pids)
 		return ;
 	while (arg)
 	{
-		if (arg->next && pipe(env->fd) == -1)
+		if (create_pipe_and_fork(arg, env, &pipe_data))
 		{
-			perror("pipe");
-			return ;
-		}
-		pipe_data.pids[pipe_data.i] = fork();
-		if (pipe_data.pids[pipe_data.i] == -1)
-		{
-			perror("fork");
+			free(pipe_data.pids);
 			return ;
 		}
 		if (pipe_data.pids[pipe_data.i] == 0)
 		{
-			if (pipe_data.prev_fd != -1)
-			{
-				dup2(pipe_data.prev_fd, 0);
-				close(pipe_data.prev_fd);
-			}
-			if (arg->next)
-			{
-				dup2(env->fd[1], 1);
-				close(env->fd[0]);
-				close(env->fd[1]);
-			}
+			ft_pipe_one(&pipe_data, arg, env);
 			exec_all(arg, *myenv, *env_ex, or_env);
 		}
-		if (pipe_data.prev_fd != -1)
-			close(pipe_data.prev_fd);
-		if (arg->next)
-		{
-			close(env->fd[1]);
-			pipe_data.prev_fd = env->fd[0];
-		}
-		else
-			pipe_data.prev_fd = -1;
-		arg = arg->next;
-		pipe_data.i++;
+		ft_pipe_two(&pipe_data, &arg, env);
 	}
-	for (int j = 0; j < pipe_data.count; j++)
-	{
-		waitpid(pipe_data.pids[j], &pipe_data.status, 0);
-		if (WIFEXITED(pipe_data.status))
-			env->i = WEXITSTATUS(pipe_data.status);
-		if (j == pipe_data.count - 1)
-		{
-			if (WIFEXITED(pipe_data.status))
-				set_status(myenv, NULL, WEXITSTATUS(pipe_data.status));
-			else if (WIFSIGNALED(pipe_data.status))
-				set_status(myenv, NULL, 128 + WTERMSIG(pipe_data.status));
-		}
-	}
+	wait_pid(&pipe_data, myenv);
 	free(pipe_data.pids);
 }

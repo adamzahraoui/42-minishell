@@ -120,6 +120,13 @@ typedef struct s_cmd
 
 #define MAX_TOKEN_LEN 4096
 
+
+void ft_pipe_one(t_pipe *pipe_data, t_cmd *arg, t_myenv *env);
+void ft_pipe_two(t_pipe *pipe_data, t_cmd **arg, t_myenv *env);
+void wait_pid(t_pipe *pipe_data, t_myenv **myenv);
+void	init_pipe_data(t_cmd *arg, t_myenv *env, t_pipe *pipe_data);
+int	create_pipe_and_fork(t_cmd *arg, t_myenv *env, t_pipe *pipe_data);
+
 void setup_signals(void);
 void handle_sigint(int sig);
 int validate_syntax(t_token *tokens);
