@@ -96,28 +96,31 @@ int	extract_var_name(const char *token, int *i, char *var_name)
 
 char	*remove_quotes(const char *str)
 {
-	char	*result;
-	int		i;
-	int		j;
-	int		len;
+    char	*result;
+    int		i;
+    int		j;
+    int		len;
 
-	if (!str)
-		return (NULL);
-	len = ft_strlen(str);
-	result = malloc(len + 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] != '\'' && str[i] != '"')
-		{
-			result[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
+    if (!str)
+        return (NULL);
+    len = ft_strlen(str);
+    result = malloc(len + 1);
+    if (!result)
+        return (NULL);
+    i = 0;
+    j = 0;
+    
+    // if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')))
+    // {
+    //     i = 1; 
+    //     len--; 
+    // }
+    while (i < len)
+    {
+        result[j] = str[i];
+        j++;
+        i++;
+    }
+    result[j] = '\0';
+    return (result);
 }
