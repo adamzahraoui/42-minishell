@@ -1,0 +1,10 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run minishell quick test",
+			"type": "shell",
+			"command": "bash -lc 'echo \"export A-\" | ./minishell ; echo $?'"
+		}
+	]
+}

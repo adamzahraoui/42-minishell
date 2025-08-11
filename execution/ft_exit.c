@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 16:36:07 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/12 00:03:11 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 	if (!is_numeric(cmd->args[1]) || !is_longlong(cmd->args[1]))
 	{
 		print_error_status(myenv, cmd->args[1], 2);
-		exit(2);
+		ft_free_error(NULL, myenv, myenv_ex, 2);
 	}
 	if (cmd->args[2])
 	{
@@ -104,5 +104,5 @@ void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 		return ;
 	}
 	exit_status = ft_atoi(cmd->args[1]);
-	exit((unsigned char)exit_status);
+	ft_free_error(NULL, myenv, myenv_ex, exit_status);
 }

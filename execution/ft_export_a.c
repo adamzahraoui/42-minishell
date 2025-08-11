@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 23:34:29 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/12 00:40:07 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	print_export(t_myenv_ex **myenv_ex)
 {
 	char		**split;
 	t_myenv_ex	*pr;
+	int			i;
 
 	pr = *myenv_ex;
 	while (pr)
@@ -86,6 +87,10 @@ void	print_export(t_myenv_ex **myenv_ex)
 			if (pr->data != NULL)
 				print_export_data(pr->data);
 		}
+		i = 0;
+		while (split[i])
+			free(split[i++]);
+		free(split);
 		pr = pr->next;
 	}
 }

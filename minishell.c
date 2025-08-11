@@ -126,5 +126,6 @@ int	main(int argc, char **argv, char **env)
         
     }
     rl_clear_history();
+    ft_free_error("exit\n", &myenv, &myenv_ex, 0);
     return (0);
 }

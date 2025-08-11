@@ -121,6 +121,14 @@ typedef struct s_cmd
 #define MAX_TOKEN_LEN 4096
 
 
+// free 
+void ft_free_all(void);
+void ft_free_one(void *ptr);
+
+
+char *ft_strdup_gc(const char *s);
+char	*ft_strjoin_gc(char const *s1, char const *s2);
+
 void ft_pipe_one(t_pipe *pipe_data, t_cmd *arg, t_myenv *env);
 void ft_pipe_two(t_pipe *pipe_data, t_cmd **arg, t_myenv *env);
 void wait_pid(t_pipe *pipe_data, t_myenv **myenv);

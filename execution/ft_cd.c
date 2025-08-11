@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:59 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 16:28:27 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/12 00:45:40 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,19 @@ void	update_path(char *p, t_myenv **myenv, t_myenv_ex **myenv_ex)
 int	just_cd(char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
 	char	*path;
+	char	*cwd;
 
-	temp = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (set_status(myenv, "cd", 1), 0);
+	temp = ft_strjoin_gc("OLDPWD=", cwd);
+	free(cwd);
 	update_path(temp, myenv, myenv_ex);
 	path = my_get_path(*myenv, "HOME=");
 	if (path == NULL)
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		set_status(myenv, NULL, 1);
-		free(temp);
 		return (0);
 	}
 	if (chdir(&path[0]) == -1)
@@ -49,18 +53,21 @@ int	just_cd(char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(&path[0], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		set_status(myenv, "cd", 1);
-		free(temp);
-		return (0);
+		return (set_status(myenv, "cd", 1), 0);
 	}
 	set_status(myenv, NULL, 0);
-	free(temp);
 	return (1);
 }
 
 int	exist_path(t_cmd **cmd, char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
-	temp = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (set_status(myenv, "cd", 1), 0);
+	temp = ft_strjoin_gc("OLDPWD=", cwd);
+	free(cwd);
 	update_path(temp, myenv, myenv_ex);
 	if (chdir((*cmd)->args[1]) == -1)
 	{
@@ -68,20 +75,17 @@ int	exist_path(t_cmd **cmd, char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		ft_putstr_fd((*cmd)->args[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		set_status(myenv, NULL, 1);
-		free(temp);
 		return (0);
 	}
 	set_status(myenv, NULL, 0);
-	free(temp);
 	return (1);
 }
 
 void	ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
-	char	*path;
 	char	*temp;
+	char	*cwd;
 
-	(void)path;
 	temp = NULL;
 	if ((*cmd)->args[1] == NULL)
 	{
@@ -96,10 +100,12 @@ void	ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	else
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		set_status(myenv, NULL, 1);
-		return ;
+		return (set_status(myenv, NULL, 1));
 	}
-	temp = ft_strjoin("PWD=", getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (set_status(myenv, "cd", 1));
+	temp = ft_strjoin_gc("PWD=", cwd);
+	free(cwd);
 	update_path(temp, myenv, myenv_ex);
-	free(temp);
 }
