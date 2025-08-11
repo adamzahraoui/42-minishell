@@ -103,8 +103,6 @@ int	split_token_string(t_token **token_ptr)
 	token = *token_ptr;
 	str = token->value;
 	split_pos = 0;
-	if (ft_strncmp(str, "echo", 4) != 0)
-		return (0);
 	while (str[split_pos] && (ft_isalpha(str[split_pos])
 			|| str[split_pos] == '_'))
 		split_pos++;

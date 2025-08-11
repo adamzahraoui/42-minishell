@@ -46,6 +46,8 @@ int	process_token_expansion(t_token_expansion_params *params,
 	t_failed_expansion_params	fail_params;
 	char						*expanded;
 	int							was_quoted;
+	int							has_variables;
+	t_was						was;
 
 	expanded = NULL;
 	fail_params.tokens = params->tokens;
@@ -55,11 +57,14 @@ int	process_token_expansion(t_token_expansion_params *params,
 	fail_params.expanded = expanded;
 	was_quoted = ((*params->tok)->value[0] == '"'
 			|| (*params->tok)->value[0] == '\'');
+	has_variables = (ft_strchr((*params->tok)->value, '$') != NULL);
+	was.has_variables = has_variables;
+	was.was_quoted = was_quoted;
 	expanded = expand_token((*params->tok)->value, ctx->vars, ctx->env);
 	if (expanded && (*expanded || was_quoted))
 	{
 		*params->tok = handle_successful_expansion(*params->tok, expanded,
-				params->next, was_quoted);
+				params->next, was);
 		*params->prev = *params->tok;
 		return (0);
 	}
@@ -71,12 +76,13 @@ int	process_token_expansion(t_token_expansion_params *params,
 }
 
 t_token	*handle_successful_expansion(t_token *tok, char *expanded,
-		t_token *next, int was_quoted)
+		t_token *next, t_was was)
 {
 	free(tok->value);
 	tok->value = expanded;
-	split_token_string(&tok);
-	trim_token_values(tok, next, was_quoted);
+	if (was.has_variables && !was.was_quoted)
+		split_token_string(&tok);
+	trim_token_values(tok, next, was.was_quoted);
 	while (tok->next && tok->next != next)
 		tok = tok->next;
 	return (tok);

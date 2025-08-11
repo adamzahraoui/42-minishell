@@ -138,7 +138,13 @@ char *remove_quotes(const char *str);
 
 
 void expand_all_tokens(t_token **tokens, t_expand_context *ctx);
-t_token *handle_successful_expansion(t_token *tok, char *expanded, t_token *next, int was_quoted);
+
+typedef struct s_was
+{
+	int was_quoted;
+	int has_variables;
+} t_was;
+t_token *handle_successful_expansion(t_token *tok, char *expanded, t_token *next, t_was was);
 char *expand_token(char *token, t_var *vars, char **env);
 
 
