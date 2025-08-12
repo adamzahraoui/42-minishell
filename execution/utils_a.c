@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 19:21:48 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/13 00:21:21 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,35 +75,35 @@ int	is_builtin_cmd(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
+void	execute_builtin(t_cmd **str, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
 	t_cmd	*cmd;
 
 	cmd = *str;
 	if (ft_strncmp_nv(cmd->args[0], "cd", 2) == 0
 		&& ft_strlen(cmd->args[0]) == 2)
-		ft_cd(str, &myenv, &myenv_ex);
+		ft_cd(str, myenv, myenv_ex);
 	else if (ft_strncmp_nv(cmd->args[0], "pwd", 3) == 0
 		&& ft_strlen(cmd->args[0]) == 3)
-		ft_pwd(&myenv);
+		ft_pwd(myenv);
 	else if (ft_strncmp_nv(cmd->args[0], "echo", 4) == 0
 		&& ft_strlen(cmd->args[0]) == 4)
-		ft_echo(cmd, &myenv);
+		ft_echo(cmd, myenv);
 	else if (ft_strncmp_nv(cmd->args[0], "export", 6) == 0
 		&& ft_strlen(cmd->args[0]) == 6)
-		ft_export(&myenv_ex, &myenv, str);
+		ft_export(myenv_ex, myenv, str);
 	else if (ft_strncmp_nv(cmd->args[0], "unset", 5) == 0
 		&& ft_strlen(cmd->args[0]) == 5)
-		ft_unset(&myenv_ex, &myenv, cmd);
+		ft_unset(myenv_ex, myenv, cmd);
 	else if (ft_strncmp_nv(cmd->args[0], "env", 3) == 0
 		&& ft_strlen(cmd->args[0]) == 3)
-		print_env(myenv);
+		print_env(*myenv);
 	else if (ft_strncmp_nv(cmd->args[0], "exit", 4) == 0
 		&& ft_strlen(cmd->args[0]) == 4)
-		ft_exit(&myenv_ex, &myenv, cmd);
+		ft_exit(myenv_ex, myenv, cmd);
 }
 
-int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
+int	check_builtin_cmd(t_cmd **str, t_myenv **myenv, t_myenv_ex **myenv_ex)
 {
 	t_cmd	*cmd;
 
@@ -116,7 +116,7 @@ int	check_builtin_cmd(t_cmd **str, t_myenv *myenv, t_myenv_ex *myenv_ex)
 		{
 			if (redirection(cmd))
 			{
-				set_status(&myenv, NULL, 1);
+				set_status(myenv, NULL, 1);
 				return (1);
 			}
 		}

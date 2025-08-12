@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 16:23:36 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/13 00:09:43 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	add_back_env(t_myenv **myenv, char *str)
 	return ;
 	new->data = ft_strdup(str);
 	new->next = NULL;
-	
+
 	if (!list)
 	{
 		*myenv = new;

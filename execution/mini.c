@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 23:49:39 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/13 00:20:38 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	cmd->saved_stdout = -1;
 	if (cmd)
 	{
-		if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
+		if (!cmd->next && check_builtin_cmd(args, myenv, myenv_ex) == 1)
 		{
 			free_commands(*args);
 			*args = NULL;

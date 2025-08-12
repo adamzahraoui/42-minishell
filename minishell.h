@@ -236,7 +236,7 @@ void declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env);
 char **my_get_path_split(t_myenv **myenv, char *path, char c);
 char *my_get_path(t_myenv *myenv, char *path);
 char *check_cmd(char **path, char *cmd);
-int check_builtin_cmd(t_cmd **cmd, t_myenv *myenv, t_myenv_ex *myenv_ex);
+int check_builtin_cmd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex);
 
 
 int check_double(t_myenv_ex **myenv_ex, char *str);

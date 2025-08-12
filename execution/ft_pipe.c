@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/12 00:14:51 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/13 00:21:56 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec_all(t_cmd *cmd, t_myenv *my_env, t_myenv_ex *env_ex, char **or_env)
 	path = my_get_path_split(&my_env, "PATH=", ':');
 	if (cmd->redirections && redirection(cmd) == 1)
 		ft_free_error(NULL, &my_env, &env_ex, 1);
-	if (check_builtin_cmd(&cmd, my_env, env_ex))
+	if (check_builtin_cmd(&cmd, &my_env, &env_ex))
 		ft_free_error(NULL, &my_env, &env_ex, 0);
 	else
 		exec_extranal_cmd(cmd, path, or_env);
