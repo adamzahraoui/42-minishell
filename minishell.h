@@ -121,14 +121,6 @@ typedef struct s_cmd
 #define MAX_TOKEN_LEN 4096
 
 
-// free 
-void ft_free_all(void);
-void ft_free_one(void *ptr);
-
-
-char *ft_strdup_gc(const char *s);
-char	*ft_strjoin_gc(char const *s1, char const *s2);
-
 void ft_pipe_one(t_pipe *pipe_data, t_cmd *arg, t_myenv *env);
 void ft_pipe_two(t_pipe *pipe_data, t_cmd **arg, t_myenv *env);
 void wait_pid(t_pipe *pipe_data, t_myenv **myenv);
@@ -157,7 +149,6 @@ char *get_next_token_part(char *line, int *i);
 char *get_quoted_token(char *line, int *i);
 char *get_word_token(char *line, int *i);
 int extract_var_name(const char *token, int *i, char *var_name);
-char *remove_quotes(const char *str);
 
 
 void expand_all_tokens(t_token **tokens, t_expand_context *ctx);
@@ -338,6 +329,5 @@ void restor_fd(t_cmd *cmd);
 
 
 char *remove_all_quotes(const char *str);
-char	*process_and_write_line(char *line, t_heredoc_params *params, t_expand_context *ctx);
 
 #endif

@@ -133,6 +133,8 @@ char	*process_token_part(char *line, int *i, char *token, t_token_state *st)
 		return (NULL);
 	}
 	tmp = ft_strjoin(token, part);
+	if(tmp == NULL)
+		return (free(token), free(part), NULL);
 	free(token);
 	free(part);
 	token = tmp;

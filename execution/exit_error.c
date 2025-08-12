@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 03:59:44 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 23:42:56 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 22:48:55 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	ft_free_error(char *str, t_myenv **myenv, t_myenv_ex **myenv_ex, int i)
 		free(list_ex);
 		list_ex = e;
 	}
-	ft_free_all();
 	if (str != NULL)
 		printf("%s", str);
 	exit(i);

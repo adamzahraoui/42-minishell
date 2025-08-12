@@ -20,7 +20,7 @@ SRC= libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c
     parsing/07_command_parsing.c parsing/08_command_management.c parsing/09_redirection_handling.c \
     parsing/10_heredoc_processing.c parsing/11_builtin_commands.c \
     minishell.c execution/ft_pipe.c execution/ft_echo.c execution/ft_redirection.c execution/utils_c.c execution/ft_export_b.c \
-    execution/utils_d.c execution/utils_e.c execution/ft_malloc_free.c
+    execution/utils_d.c execution/utils_e.c
 
 OBJ= $(SRC:.c=.o)
 NAME= minishell

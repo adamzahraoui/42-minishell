@@ -104,7 +104,6 @@ char	*expand_token(char *token, t_var *vars, char **env)
 {
 	t_expand_context	ctx;
 	t_token_state		st;
-	char				*final_result;
 	char				*result;
 
 	ctx.vars = vars;
@@ -118,7 +117,5 @@ char	*expand_token(char *token, t_var *vars, char **env)
 	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
 		process_token_character(token, &st, result, &ctx);
 	result[st.j] = '\0';
-	final_result = remove_quotes(result);
-	free(result);
-	return (final_result);
+	return (result);
 }

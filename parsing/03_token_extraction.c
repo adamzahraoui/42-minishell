@@ -37,6 +37,7 @@ char	*get_quoted_token(char *line, int *i)
 	char	quote;
 	char	*token;
 
+	token = NULL;
 	start = *i;
 	quote = line[*i];
 	(*i)++;
@@ -45,13 +46,13 @@ char	*get_quoted_token(char *line, int *i)
 	if (!line[*i])
 	{
 		ft_putendl_fd("Error: Unclosed quote", 2);
-		return (NULL);
+		return (free(token), NULL);
 	}
 	(*i)++;
 	length = *i - start;
 	token = ft_substr(line, start, length);
 	if (!token)
-		ft_putendl_fd("Error: Memory allocation failed", 2);
+		return (NULL);
 	return (token);
 }
 
@@ -70,7 +71,7 @@ char	*get_word_token(char *line, int *i)
 		return (NULL);
 	token = ft_substr(line, start, length);
 	if (!token)
-		ft_putendl_fd("Error: Memory allocation failed", 2);
+		return (NULL);
 	return (token);
 }
 
@@ -92,35 +93,4 @@ int	extract_var_name(const char *token, int *i, char *var_name)
 	var_name[j] = '\0';
 	(*i)--;
 	return (j);
-}
-
-char	*remove_quotes(const char *str)
-{
-    char	*result;
-    int		i;
-    int		j;
-    int		len;
-
-    if (!str)
-        return (NULL);
-    len = ft_strlen(str);
-    result = malloc(len + 1);
-    if (!result)
-        return (NULL);
-    i = 0;
-    j = 0;
-    
-    // if (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')))
-    // {
-    //     i = 1; 
-    //     len--; 
-    // }
-    while (i < len)
-    {
-        result[j] = str[i];
-        j++;
-        i++;
-    }
-    result[j] = '\0';
-    return (result);
 }

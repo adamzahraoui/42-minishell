@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:30:32 by akira             #+#    #+#             */
-/*   Updated: 2025/08/12 00:36:01 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/10 21:31:50 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ char	*create_cupy(char *dest)
 
 	i = 1;
 	a = 1;
-	if (!dest)
-		return (NULL);
 	cupy = malloc(ft_strlen(dest) + 3);
 	if (!dest || !cupy)
 		return (NULL);
@@ -38,26 +36,24 @@ char	*check_val(char *str)
 	char	*dest;
 	char	*cupy;
 	char	*first;
-	char	*temp;
 
-	(1) && (dest = ft_strchr(str, '='), i = 0);
+	dest = ft_strchr(str, '=');
 	if (dest && dest[1] == '"')
 		return (ft_strdup(str));
+	if (!dest)
+		return (NULL);
 	cupy = create_cupy(dest);
-	if (!dest || !cupy)
+	if (!cupy)
 		return (NULL);
+	i = 0;
 	first = malloc((dest - str) + 2);
-	if (!first)
-		return (NULL);
 	while (str[i] != '=')
 	{
 		first[i] = str[i];
 		i++;
 	}
-	(1) && (first[i] = '\0', temp = ft_strjoin(first, cupy));
-	free(first);
-	free(cupy);
-	return (temp);
+	first[i] = '\0';
+	return (ft_strjoin(first, cupy));
 }
 
 int	find_equals_index(char *arg)

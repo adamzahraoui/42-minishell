@@ -65,6 +65,15 @@ char	**convert_myenv_to_env(t_myenv *myenv)
 	while (temp && i < count)
 	{
 		env[i] = ft_strdup(temp->data);
+		if(!env[i])
+		{
+			while (i > 0)
+			{
+				free(env[--i]);
+			}
+			free(env);
+			return (NULL);
+		}
 		temp = temp->next;
 		i++;
 	}
