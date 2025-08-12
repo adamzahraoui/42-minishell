@@ -158,6 +158,7 @@ typedef struct s_was
 	int was_quoted;
 	int has_variables;
 } t_was;
+
 t_token *handle_successful_expansion(t_token *tok, char *expanded, t_token *next, t_was was);
 char *expand_token(char *token, t_var *vars, char **env);
 
@@ -172,6 +173,7 @@ void	print_error_ex(t_myenv **myenv, char *str);
 char *get_shell_var(t_var *vars, char *name);
 char *get_env_value(char **env, char *name);
 char **convert_myenv_to_env(t_myenv *myenv);
+char	**env_copy_loop(t_myenv *temp, char **env, int count, int i);
 char *get_myenv_value(t_myenv *myenv, char *name);
 int is_redirection(t_token_type type);
 void free_env_array(char **env);
@@ -189,6 +191,7 @@ t_cmd *init_command(void);
 int initialize_command_fields(t_cmd *cmd);
 void add_argument(t_cmd *cmd, char *arg);
 void free_commands(t_cmd *cmds);
+void free_cmd_files(t_cmd *tmp);
 void free_tokens(t_token *tokens);
 
 
@@ -315,8 +318,11 @@ typedef struct s_failed_expansion_params
 }	t_failed_expansion_params;
 
 int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx);
+void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx, char *line);
 int	process_variable_extraction(t_var_extraction_params *params, t_expand_context *ctx);
+void variable_lookup_and_assign(t_var_extraction_params *params, t_expand_context *ctx);
 int	process_token_expansion(t_token_expansion_params *params, t_expand_context *ctx);
+int	handle_expansion_result(t_token_expansion_params *params, t_failed_expansion_params *fail_params, char *expanded, t_was was);
 t_token	*handle_failed_expansion(t_failed_expansion_params *params);
 int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx);
 

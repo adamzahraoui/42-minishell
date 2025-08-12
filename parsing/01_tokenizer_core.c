@@ -19,9 +19,7 @@ t_token	*tokenize(char *line)
 	int		i;
 	char	*token_value;
 
-	head = NULL;
-	current = NULL;
-	i = 0;
+	(1) && (head = NULL, current = NULL, i = 0);
 	while (line[i])
 	{
 		while (line[i] && (line[i] == ' ' || line[i] == '\t'))
@@ -133,7 +131,7 @@ char	*process_token_part(char *line, int *i, char *token, t_token_state *st)
 		return (NULL);
 	}
 	tmp = ft_strjoin(token, part);
-	if(tmp == NULL)
+	if (tmp == NULL)
 		return (free(token), free(part), NULL);
 	free(token);
 	free(part);

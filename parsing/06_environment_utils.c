@@ -62,10 +62,19 @@ char	**convert_myenv_to_env(t_myenv *myenv)
 	if (!env)
 		return (NULL);
 	temp = myenv;
+	env = env_copy_loop(temp, env, count, i);
+	if (!env)
+		return (NULL);
+	env[count] = NULL;
+	return (env);
+}
+
+char	**env_copy_loop(t_myenv *temp, char **env, int count, int i)
+{
 	while (temp && i < count)
 	{
 		env[i] = ft_strdup(temp->data);
-		if(!env[i])
+		if (!env[i])
 		{
 			while (i > 0)
 			{
@@ -77,7 +86,6 @@ char	**convert_myenv_to_env(t_myenv *myenv)
 		temp = temp->next;
 		i++;
 	}
-	env[i] = NULL;
 	return (env);
 }
 
@@ -96,25 +104,4 @@ char	*get_myenv_value(t_myenv *myenv, char *name)
 		myenv = myenv->next;
 	}
 	return (NULL);
-}
-
-int	is_redirection(t_token_type type)
-{
-	return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
-		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND);
-}
-
-void	free_env_array(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = 0;
-	while (env[i])
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
 }

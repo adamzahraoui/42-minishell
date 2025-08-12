@@ -61,7 +61,13 @@ int	process_token_expansion(t_token_expansion_params *params,
 	was.was_quoted = was_quoted;
 	expanded = expand_token((*params->tok)->value, ctx->vars, ctx->env);
 	fail_params.expanded = expanded;
-	if (expanded && (*expanded || was_quoted))
+	return (handle_expansion_result(params, &fail_params, expanded, was));
+}
+
+int	handle_expansion_result(t_token_expansion_params *params,
+		t_failed_expansion_params *fail_params, char *expanded, t_was was)
+{
+	if (expanded && (*expanded || was.was_quoted))
 	{
 		*params->tok = handle_successful_expansion(*params->tok, expanded,
 				params->next, was);
@@ -70,7 +76,7 @@ int	process_token_expansion(t_token_expansion_params *params,
 	}
 	else
 	{
-		*params->tok = handle_failed_expansion(&fail_params);
+		*params->tok = handle_failed_expansion(fail_params);
 		return (1);
 	}
 }
@@ -99,25 +105,4 @@ t_token	*handle_failed_expansion(t_failed_expansion_params *params)
 		free(params->expanded);
 	free(params->tok);
 	return (params->next);
-}
-
-char	*expand_token(char *token, t_var *vars, char **env)
-{
-	t_expand_context	ctx;
-	t_token_state		st;
-	char				*result;
-
-	ctx.vars = vars;
-	ctx.env = env;
-	memset(&st, 0, sizeof(st));
-	if (!token)
-		return (NULL);
-	result = malloc(MAX_TOKEN_LEN);
-	if (!result)
-		return (NULL);
-	result[0] = '\0';
-	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
-		process_token_character(token, &st, result, &ctx);
-	result[st.j] = '\0';
-	return (result);
 }

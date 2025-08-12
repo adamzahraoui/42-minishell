@@ -30,8 +30,6 @@ int	create_and_link_token(t_token *token, char *str, int split_pos)
 int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
 {
 	char	*line;
-	char	*to_write;
-	char	*expanded;
 
 	line = readline("> ");
 	if (!line)
@@ -45,6 +43,16 @@ int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
 		free(line);
 		return (-1);
 	}
+	write_heredoc_line(params, ctx, line);
+	return (0);
+}
+
+void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
+		char *line)
+{
+	char	*to_write;
+	char	*expanded;
+
 	to_write = line;
 	expanded = NULL;
 	if (!params->quoted)
@@ -56,7 +64,6 @@ int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
 	if (expanded)
 		free(expanded);
 	free(line);
-	return (0);
 }
 
 char	*remove_all_quotes(const char *str)
@@ -85,23 +92,6 @@ char	*remove_all_quotes(const char *str)
 	}
 	result[j] = '\0';
 	return (result);
-}
-
-int	handle_heredoc(const char *delimiter, t_expand_context *ctx)
-{
-	char	*clean_delimiter;
-	int		fds[2];
-	pid_t	pid;
-	int		quoted;
-
-	if (heredoc_setup(delimiter, &clean_delimiter, &quoted) == -1)
-		return (-1);
-	pid = heredoc_pipe_and_fork(fds, clean_delimiter);
-	if (pid == -1)
-		return (-1);
-	if (pid == 0)
-		heredoc_child(fds, clean_delimiter, quoted, ctx);
-	return (heredoc_parent(pid, fds, clean_delimiter));
 }
 
 int	is_quoted(const char *str)

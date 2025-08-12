@@ -80,9 +80,8 @@ void	add_argument(t_cmd *cmd, char *arg)
 
 void	free_commands(t_cmd *cmds)
 {
-	t_redirection	*redir_tmp;
-	t_cmd			*tmp;
-	int				i;
+	t_cmd	*tmp;
+	int		i;
 
 	while (cmds)
 	{
@@ -92,37 +91,31 @@ void	free_commands(t_cmd *cmds)
 		while (i < tmp->arg_count)
 			free(tmp->args[i++]);
 		free(tmp->args);
-		while (tmp->redirections)
-		{
-			redir_tmp = tmp->redirections;
-			tmp->redirections = tmp->redirections->next;
-			free(redir_tmp->filename_or_delim);
-			free(redir_tmp);
-		}
-		if (tmp->input_file)
-			free(tmp->input_file);
-		if (tmp->output_file)
-			free(tmp->output_file);
-		if (tmp->heredoc_delim)
-			free(tmp->heredoc_delim);
-		if (tmp->heredoc_file)
-		{
-			unlink(tmp->heredoc_file);
-			free(tmp->heredoc_file);
-		}
+		free_cmd_files(tmp);
 		free(tmp);
 	}
 }
 
-void	free_tokens(t_token *tokens)
+void	free_cmd_files(t_cmd *tmp)
 {
-	t_token	*tmp;
+	t_redirection	*redir_tmp;
 
-	while (tokens)
+	while (tmp->redirections)
 	{
-		tmp = tokens;
-		tokens = tokens->next;
-		free(tmp->value);
-		free(tmp);
+		redir_tmp = tmp->redirections;
+		tmp->redirections = tmp->redirections->next;
+		free(redir_tmp->filename_or_delim);
+		free(redir_tmp);
+	}
+	if (tmp->input_file)
+		free(tmp->input_file);
+	if (tmp->output_file)
+		free(tmp->output_file);
+	if (tmp->heredoc_delim)
+		free(tmp->heredoc_delim);
+	if (tmp->heredoc_file)
+	{
+		unlink(tmp->heredoc_file);
+		free(tmp->heredoc_file);
 	}
 }

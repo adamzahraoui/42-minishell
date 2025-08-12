@@ -51,10 +51,8 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 int	process_variable_extraction(t_var_extraction_params *params,
 		t_expand_context *ctx)
 {
-	char	*val;
-	int		var_name_len;
+	int	var_name_len;
 
-	val = NULL;
 	*params->len = 0;
 	var_name_len = extract_var_name(params->token, params->i, params->var_name);
 	if (var_name_len == 0)
@@ -63,6 +61,15 @@ int	process_variable_extraction(t_var_extraction_params *params,
 		*params->len = 1;
 		return (1);
 	}
+	variable_lookup_and_assign(params, ctx);
+	return (0);
+}
+
+void	variable_lookup_and_assign(t_var_extraction_params *params,
+		t_expand_context *ctx)
+{
+	char	*val;
+
 	val = get_shell_var(ctx->vars, params->var_name);
 	if (!val)
 		val = get_env_value(ctx->env, params->var_name);
@@ -76,7 +83,6 @@ int	process_variable_extraction(t_var_extraction_params *params,
 		*params->len = 0;
 		params->result[0] = '\0';
 	}
-	return (0);
 }
 
 void	trim_token_values(t_token *tok, t_token *next, int was_quoted)
@@ -100,24 +106,4 @@ void	trim_token_values(t_token *tok, t_token *next, int was_quoted)
 			break ;
 		current = current->next;
 	}
-}
-
-int	split_token_string(t_token **token_ptr)
-{
-	t_token	*token;
-	int		split_pos;
-	char	*str;
-
-	token = *token_ptr;
-	str = token->value;
-	split_pos = 0;
-	while (str[split_pos] && (ft_isalpha(str[split_pos])
-			|| str[split_pos] == '_'))
-		split_pos++;
-	if (split_pos > 0 && str[split_pos] && (str[split_pos] == ' '
-			|| str[split_pos] == '\t'))
-	{
-		return (create_and_link_token(token, str, split_pos));
-	}
-	return (0);
 }
