@@ -131,7 +131,7 @@ void setup_signals(void);
 void handle_sigint(int sig);
 int validate_syntax(t_token *tokens);
 void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **tokens, t_myenv **myenv);
-
+void ft_free_all();
 
 t_token *tokenize(char *line);
 char *get_next_token(char *line, int *i);
@@ -174,6 +174,7 @@ char *get_env_value(char **env, char *name);
 char **convert_myenv_to_env(t_myenv *myenv);
 char *get_myenv_value(t_myenv *myenv, char *name);
 int is_redirection(t_token_type type);
+void free_env_array(char **env);
 
 
 
@@ -329,5 +330,9 @@ void restor_fd(t_cmd *cmd);
 
 
 char *remove_all_quotes(const char *str);
+char	*ft_strjoin_gc(char const *s1, char const *s2);
+char	*ft_strdup_gc(const char *s);
+void	ft_free(void *ptr);
+void	ft_free_all(void);
 
 #endif

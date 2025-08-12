@@ -84,12 +84,12 @@ void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **t
         if (!validate_syntax(*tokens))
         {
             free_tokens(*tokens);
-            free(ctx->env);
+            free_env_array(ctx->env);
             return;
         }
         expand_all_tokens(tokens, ctx );
         process_commands(tokens, ctx->vars, ctx->env, cmd);
-        free(ctx->env);
+        free_env_array(ctx->env);
     }
     free_tokens(*tokens);
     free(input);
@@ -122,7 +122,12 @@ int	main(int argc, char **argv, char **env)
             ft_free_error("exit\n", &myenv, &myenv_ex, 139);
         handle_command(input, &ctx, &cmd, &tokens, &myenv);
         if (cmd != NULL)
+        {
             cmd_ex(&cmd, env, &myenv, &myenv_ex);
+            /* cmd_ex now handles freeing the commands */
+        }
+        /* Reset tokens to NULL since they're freed in handle_command */
+        tokens = NULL;
         
     }
     rl_clear_history();

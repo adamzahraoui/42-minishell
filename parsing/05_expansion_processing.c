@@ -34,6 +34,7 @@ int	expand_variable(char *token, int *i, char *result, t_expand_context *ctx)
 	int						process_result;
 
 	len = 0;
+	ft_memset(var_name, 0, sizeof(var_name));
 	params.token = token;
 	params.i = i;
 	params.result = result;
@@ -54,10 +55,12 @@ int	process_variable_extraction(t_var_extraction_params *params,
 	int		var_name_len;
 
 	val = NULL;
+	*params->len = 0;
 	var_name_len = extract_var_name(params->token, params->i, params->var_name);
 	if (var_name_len == 0)
 	{
 		params->result[0] = '$';
+		*params->len = 1;
 		return (1);
 	}
 	val = get_shell_var(ctx->vars, params->var_name);
@@ -67,6 +70,11 @@ int	process_variable_extraction(t_var_extraction_params *params,
 	{
 		*params->len = ft_strlen(val);
 		ft_strlcpy(params->result, val, MAX_TOKEN_LEN);
+	}
+	else
+	{
+		*params->len = 0;
+		params->result[0] = '\0';
 	}
 	return (0);
 }

@@ -103,3 +103,18 @@ int	is_redirection(t_token_type type)
 	return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND);
 }
+
+void	free_env_array(char **env)
+{
+	int	i;
+
+	if (!env)
+		return ;
+	i = 0;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
+}

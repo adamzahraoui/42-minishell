@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/11 19:22:37 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/11 23:49:39 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,6 @@ void	set_env(t_myenv **myenv, char **env)
 	}
 }
 
-void	ft_ft_free(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
-
 void	declare_env(t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
 {
 	set_env(myenv, env);
@@ -77,11 +64,15 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	{
 		if (!cmd->next && check_builtin_cmd(args, *myenv, *myenv_ex) == 1)
 		{
+			free_commands(*args);
 			*args = NULL;
 			return ;
 		}
 		else
+		{
 			ft_pipe(args, myenv, myenv_ex, env);
+			free_commands(*args);
+		}
 	}
 	else if (cmd->redirections)
 	{
@@ -90,5 +81,6 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		else
 			set_status(myenv, NULL, 1);
 	}
+	ft_free_all();
 	*args = NULL;
 }

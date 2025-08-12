@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:51:55 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 23:22:55 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/12 00:13:27 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,23 @@
 void	set_status(t_myenv **myenv, char *str, int status)
 {
 	t_myenv	*env;
+	char	*p;
+	char	*num;
 
 	env = *myenv;
 	if (str != NULL)
 		perror(str);
 	env->i = status;
-	check_double_env(myenv, ft_strjoin("?=", ft_itoa(status)));
+	num = ft_itoa(status);
+	if (!num)
+		return ;
+	p = ft_strjoin("?=", num);
+	free(num);
+	if (p)
+	{
+		check_double_env(myenv, p);
+		free(p);
+	}
 }
 
 int	ft_strncmp_nv(const char *s1, const char *s2, size_t n)
@@ -60,16 +71,10 @@ char	*check_cmd(char **path, char *cmd)
 		return (NULL);
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
-		if (!tmp)
-			return (NULL);
-		str = ft_strjoin(tmp, cmd);
-		free(tmp);
-		if (!str)
-			return (NULL);
+		tmp = ft_strjoin_gc(path[i], "/");
+		str = ft_strjoin_gc(tmp, cmd);
 		if (access(str, X_OK) == 0)
 			return (str);
-		free(str);
 		i++;
 	}
 	return (NULL);

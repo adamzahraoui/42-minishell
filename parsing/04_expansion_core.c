@@ -54,13 +54,13 @@ int	process_token_expansion(t_token_expansion_params *params,
 	fail_params.tok = *params->tok;
 	fail_params.prev = *params->prev;
 	fail_params.next = params->next;
-	fail_params.expanded = expanded;
 	was_quoted = ((*params->tok)->value[0] == '"'
 			|| (*params->tok)->value[0] == '\'');
 	has_variables = (ft_strchr((*params->tok)->value, '$') != NULL);
 	was.has_variables = has_variables;
 	was.was_quoted = was_quoted;
 	expanded = expand_token((*params->tok)->value, ctx->vars, ctx->env);
+	fail_params.expanded = expanded;
 	if (expanded && (*expanded || was_quoted))
 	{
 		*params->tok = handle_successful_expansion(*params->tok, expanded,
@@ -95,7 +95,8 @@ t_token	*handle_failed_expansion(t_failed_expansion_params *params)
 	else
 		*params->tokens = params->next;
 	free(params->tok->value);
-	free(params->expanded);
+	if (params->expanded)
+		free(params->expanded);
 	free(params->tok);
 	return (params->next);
 }
@@ -114,6 +115,7 @@ char	*expand_token(char *token, t_var *vars, char **env)
 	result = malloc(MAX_TOKEN_LEN);
 	if (!result)
 		return (NULL);
+	result[0] = '\0';
 	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
 		process_token_character(token, &st, result, &ctx);
 	result[st.j] = '\0';
