@@ -319,6 +319,12 @@ typedef struct s_failed_expansion_params
 
 int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx);
 void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx, char *line);
+void	process_quoted_char(char *line, t_token_state *st, char *result, 
+		t_expand_context *ctx);
+void	handle_quoted_expansion(char *line, t_token_state *st, char *result, 
+		t_expand_context *ctx);
+char *expand_heredoc_line(char *line, t_expand_context *ctx);
+
 int	process_variable_extraction(t_var_extraction_params *params, t_expand_context *ctx);
 void variable_lookup_and_assign(t_var_extraction_params *params, t_expand_context *ctx);
 int	process_token_expansion(t_token_expansion_params *params, t_expand_context *ctx);

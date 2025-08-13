@@ -56,7 +56,7 @@ void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
 	to_write = line;
 	expanded = NULL;
 	if (!params->quoted)
-		expanded = expand_token(line, ctx->vars, ctx->env);
+		expanded = expand_heredoc_line(line, ctx);
 	if (expanded)
 		to_write = expanded;
 	write(params->write_fd, to_write, ft_strlen(to_write));
@@ -64,6 +64,70 @@ void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
 	if (expanded)
 		free(expanded);
 	free(line);
+}
+
+void	process_quoted_char(char *line, t_token_state *st, char *result, 
+		t_expand_context *ctx)
+{
+	if (line[st->i] == '$')
+	{
+		if (st->in_double)
+			st->j += expand_variable(line, &st->i, result + st->j, ctx);
+		else
+			result[st->j++] = line[st->i];
+	}
+	else
+		result[st->j++] = line[st->i];
+}
+
+void	handle_quoted_expansion(char *line, t_token_state *st, char *result, 
+		t_expand_context *ctx)
+{
+	char	quote;
+	int		len;
+
+	len = ft_strlen(line);
+	if (st->in_single)
+		quote = '\'';
+	else
+		quote = '"';
+	result[st->j++] = quote;
+	while (++st->i < len - 1)
+	{
+		process_quoted_char(line, st, result, ctx);
+	}
+	result[st->j++] = quote;
+}
+
+char *expand_heredoc_line(char *line, t_expand_context *ctx)
+{
+	char *result;
+	t_token_state st;
+
+	if (!line)
+		return (NULL);
+	result = malloc(MAX_TOKEN_LEN);
+	if (!result)
+		return (NULL);
+	memset(&st, 0, sizeof(st));
+
+	if (st.in_single || st.in_double)
+	{
+		handle_quoted_expansion(line, &st, result, ctx);
+	}
+	else
+	{
+		while (line[st.i] && st.j < MAX_TOKEN_LEN - 1)
+		{
+			if (line[st.i] == '$')
+				st.j += expand_variable(line, &st.i, result + st.j, ctx);
+			else
+				result[st.j++] = line[st.i];
+			st.i++;
+		}
+	}
+	result[st.j] = '\0';
+	return (result);
 }
 
 char	*remove_all_quotes(const char *str)
