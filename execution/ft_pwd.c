@@ -14,16 +14,17 @@
 
 void	ft_pwd(t_myenv **myenv)
 {
+	(void)myenv;
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		set_status(myenv, "pwd", 1);
+		set_status(1);
 		perror("error in pwd\n");
 		return ;
 	}
 	printf("%s\n", pwd);
 	free(pwd);
-	set_status(myenv, NULL, 0);
+	set_status(0);
 }

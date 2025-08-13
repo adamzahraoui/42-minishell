@@ -62,7 +62,7 @@ void	ft_unset_env(t_myenv **myenv, t_cmd *cmd)
 			}
 		}
 	}
-	set_status(myenv, NULL, 0);
+	set_status(0);
 }
 
 static void	delete_node_env_ex(t_myenv_ex **head, t_myenv_ex *node,
@@ -102,5 +102,5 @@ void	ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 			}
 		}
 	}
-	set_status(myenv, NULL, 0);
+	set_status(0);
 }

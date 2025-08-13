@@ -16,10 +16,10 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -282,7 +282,7 @@ void						ft_free_error(char *str, t_myenv **myenv,
 								t_myenv_ex **myenv_ex, int i);
 void						free_error(char *str, t_myenv **myenv,
 								t_myenv_ex **myenv_ex);
-void						set_status(t_myenv **myenv, char *str, int status);
+void						set_status(int status);
 
 void						cmd_ex(t_cmd **args, char **env, t_myenv **myenv,
 								t_myenv_ex **myenv_ex);
@@ -403,5 +403,11 @@ char						*ft_strjoin_gc(char const *s1, char const *s2);
 char						*ft_strdup_gc(const char *s);
 void						ft_free(void *ptr);
 void						ft_free_all(void);
+char **exit_status(void);
+
+void	handle_heredoc_sigint(int sig);
+int	validate_token_specific(t_token *current);
+int	validate_redirection_next_token(t_token *next);
+int	validate_pipe_token(t_token *current);
 
 #endif

@@ -70,9 +70,13 @@ void	variable_lookup_and_assign(t_var_extraction_params *params,
 {
 	char	*val;
 
+	char **exit_code;
+	exit_code = exit_status();
 	val = get_shell_var(ctx->vars, params->var_name);
 	if (!val)
 		val = get_env_value(ctx->env, params->var_name);
+	if (!val)
+		val = get_env_value(exit_code, params->var_name);
 	if (val)
 	{
 		*params->len = ft_strlen(val);

@@ -12,6 +12,12 @@
 
 #include "../minishell.h"
 
+char **exit_status(void)
+{
+	static char *status = NULL;
+	return (&status);
+}
+
 void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
@@ -25,63 +31,7 @@ void	handle_sigint(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-}
-
-int	validate_syntax(t_token *tokens)
-{
-	t_token	*current;
-	t_token	*next;
-
-	current = tokens;
-	if (current && current->type == TOKEN_PIPE)
-	{
-		ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-		return (0);
-	}
-	while (current)
-	{
-		if (is_redirection(current->type))
-		{
-			next = current->next;
-			if (!next)
-			{
-				ft_putendl_fd("bash: syntax error near unexpected token `newline'",
-					2);
-				return (0);
-			}
-			if (next->type == TOKEN_PIPE)
-			{
-				ft_putendl_fd("bash: syntax error near unexpected token `|'",
-					2);
-				return (0);
-			}
-			if (is_redirection(next->type))
-			{
-				ft_putstr_fd("bash: syntax error near unexpected token `", 2);
-				ft_putstr_fd(next->value, 2);
-				ft_putendl_fd("'", 2);
-				return (0);
-			}
-		}
-		else if (current->type == TOKEN_PIPE)
-		{
-			next = current->next;
-			if (!next)
-			{
-				ft_putendl_fd("bash: syntax error near unexpected token `newline'",
-					2);
-				return (0);
-			}
-			if (next->type == TOKEN_PIPE)
-			{
-				ft_putendl_fd("bash: syntax error near unexpected token `|'",
-					2);
-				return (0);
-			}
-		}
-		current = current->next;
-	}
-	return (1);
+	set_status(130);
 }
 
 void	handle_command(char *input, t_cmd **cmd, t_token **tokens,
@@ -125,6 +75,7 @@ int	main(int argc, char **argv, char **env)
 	tokens = NULL;
 	(void)argc;
 	(void)argv;
+	set_status(0);
 	set_variables(&cmd, &myenv, &myenv_ex, env);
 	while (1)
 	{

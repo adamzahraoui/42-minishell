@@ -81,6 +81,8 @@ void	ft_pipe(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **env_ex,
 		}
 		if (pipe_data.pids[pipe_data.i] == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			ft_pipe_one(&pipe_data, arg, env);
 			exec_all(arg, *myenv, *env_ex, or_env);
 		}

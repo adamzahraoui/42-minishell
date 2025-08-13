@@ -54,7 +54,7 @@ void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
 
 	lineno = 1;
 	got_delim = 0;
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, handle_heredoc_sigint);
 	close(fds[0]);
 	loop_params.clean_delimiter = clean_delimiter;
 	loop_params.quoted = quoted;
@@ -74,6 +74,7 @@ void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
 	exit(0);
 }
 
+
 int	heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 {
 	int		status;
@@ -83,6 +84,8 @@ int	heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 	free(clean_delimiter);
 	old_handler = signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		set_status(WEXITSTATUS(status));
 	signal(SIGINT, old_handler);
 	if (status != 0)
 	{

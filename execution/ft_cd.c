@@ -37,7 +37,7 @@ int	just_cd(char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (set_status(myenv, "cd", 1), 0);
+		return (set_status(1), 0);
 	temp = ft_strjoin_gc("OLDPWD=", cwd);
 	free(cwd);
 	update_path(temp, myenv, myenv_ex);
@@ -45,7 +45,7 @@ int	just_cd(char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	if (path == NULL)
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		set_status(myenv, NULL, 1);
+		set_status(1);
 		return (0);
 	}
 	if (chdir(&path[0]) == -1)
@@ -53,9 +53,9 @@ int	just_cd(char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(&path[0], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return (set_status(myenv, "cd", 1), 0);
+		return (set_status(1), 0);
 	}
-	set_status(myenv, NULL, 0);
+	set_status(0);
 	return (1);
 }
 
@@ -65,7 +65,7 @@ int	exist_path(t_cmd **cmd, char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (set_status(myenv, "cd", 1), 0);
+		return (set_status(1), 0);
 	temp = ft_strjoin_gc("OLDPWD=", cwd);
 	free(cwd);
 	update_path(temp, myenv, myenv_ex);
@@ -74,10 +74,10 @@ int	exist_path(t_cmd **cmd, char *temp, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd((*cmd)->args[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		set_status(myenv, NULL, 1);
+		set_status(1);
 		return (0);
 	}
-	set_status(myenv, NULL, 0);
+	set_status(0);
 	return (1);
 }
 
@@ -100,11 +100,11 @@ void	ft_cd(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	else
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		return (set_status(myenv, NULL, 1));
+		return (set_status(1));
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (set_status(myenv, "cd", 1));
+		return (set_status(1));
 	temp = ft_strjoin_gc("PWD=", cwd);
 	free(cwd);
 	update_path(temp, myenv, myenv_ex);

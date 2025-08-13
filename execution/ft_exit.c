@@ -16,7 +16,9 @@
 
 void	print_error_status(t_myenv **myenv, char *str, int status)
 {
-	set_status(myenv, NULL, status);
+	(void)myenv;
+	(void)str;
+	set_status(status);
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
@@ -100,7 +102,7 @@ void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 	if (cmd->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		set_status(myenv, NULL, 1);
+		set_status(1);
 		return ;
 	}
 	exit_status = ft_atoi(cmd->args[1]);

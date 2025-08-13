@@ -41,6 +41,5 @@ void	set_variables(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex,
 	*myenv_ex = NULL;
 	declare_env(myenv, myenv_ex, env);
 	(*myenv)->i = 0;
-	add_back_env(myenv, "?=0");
 	setup_signals();
 }

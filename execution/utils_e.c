@@ -47,6 +47,7 @@ void	wait_pid(t_pipe *pipe_data, t_myenv **myenv)
 	int	j;
 
 	j = 0;
+	signal(SIGINT, SIG_IGN);
 	while (j < pipe_data->count)
 	{
 		waitpid(pipe_data->pids[j], &pipe_data->status, 0);
@@ -55,12 +56,21 @@ void	wait_pid(t_pipe *pipe_data, t_myenv **myenv)
 		if (j == pipe_data->count - 1)
 		{
 			if (WIFEXITED(pipe_data->status))
-				set_status(myenv, NULL, WEXITSTATUS(pipe_data->status));
+				set_status(WEXITSTATUS(pipe_data->status));
 			else if (WIFSIGNALED(pipe_data->status))
-				set_status(myenv, NULL, 128 + WTERMSIG(pipe_data->status));
+			{
+				if (WTERMSIG(pipe_data->status) == SIGINT)
+					write(2, "\n", 1);
+				else if (WTERMSIG(pipe_data->status) == SIGQUIT)
+					write(2, "Quit (core dumped)\n", 20);
+				setup_signals();
+				set_status(128 + WTERMSIG(pipe_data->status));
+				return ;
+			}
 		}
 		j++;
 	}
+	setup_signals();
 }
 
 void	init_pipe_data(t_cmd *arg, t_myenv *env, t_pipe *pipe_data)

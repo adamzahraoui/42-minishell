@@ -12,27 +12,24 @@
 
 #include "minishell.h"
 
-void	set_status(t_myenv **myenv, char *str, int status)
+void	set_status(int status)
 {
-	t_myenv	*env;
 	char	*p;
 	char	*num;
+	char 	**exit_code;
 
-	env = *myenv;
-	if (str != NULL)
-		perror(str);
-	env->i = status;
+	exit_code = exit_status();
+
 	num = ft_itoa(status);
 	if (!num)
 		return ;
 	p = ft_strjoin("?=", num);
+	*exit_code = ft_strdup(p);
 	free(num);
 	if (p)
-	{
-		check_double_env(myenv, p);
 		free(p);
-	}
 }
+
 
 int	ft_strncmp_nv(const char *s1, const char *s2, size_t n)
 {
@@ -54,7 +51,9 @@ int	ft_strncmp_nv(const char *s1, const char *s2, size_t n)
 
 void	print_error_ex(t_myenv **myenv, char *str)
 {
-	set_status(myenv, NULL, 1);
+	(void)myenv;
+	(void)str;
+	set_status(1);
 	ft_putstr_fd("minishell: export: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": not a valid identifier\n", 2);

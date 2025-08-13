@@ -68,7 +68,7 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 			*args = NULL;
 			return ;
 		}
-		else
+		else if (cmd->args[0])
 			ft_pipe(args, myenv, myenv_ex, env);
 		free_commands(*args);
 	}
@@ -77,7 +77,7 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		if (redirection(cmd) == 0)
 			restor_fd(cmd);
 		else
-			set_status(myenv, NULL, 1);
+			set_status(1);
 	}
 	*args = NULL;
 }

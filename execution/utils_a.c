@@ -116,7 +116,7 @@ int	check_builtin_cmd(t_cmd **str, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		{
 			if (redirection(cmd))
 			{
-				set_status(myenv, NULL, 1);
+				set_status(1);
 				return (1);
 			}
 		}

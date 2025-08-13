@@ -79,3 +79,10 @@ void	process_quoted_char(char *line, t_token_state *st, char *result,
 	else
 		result[st->j++] = line[st->i];
 }
+
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	write(2, "\n", 1);
+	exit(130);
+}
