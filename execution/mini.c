@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/13 00:20:38 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/13 01:06:26 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 			return ;
 		}
 		else
-		{
 			ft_pipe(args, myenv, myenv_ex, env);
-			free_commands(*args);
-		}
+		free_commands(*args);
 	}
 	else if (cmd->redirections)
 	{
@@ -81,6 +79,5 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 		else
 			set_status(myenv, NULL, 1);
 	}
-	ft_free_all();
 	*args = NULL;
 }

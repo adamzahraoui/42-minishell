@@ -20,10 +20,9 @@ void	add_back(t_myenv_ex **myenv_ex, char *str)
 	list = *myenv_ex;
 	new = malloc(sizeof(t_myenv_ex));
 	if (!new)
-	return ;
+		return ;
 	new->data = ft_strdup(str);
 	new->next = NULL;
-	
 	if (!list)
 	{
 		*myenv_ex = new;

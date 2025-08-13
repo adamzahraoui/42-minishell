@@ -16,14 +16,13 @@ void	add_back_env(t_myenv **myenv, char *str)
 {
 	t_myenv	*list;
 	t_myenv	*new;
-	
+
 	list = *myenv;
 	new = malloc(sizeof(t_myenv));
 	if (!new)
-	return ;
+		return ;
 	new->data = ft_strdup(str);
 	new->next = NULL;
-
 	if (!list)
 	{
 		*myenv = new;

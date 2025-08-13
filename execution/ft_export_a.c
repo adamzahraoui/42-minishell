@@ -78,7 +78,7 @@ void	print_export(t_myenv_ex **myenv_ex)
 	int			i;
 
 	if (!myenv_ex || !*myenv_ex)
-		return;
+		return ;
 	pr = *myenv_ex;
 	while (pr)
 	{

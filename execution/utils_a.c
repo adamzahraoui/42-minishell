@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:43:17 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/13 00:21:21 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/13 00:57:12 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**my_get_path_split(t_myenv **str, char *path, char c)
 	t_myenv	*myenv;
 
 	myenv = *str;
-	while (myenv->next)
+	while (myenv)
 	{
 		i = 0;
 		while (myenv->data[i] == path[i])

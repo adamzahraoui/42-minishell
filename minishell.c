@@ -124,6 +124,7 @@ int	main(int argc, char **argv, char **env)
         if (cmd != NULL)
         {
             cmd_ex(&cmd, env, &myenv, &myenv_ex);
+            ft_free_all();
             /* cmd_ex now handles freeing the commands */
         }
         /* Reset tokens to NULL since they're freed in handle_command */
