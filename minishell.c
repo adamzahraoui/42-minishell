@@ -95,6 +95,18 @@ void handle_command(char *input, t_expand_context *ctx, t_cmd **cmd, t_token **t
     free(input);
 }
 
+void    set_variables(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex, char **env)
+{
+    *cmd = NULL;
+    *myenv = NULL;
+    *myenv_ex = NULL;
+
+    declare_env(myenv, myenv_ex, env);
+    (*myenv)->i = 0;
+    add_back_env(myenv, "?=0");
+    setup_signals();
+}
+
 int	main(int argc, char **argv, char **env)
 {
     char	*input;
@@ -104,17 +116,11 @@ int	main(int argc, char **argv, char **env)
     t_myenv_ex *myenv_ex;
     t_expand_context ctx;
 
-    cmd = NULL;
     tokens = NULL;
-    myenv = NULL;
-    myenv_ex = NULL;
     ctx.vars = NULL;
-    declare_env(&myenv, &myenv_ex, env);
-    add_back_env(&myenv, "?=0");
-    myenv->i = 0;
     (void)argc;
     (void)argv;
-    setup_signals();
+    set_variables(&cmd, &myenv, &myenv_ex, env);
     while (1)
     {
         input = readline("minishell> ");
@@ -125,11 +131,8 @@ int	main(int argc, char **argv, char **env)
         {
             cmd_ex(&cmd, env, &myenv, &myenv_ex);
             ft_free_all();
-            /* cmd_ex now handles freeing the commands */
         }
-        /* Reset tokens to NULL since they're freed in handle_command */
         tokens = NULL;
-        
     }
     rl_clear_history();
     return (0);
