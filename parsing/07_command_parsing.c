@@ -115,15 +115,17 @@ int	handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens,
 	return (1);
 }
 
-void free_env_array(char **env)
+void	free_env_array(char **env)
 {
-    int i = 0;
-    if (!env)
-        return;
-    while (env[i])
-    {
-        ft_free_one(env[i]);
-        i++;
-    }
-    ft_free_one(env);
+	int	i;
+
+	i = 0;
+	if (!env)
+		return ;
+	while (env[i])
+	{
+		ft_free_one(env[i]);
+		i++;
+	}
+	ft_free_one(env);
 }

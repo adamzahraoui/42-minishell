@@ -69,8 +69,8 @@ void	variable_lookup_and_assign(t_var_extraction_params *params,
 		t_expand_context *ctx)
 {
 	char	*val;
+	char	**exit_code;
 
-	char **exit_code;
 	exit_code = exit_status();
 	val = get_shell_var(ctx->vars, params->var_name);
 	if (!val)

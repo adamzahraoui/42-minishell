@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:51:55 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/14 16:41:59 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 18:09:27 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	set_status(int status)
 {
 	char	*p;
 	char	*num;
-	char 	**exit_code;
+	char	**exit_code;
 
 	exit_code = exit_status();
-
 	num = ft_itoa(status);
 	if (!num)
 		return ;
@@ -27,7 +26,6 @@ void	set_status(int status)
 	*exit_code = ft_strdup_gc(p);
 	free(num);
 }
-
 
 int	ft_strncmp_nv(const char *s1, const char *s2, size_t n)
 {
@@ -75,4 +73,14 @@ char	*check_cmd(char **path, char *cmd)
 		i++;
 	}
 	return (NULL);
+}
+
+void	quit_core(t_pipe *pipe_data)
+{
+	if (WTERMSIG(pipe_data->status) == SIGINT)
+		write(2, "\n", 1);
+	else if (WTERMSIG(pipe_data->status) == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 20);
+	setup_signals();
+	set_status(128 + WTERMSIG(pipe_data->status));
 }

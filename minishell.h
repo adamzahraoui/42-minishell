@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:16:44 by akira             #+#    #+#             */
-/*   Updated: 2025/08/14 15:41:21 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 18:12:48 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -142,8 +142,8 @@ int							create_pipe_and_fork(t_cmd *arg, t_myenv *env,
 void						setup_signals(void);
 void						handle_sigint(int sig);
 int							validate_syntax(t_token *tokens);
-void						handle_command(char *input,
-								t_cmd **cmd, t_token **tokens, t_myenv **myenv);
+void						handle_command(char *input, t_cmd **cmd,
+								t_token **tokens, t_myenv **myenv);
 void						ft_free_all(int exit_code);
 
 t_token						*tokenize(char *line);
@@ -171,7 +171,7 @@ int							extract_var_name(const char *token, int *i,
 void						expand_all_tokens(t_token **tokens,
 								t_expand_context *ctx);
 
-void	*ft_malloc(size_t size);
+void						*ft_malloc(size_t size);
 
 typedef struct s_was
 {
@@ -255,9 +255,11 @@ void						ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv,
 								t_cmd *cmd);
 void						ft_echo(t_cmd *cmd, t_myenv **myenv);
 
-void	ft_pipe(t_cmd **cmd,  char **or_env, t_myenv **myenv, t_myenv_ex **myenv_ex);
+void						ft_pipe(t_cmd **cmd, char **or_env, t_myenv **myenv,
+								t_myenv_ex **myenv_ex);
 void						external_executables(t_cmd **cmd, char **path,
 								char **envp, t_myenv **myenv);
+void						quit_core(t_pipe *pipe_data);
 
 void						set_env_ex(t_myenv_ex **myenv, char **env);
 void						print_env(t_myenv *myenv);
@@ -280,7 +282,7 @@ char						*check_val(char *str);
 void						print_export(t_myenv_ex **myenv_ex);
 
 // void						ft_free_error(char *str, t_myenv **myenv,
-								// t_myenv_ex **myenv_ex, int i);
+// t_myenv_ex **myenv_ex, int i);
 void						free_error(char *str, t_myenv **myenv,
 								t_myenv_ex **myenv_ex);
 void						set_status(int status);
@@ -385,7 +387,8 @@ int							handle_expansion_result(
 								char *expanded, t_was was);
 t_token						*handle_failed_expansion(
 								t_failed_expansion_params *params);
-int							heredoc_child_loop(t_heredoc_loop_params *params,
+int							heredoc_child_loop(
+								t_heredoc_loop_params *params,
 								t_expand_context *ctx);
 
 int							dispatch_redirection(t_cmd *cmd, t_token *next,
@@ -402,12 +405,12 @@ void						restor_fd(t_cmd *cmd);
 char						*remove_all_quotes(const char *str);
 char						*ft_strjoin_gc(char const *s1, char const *s2);
 char						*ft_strdup_gc(const char *s);
-char **exit_status(void);
+char						**exit_status(void);
 
-void	handle_heredoc_sigint(int sig);
-int	validate_token_specific(t_token *current);
-int	validate_redirection_next_token(t_token *next);
-int	validate_pipe_token(t_token *current);
-void	ft_free_one(void *ptr);
+void						handle_heredoc_sigint(int sig);
+int							validate_token_specific(t_token *current);
+int							validate_redirection_next_token(t_token *next);
+int							validate_pipe_token(t_token *current);
+void						ft_free_one(void *ptr);
 
 #endif

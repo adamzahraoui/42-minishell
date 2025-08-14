@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/14 15:58:24 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 18:11:10 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	error(char *arg, char *error, int exit_code)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(error, 2);
-	return(exit_code);
+	return (exit_code);
 }
 
 int	exec_extranal_cmd(t_cmd *arg, char **path, char **or_env)
@@ -48,10 +48,11 @@ int	exec_extranal_cmd(t_cmd *arg, char **path, char **or_env)
 	return (0);
 }
 
-void	exec_all(t_cmd *cmd, t_myenv *my_env, char **or_env, t_myenv_ex **env_ex)
+void	exec_all(t_cmd *cmd, t_myenv *my_env, char **or_env,
+		t_myenv_ex **env_ex)
 {
 	char	**path;
-	int exit_code;
+	int		exit_code;
 
 	path = my_get_path_split(&my_env, "PATH=", ':');
 	if (cmd->redirections && redirection(cmd) == 1)
@@ -68,7 +69,8 @@ void	exec_all(t_cmd *cmd, t_myenv *my_env, char **or_env, t_myenv_ex **env_ex)
 	}
 }
 
-void	ft_pipe(t_cmd **cmd,  char **or_env, t_myenv **myenv, t_myenv_ex **myenv_ex)
+void	ft_pipe(t_cmd **cmd, char **or_env, t_myenv **myenv,
+		t_myenv_ex **myenv_ex)
 {
 	t_cmd	*arg;
 	t_myenv	*env;
@@ -77,8 +79,6 @@ void	ft_pipe(t_cmd **cmd,  char **or_env, t_myenv **myenv, t_myenv_ex **myenv_ex
 	(1) && (arg = *cmd, env = *myenv);
 	init_pipe_data(*cmd, *myenv, &pipe_data);
 	pipe_data.pids = ft_malloc(sizeof(int) * pipe_data.count);
-	if (!pipe_data.pids)
-		return ;
 	while (arg)
 	{
 		if (create_pipe_and_fork(arg, env, &pipe_data))

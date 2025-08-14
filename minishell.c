@@ -12,9 +12,10 @@
 
 #include "../minishell.h"
 
-char **exit_status(void)
+char	**exit_status(void)
 {
-	static char *status = NULL;
+	static char	*status = NULL;
+
 	return (&status);
 }
 

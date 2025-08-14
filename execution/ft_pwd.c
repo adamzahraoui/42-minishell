@@ -14,9 +14,9 @@
 
 void	ft_pwd(t_myenv **myenv)
 {
-	(void)myenv;
 	char	*pwd;
 
+	(void)myenv;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

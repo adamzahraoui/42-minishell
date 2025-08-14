@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:26:17 by akira             #+#    #+#             */
-/*   Updated: 2025/08/11 21:23:30 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 18:07:52 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,7 @@ void	wait_pid(t_pipe *pipe_data, t_myenv **myenv)
 				set_status(WEXITSTATUS(pipe_data->status));
 			else if (WIFSIGNALED(pipe_data->status))
 			{
-				if (WTERMSIG(pipe_data->status) == SIGINT)
-					write(2, "\n", 1);
-				else if (WTERMSIG(pipe_data->status) == SIGQUIT)
-					write(2, "Quit (core dumped)\n", 20);
-				setup_signals();
-				set_status(128 + WTERMSIG(pipe_data->status));
+				quit_core(pipe_data);
 				return ;
 			}
 		}

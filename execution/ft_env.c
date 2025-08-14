@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/14 17:09:39 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 18:05:06 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ void	print_env(t_myenv *myenv)
 			i = 0;
 			while (myenv->data[i] != '\0')
 			{
-				if(myenv->data[i] == '$' && myenv->data[i + 1] == '?' && myenv->data[i - 1] == '=')
-					i++;
-				else if (myenv->data[i] == '"' && myenv->data[i - 1] == '=')
-					i++;
-				else if (myenv->data[i] == '"' && myenv->data[i + 1] == '\0')
+				if (myenv->data[i] == '$' && myenv->data[i + 1] == '?'
+					&& myenv->data[i - 1] == '=')
+					i += 2;
+				else if ((myenv->data[i] == '"' && myenv->data[i - 1] == '=')
+					|| (myenv->data[i] == '"' && myenv->data[i + 1] == '\0'))
 					i++;
 				else
 				{

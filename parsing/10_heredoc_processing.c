@@ -90,7 +90,6 @@ void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
 	ft_free_all(0);
 }
 
-
 int	heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 {
 	int		status;

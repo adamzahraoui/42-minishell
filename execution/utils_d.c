@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:26:04 by akira             #+#    #+#             */
-/*   Updated: 2025/08/13 02:23:50 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 18:09:59 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,25 @@ void	set_variables(t_cmd **cmd, t_myenv **myenv, t_myenv_ex **myenv_ex,
 	declare_env(myenv, myenv_ex, env);
 	(*myenv)->i = 0;
 	setup_signals();
+}
+
+char	*ft_strjoin_gc(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*p;
+
+	if (!s1 || !s2)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+		i++;
+	while (s2[j] != '\0')
+		j++;
+	p = ft_malloc((i + j + 1) * sizeof(char));
+	ft_memmove(p, s1, i);
+	ft_memmove(p + i, s2, j);
+	p[i + j] = '\0';
+	return (p);
 }
