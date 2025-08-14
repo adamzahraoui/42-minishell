@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:26:04 by akira             #+#    #+#             */
-/*   Updated: 2025/08/14 18:09:59 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 19:03:33 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ void	add_back(t_myenv_ex **myenv_ex, char *str)
 	t_myenv_ex	*new;
 
 	list = *myenv_ex;
-	new = malloc(sizeof(t_myenv_ex));
-	if (!new)
-		return ;
-	new->data = ft_strdup(str);
+	new = ft_malloc(sizeof(t_myenv_ex));
+	new->data = ft_strdup_gc(str);
 	new->next = NULL;
 	if (!list)
 	{
