@@ -12,51 +12,18 @@
 
 #include "../minishell.h"
 
-void	handle_quoted_expansion(char *line, t_token_state *st, char *result,
+void	process_quoted_char(char *line, t_token_state *st, char *result,
 		t_expand_context *ctx)
 {
-	char	quote;
-	int		len;
-
-	len = ft_strlen(line);
-	if (st->in_single)
-		quote = '\'';
-	else
-		quote = '"';
-	result[st->j++] = quote;
-	while (++st->i < len - 1)
+	if (line[st->i] == '$')
 	{
-		process_quoted_char(line, st, result, ctx);
+		if (st->in_double)
+			st->j += expand_variable(line, &st->i, result + st->j, ctx);
+		else
+			result[st->j++] = line[st->i];
 	}
-	result[st->j++] = quote;
-}
-
-char	*expand_heredoc_line(char *line, t_expand_context *ctx)
-{
-	char			*result;
-	t_token_state	st;
-
-	if (!line)
-		return (NULL);
-	result = malloc(MAX_TOKEN_LEN);
-	if (!result)
-		return (NULL);
-	memset(&st, 0, sizeof(st));
-	if (st.in_single || st.in_double)
-		handle_quoted_expansion(line, &st, result, ctx);
 	else
-	{
-		while (line[st.i] && st.j < MAX_TOKEN_LEN - 1)
-		{
-			if (line[st.i] == '$')
-				st.j += expand_variable(line, &st.i, result + st.j, ctx);
-			else
-				result[st.j++] = line[st.i];
-			st.i++;
-		}
-	}
-	result[st.j] = '\0';
-	return (result);
+		result[st->j++] = line[st->i];
 }
 
 char	*remove_all_quotes(const char *str)
@@ -96,4 +63,17 @@ int	is_quoted(const char *str)
 	len = strlen(str);
 	return (len >= 2 && ((str[0] == '"' && str[len - 1] == '"')
 			|| (str[0] == '\'' && str[len - 1] == '\'')));
+}
+
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	write(2, "\n", 1);
+	exit(130);
+}
+
+int	is_redirection(t_token_type type)
+{
+	return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
+		|| type == TOKEN_HEREDOC || type == TOKEN_APPEND);
 }

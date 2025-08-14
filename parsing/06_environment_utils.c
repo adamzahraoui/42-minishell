@@ -88,20 +88,3 @@ char	**env_copy_loop(t_myenv *temp, char **env, int count, int i)
 	}
 	return (env);
 }
-
-char	*get_myenv_value(t_myenv *myenv, char *name)
-{
-	int	name_len;
-
-	if (!myenv || !name)
-		return (NULL);
-	name_len = ft_strlen(name);
-	while (myenv)
-	{
-		if (ft_strncmp(myenv->data, name, name_len) == 0
-			&& myenv->data[name_len] == '=')
-			return (myenv->data + name_len + 1);
-		myenv = myenv->next;
-	}
-	return (NULL);
-}

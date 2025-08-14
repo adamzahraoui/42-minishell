@@ -12,19 +12,23 @@
 
 #include "../minishell.h"
 
-int	create_and_link_token(t_token *token, char *str, int split_pos)
+int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx)
 {
-	t_token	*new_token;
+	t_heredoc_params	line_params;
+	int					got_delim;
 
-	new_token = malloc(sizeof(t_token));
-	if (!new_token)
-		return (0);
-	new_token->value = ft_strdup(str + split_pos);
-	new_token->type = TOKEN_WORD;
-	new_token->next = token->next;
-	token->value[split_pos] = '\0';
-	token->next = new_token;
-	return (1);
+	got_delim = 0;
+	line_params.clean_delimiter = params->clean_delimiter;
+	line_params.quoted = params->quoted;
+	line_params.write_fd = params->write_fd;
+	line_params.got_delim = &got_delim;
+	while (1)
+	{
+		if (process_heredoc_line(&line_params, ctx) == -1)
+			break ;
+		(*params->lineno)++;
+	}
+	return (got_delim);
 }
 
 int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
@@ -66,23 +70,49 @@ void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
 	free(line);
 }
 
-void	process_quoted_char(char *line, t_token_state *st, char *result,
-		t_expand_context *ctx)
+char	*expand_heredoc_line(char *line, t_expand_context *ctx)
 {
-	if (line[st->i] == '$')
-	{
-		if (st->in_double)
-			st->j += expand_variable(line, &st->i, result + st->j, ctx);
-		else
-			result[st->j++] = line[st->i];
-	}
+	char			*result;
+	t_token_state	st;
+
+	if (!line)
+		return (NULL);
+	result = malloc(MAX_TOKEN_LEN);
+	if (!result)
+		return (NULL);
+	memset(&st, 0, sizeof(st));
+	if (st.in_single || st.in_double)
+		handle_quoted_expansion(line, &st, result, ctx);
 	else
-		result[st->j++] = line[st->i];
+	{
+		while (line[st.i] && st.j < MAX_TOKEN_LEN - 1)
+		{
+			if (line[st.i] == '$')
+				st.j += expand_variable(line, &st.i, result + st.j, ctx);
+			else
+				result[st.j++] = line[st.i];
+			st.i++;
+		}
+	}
+	result[st.j] = '\0';
+	return (result);
 }
 
-void	handle_heredoc_sigint(int sig)
+void	handle_quoted_expansion(char *line, t_token_state *st, char *result,
+		t_expand_context *ctx)
 {
-	(void)sig;
-	write(2, "\n", 1);
-	exit(130);
+	char	quote;
+	int		len;
+
+	len = ft_strlen(line);
+	if (st->in_single)
+		quote = '\'';
+	else
+		quote = '"';
+	result[st->j++] = quote;
+	while (++st->i < len - 1)
+	{
+		process_quoted_char(line, st, result, ctx);
+	}
+	result[st->j++] = quote;
 }

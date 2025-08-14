@@ -12,6 +12,23 @@
 
 #include "../minishell.h"
 
+int	handle_heredoc(const char *delimiter, t_expand_context *ctx)
+{
+	char	*clean_delimiter;
+	int		fds[2];
+	pid_t	pid;
+	int		quoted;
+
+	if (heredoc_setup(delimiter, &clean_delimiter, &quoted) == -1)
+		return (-1);
+	pid = heredoc_pipe_and_fork(fds, clean_delimiter);
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+		heredoc_child(fds, clean_delimiter, quoted, ctx);
+	return (heredoc_parent(pid, fds, clean_delimiter));
+}
+
 int	heredoc_setup(const char *delimiter, char **clean_delimiter, int *quoted)
 {
 	if (!delimiter)
@@ -93,23 +110,4 @@ int	heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 		return (-1);
 	}
 	return (fds[0]);
-}
-
-int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx)
-{
-	t_heredoc_params	line_params;
-	int					got_delim;
-
-	got_delim = 0;
-	line_params.clean_delimiter = params->clean_delimiter;
-	line_params.quoted = params->quoted;
-	line_params.write_fd = params->write_fd;
-	line_params.got_delim = &got_delim;
-	while (1)
-	{
-		if (process_heredoc_line(&line_params, ctx) == -1)
-			break ;
-		(*params->lineno)++;
-	}
-	return (got_delim);
 }
