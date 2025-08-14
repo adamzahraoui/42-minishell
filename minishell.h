@@ -231,11 +231,11 @@ int							handle_heredoc(const char *delimiter,
 int							is_quoted(const char *str);
 
 int							heredoc_setup(const char *delimiter,
-								char **clean_delimiter, int *quoted);
+								char **clean_delimiter);
 int							heredoc_pipe_and_fork(int *fds,
 								char *clean_delimiter);
 void						heredoc_child(int *fds, char *clean_delimiter,
-								int quoted, t_expand_context *ctx);
+								t_expand_context *ctx);
 int							heredoc_parent(pid_t pid, int *fds,
 								char *clean_delimiter);
 
@@ -280,9 +280,6 @@ int							check_double_env(t_myenv **myenv, char *str);
 int							check_exist(char *str, char *dest);
 char						*check_val(char *str);
 void						print_export(t_myenv_ex **myenv_ex);
-
-// void						ft_free_error(char *str, t_myenv **myenv,
-// t_myenv_ex **myenv_ex, int i);
 void						free_error(char *str, t_myenv **myenv,
 								t_myenv_ex **myenv_ex);
 void						set_status(int status);
@@ -321,7 +318,6 @@ void						set_variables(t_cmd **cmd, t_myenv **myenv,
 typedef struct s_heredoc_params
 {
 	const char				*clean_delimiter;
-	int						quoted;
 	int						write_fd;
 	int						*got_delim;
 }							t_heredoc_params;
@@ -329,7 +325,6 @@ typedef struct s_heredoc_params
 typedef struct s_heredoc_loop_params
 {
 	const char				*clean_delimiter;
-	int						quoted;
 	int						write_fd;
 	int						*lineno;
 }							t_heredoc_loop_params;

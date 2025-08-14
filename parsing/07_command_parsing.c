@@ -46,6 +46,8 @@ t_cmd	*parse_commands(t_token **tokens, t_var *vars, char **env)
 	token_ptr = *tokens;
 	while (token_ptr)
 	{
+		if (token_ptr && token_ptr->type == TOKEN_PIPE)
+			token_ptr = token_ptr->next;
 		if (!head)
 		{
 			head = parse_command(&token_ptr, vars, env);
@@ -56,8 +58,6 @@ t_cmd	*parse_commands(t_token **tokens, t_var *vars, char **env)
 			current->next = parse_command(&token_ptr, vars, env);
 			current = current->next;
 		}
-		if (token_ptr && token_ptr->type == TOKEN_PIPE)
-			token_ptr = token_ptr->next;
 	}
 	return (head);
 }

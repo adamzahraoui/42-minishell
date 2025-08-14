@@ -19,7 +19,6 @@ int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx)
 
 	got_delim = 0;
 	line_params.clean_delimiter = params->clean_delimiter;
-	line_params.quoted = params->quoted;
 	line_params.write_fd = params->write_fd;
 	line_params.got_delim = &got_delim;
 	while (1)
@@ -60,8 +59,7 @@ void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
 
 	to_write = line;
 	expanded = NULL;
-	if (!params->quoted)
-		expanded = expand_heredoc_line(line, ctx);
+	expanded = expand_heredoc_line(line, ctx);
 	if (expanded)
 		to_write = expanded;
 	write(params->write_fd, to_write, ft_strlen(to_write));

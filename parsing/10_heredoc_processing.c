@@ -17,26 +17,24 @@ int	handle_heredoc(const char *delimiter, t_expand_context *ctx)
 	char	*clean_delimiter;
 	int		fds[2];
 	pid_t	pid;
-	int		quoted;
 
-	if (heredoc_setup(delimiter, &clean_delimiter, &quoted) == -1)
+	if (heredoc_setup(delimiter, &clean_delimiter) == -1)
 		return (-1);
 	pid = heredoc_pipe_and_fork(fds, clean_delimiter);
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-		heredoc_child(fds, clean_delimiter, quoted, ctx);
+		heredoc_child(fds, clean_delimiter, ctx);
 	return (heredoc_parent(pid, fds, clean_delimiter));
 }
 
-int	heredoc_setup(const char *delimiter, char **clean_delimiter, int *quoted)
+int	heredoc_setup(const char *delimiter, char **clean_delimiter)
 {
 	if (!delimiter)
 		return (-1);
 	*clean_delimiter = remove_all_quotes(delimiter);
 	if (!*clean_delimiter)
 		return (-1);
-	*quoted = is_quoted(delimiter);
 	return (0);
 }
 
@@ -46,14 +44,12 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 
 	if (pipe(fds) == -1)
 	{
-		perror("pipe");
 		ft_free_one(clean_delimiter);
 		return (-1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
 		close(fds[0]);
 		close(fds[1]);
 		ft_free_one(clean_delimiter);
@@ -62,8 +58,7 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 	return (pid);
 }
 
-void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
-		t_expand_context *ctx)
+void	heredoc_child(int *fds, char *clean_delimiter, t_expand_context *ctx)
 {
 	t_heredoc_loop_params	loop_params;
 	int						lineno;
@@ -74,7 +69,6 @@ void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
 	signal(SIGINT, handle_heredoc_sigint);
 	close(fds[0]);
 	loop_params.clean_delimiter = clean_delimiter;
-	loop_params.quoted = quoted;
 	loop_params.write_fd = fds[1];
 	loop_params.lineno = &lineno;
 	got_delim = heredoc_child_loop(&loop_params, ctx);
