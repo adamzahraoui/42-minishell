@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:12 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/10 16:34:58 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 15:55:17 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	delete_node_env(t_myenv **head, t_myenv *node, t_myenv *prev)
 		prev->next = node->next;
 	else
 		*head = node->next;
-	free(node->data);
-	free(node);
+	ft_free_one(node->data);
+	ft_free_one(node);
 }
 
 void	ft_unset_env(t_myenv **myenv, t_cmd *cmd)
@@ -72,8 +72,8 @@ static void	delete_node_env_ex(t_myenv_ex **head, t_myenv_ex *node,
 		prev->next = node->next;
 	else
 		*head = node->next;
-	free(node->data);
-	free(node);
+	ft_free_one(node->data);
+	ft_free_one(node);
 }
 
 void	ft_unset(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)

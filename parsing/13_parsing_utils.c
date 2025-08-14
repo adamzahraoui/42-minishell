@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   12_parsing_utils.c                                 :+:      :+:    :+:   */
+/*   13_parsing_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 13:02:30 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/12 13:02:38 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:39:48 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int	create_and_link_token(t_token *token, char *str, int split_pos)
 {
 	t_token	*new_token;
 
-	new_token = malloc(sizeof(t_token));
-	if (!new_token)
-		return (0);
-	new_token->value = ft_strdup(str + split_pos);
+	new_token = ft_malloc(sizeof(t_token));
+	new_token->value = ft_strdup_gc(str + split_pos);
 	new_token->type = TOKEN_WORD;
 	new_token->next = token->next;
 	token->value[split_pos] = '\0';
@@ -55,8 +53,8 @@ void	free_tokens(t_token *tokens)
 	{
 		tmp = tokens;
 		tokens = tokens->next;
-		free(tmp->value);
-		free(tmp);
+		ft_free_one(tmp->value);
+		ft_free_one(tmp);
 	}
 }
 
@@ -71,9 +69,7 @@ char	*expand_token(char *token, t_var *vars, char **env)
 	memset(&st, 0, sizeof(st));
 	if (!token)
 		return (NULL);
-	result = malloc(MAX_TOKEN_LEN);
-	if (!result)
-		return (NULL);
+	result = ft_malloc(MAX_TOKEN_LEN);
 	result[0] = '\0';
 	while (token[st.i] && st.j < MAX_TOKEN_LEN - 1)
 		process_token_character(token, &st, result, &ctx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   01_tokenizer_core.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:05:42 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:05:44 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:25:35 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ t_token	*tokenize(char *line)
 		if (!line[i])
 			break ;
 		token_value = get_next_token(line, &i);
-		if (!token_value)
-		{
-			free_tokens(head);
-			return (NULL);
-		}
 		if (token_value)
 		{
 			if (!add_token_to_list(&head, &current, token_value))
@@ -50,14 +45,8 @@ char	*get_next_token(char *line, int *i)
 	st.in_double = 0;
 	if (!line || !line[*i])
 		return (NULL);
-	token = ft_strdup("");
-	if (!token)
-		return (NULL);
+	token = ft_strdup_gc("");
 	token = process_token_content(line, i, token, &st);
-	if (!token)
-		return (NULL);
-	if (!*token)
-		return (free(token), NULL);
 	return (token);
 }
 
@@ -77,8 +66,6 @@ char	*process_token_content(char *line, int *i, char *token,
 	{
 		tmp = token;
 		token = process_token_part(line, i, token, st);
-		if (!token)
-			return (NULL);
 		if (token == tmp)
 			break ;
 	}
@@ -91,23 +78,23 @@ char	*handle_special_tokens(char *line, int *i, char *token)
 
 	if (line[*i] == '<' && line[*i + 1] == '<')
 	{
-		free(token);
+		ft_free_one(token);
 		*i += 2;
-		return (ft_strdup("<<"));
+		return (ft_strdup_gc("<<"));
 	}
 	if (line[*i] == '>' && line[*i + 1] == '>')
 	{
-		free(token);
+		ft_free_one(token);
 		*i += 2;
-		return (ft_strdup(">>"));
+		return (ft_strdup_gc(">>"));
 	}
 	if (line[*i] == '<' || line[*i] == '>' || line[*i] == '|')
 	{
-		free(token);
+		ft_free_one(token);
 		single_char[0] = line[*i];
 		single_char[1] = '\0';
 		(*i)++;
-		return (ft_strdup(single_char));
+		return (ft_strdup_gc(single_char));
 	}
 	return (NULL);
 }
@@ -127,14 +114,14 @@ char	*process_token_part(char *line, int *i, char *token, t_token_state *st)
 	part = get_next_token_part(line, i);
 	if (!part)
 	{
-		free(token);
+		ft_free_one(token);
 		return (NULL);
 	}
 	tmp = ft_strjoin(token, part);
 	if (tmp == NULL)
-		return (free(token), free(part), NULL);
-	free(token);
-	free(part);
+		return (ft_free_one(token), ft_free_one(part), NULL);
+	ft_free_one(token);
+	ft_free_one(part);
 	token = tmp;
 	return (token);
 }

@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/13 01:06:26 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 15:58:58 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,8 @@ void	add_env_node(t_myenv **myenv, char *env)
 	t_myenv	*new_node;
 	t_myenv	*last;
 
-	new_node = malloc(sizeof(t_myenv));
-	if (!new_node)
-		return ;
-	new_node->data = ft_strdup(env);
-	if (!new_node->data)
-		return ;
+	new_node = ft_malloc(sizeof(t_myenv));
+	new_node->data = ft_strdup_gc(env);
 	new_node->next = NULL;
 	if (*myenv == NULL)
 	{
@@ -64,13 +60,11 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	{
 		if (!cmd->next && check_builtin_cmd(args, myenv, myenv_ex) == 1)
 		{
-			free_commands(*args);
 			*args = NULL;
 			return ;
 		}
 		else if (cmd->args[0])
-			ft_pipe(args, myenv, myenv_ex, env);
-		free_commands(*args);
+			ft_pipe(args, env, myenv, myenv_ex);
 	}
 	else if (cmd->redirections)
 	{

@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/12 00:03:11 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 16:47:24 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	return_status(t_cmd *cmd, t_myenv **myenv)
 			if (ft_isdigit(cmd->args[1][j]) == 0)
 			{
 				print_error_status(myenv, cmd->args[i], 1);
-				exit(1);
+				ft_free_all(1);
 			}
 			j++;
 		}
@@ -93,11 +93,11 @@ void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 	(void)myenv_ex;
 	printf("exit\n");
 	if (!cmd->args[1])
-		exit(0);
+		ft_free_all(0);
 	if (!is_numeric(cmd->args[1]) || !is_longlong(cmd->args[1]))
 	{
 		print_error_status(myenv, cmd->args[1], 2);
-		ft_free_error(NULL, myenv, myenv_ex, 2);
+		ft_free_all(2);
 	}
 	if (cmd->args[2])
 	{
@@ -106,5 +106,5 @@ void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 		return ;
 	}
 	exit_status = ft_atoi(cmd->args[1]);
-	ft_free_error(NULL, myenv, myenv_ex, exit_status);
+	ft_free_all(exit_status);
 }

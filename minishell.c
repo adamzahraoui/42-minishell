@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:25:59 by akira             #+#    #+#             */
-/*   Updated: 2025/08/13 02:28:43 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 17:44:49 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	handle_command(char *input, t_cmd **cmd, t_token **tokens,
 	trimmed = ft_strtrim(input, " \t");
 	if (trimmed && *trimmed)
 		add_history(trimmed);
-	free(trimmed);
+	ft_free_one(trimmed);
 	(*tokens) = tokenize(input);
 	if (*tokens)
 	{
@@ -61,7 +61,7 @@ void	handle_command(char *input, t_cmd **cmd, t_token **tokens,
 		free_env_array(ctx.env);
 	}
 	free_tokens(*tokens);
-	free(input);
+	ft_free_one(input);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -81,15 +81,14 @@ int	main(int argc, char **argv, char **env)
 	{
 		input = readline("minishell> ");
 		if (!input)
-			ft_free_error("exit\n", &myenv, &myenv_ex, 139);
+		{
+			printf("exit\n");
+			ft_free_all(139);
+		}
 		handle_command(input, &cmd, &tokens, &myenv);
 		if (cmd != NULL)
-		{
 			cmd_ex(&cmd, env, &myenv, &myenv_ex);
-			ft_free_all();
-		}
 		tokens = NULL;
+		free(input);
 	}
-	rl_clear_history();
-	return (0);
 }

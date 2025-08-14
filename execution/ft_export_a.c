@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:16 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/13 00:23:02 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 15:52:32 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	process_export_arg(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd,
 			else
 				add_back(myenv_ex, cmd->args[i]);
 		}
-		free(egual);
+		ft_free_one(egual);
 	}
 }
 
@@ -75,7 +75,6 @@ void	print_export(t_myenv_ex **myenv_ex)
 {
 	char		**split;
 	t_myenv_ex	*pr;
-	int			i;
 
 	if (!myenv_ex || !*myenv_ex)
 		return ;
@@ -89,10 +88,6 @@ void	print_export(t_myenv_ex **myenv_ex)
 			if (pr->data != NULL)
 				print_export_data(pr->data);
 		}
-		i = 0;
-		while (split[i])
-			free(split[i++]);
-		free(split);
 		pr = pr->next;
 	}
 }

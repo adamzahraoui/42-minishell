@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:56:09 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/13 00:09:43 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 17:09:39 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	add_back_env(t_myenv **myenv, char *str)
 	t_myenv	*new;
 
 	list = *myenv;
-	new = malloc(sizeof(t_myenv));
+	new = ft_malloc(sizeof(t_myenv));
 	if (!new)
 		return ;
-	new->data = ft_strdup(str);
+	new->data = ft_strdup_gc(str);
 	new->next = NULL;
 	if (!list)
 	{
@@ -68,11 +68,11 @@ int	check_double_env(t_myenv **myenv, char *str)
 			p = check_val(str);
 			if (p)
 			{
-				free(list->data);
+				ft_free_one(list->data);
 				list->data = p;
 				return (0);
 			}
-			free(p);
+			ft_free_one(p);
 		}
 		list = list->next;
 	}
@@ -90,7 +90,9 @@ void	print_env(t_myenv *myenv)
 			i = 0;
 			while (myenv->data[i] != '\0')
 			{
-				if (myenv->data[i] == '"' && myenv->data[i - 1] == '=')
+				if(myenv->data[i] == '$' && myenv->data[i + 1] == '?' && myenv->data[i - 1] == '=')
+					i++;
+				else if (myenv->data[i] == '"' && myenv->data[i - 1] == '=')
 					i++;
 				else if (myenv->data[i] == '"' && myenv->data[i + 1] == '\0')
 					i++;
@@ -115,5 +117,5 @@ void	set_env_doubl(t_myenv **myenv, char *str)
 		add_back_env(myenv, egual);
 	else if (check_double_env(myenv, str) == 1)
 		add_back_env(myenv, str);
-	free(egual);
+	ft_free_one(egual);
 }

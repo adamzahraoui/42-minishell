@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:16:44 by akira             #+#    #+#             */
-/*   Updated: 2025/08/13 02:29:04 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 15:41:21 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void						handle_sigint(int sig);
 int							validate_syntax(t_token *tokens);
 void						handle_command(char *input,
 								t_cmd **cmd, t_token **tokens, t_myenv **myenv);
-void						ft_free_all(void);
+void						ft_free_all(int exit_code);
 
 t_token						*tokenize(char *line);
 char						*get_next_token(char *line, int *i);
@@ -170,6 +170,8 @@ int							extract_var_name(const char *token, int *i,
 
 void						expand_all_tokens(t_token **tokens,
 								t_expand_context *ctx);
+
+void	*ft_malloc(size_t size);
 
 typedef struct s_was
 {
@@ -253,8 +255,7 @@ void						ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv,
 								t_cmd *cmd);
 void						ft_echo(t_cmd *cmd, t_myenv **myenv);
 
-void						ft_pipe(t_cmd **cmd, t_myenv **myenv,
-								t_myenv_ex **env_ex, char **or_env);
+void	ft_pipe(t_cmd **cmd,  char **or_env, t_myenv **myenv, t_myenv_ex **myenv_ex);
 void						external_executables(t_cmd **cmd, char **path,
 								char **envp, t_myenv **myenv);
 
@@ -278,8 +279,8 @@ int							check_exist(char *str, char *dest);
 char						*check_val(char *str);
 void						print_export(t_myenv_ex **myenv_ex);
 
-void						ft_free_error(char *str, t_myenv **myenv,
-								t_myenv_ex **myenv_ex, int i);
+// void						ft_free_error(char *str, t_myenv **myenv,
+								// t_myenv_ex **myenv_ex, int i);
 void						free_error(char *str, t_myenv **myenv,
 								t_myenv_ex **myenv_ex);
 void						set_status(int status);
@@ -401,13 +402,12 @@ void						restor_fd(t_cmd *cmd);
 char						*remove_all_quotes(const char *str);
 char						*ft_strjoin_gc(char const *s1, char const *s2);
 char						*ft_strdup_gc(const char *s);
-void						ft_free(void *ptr);
-void						ft_free_all(void);
 char **exit_status(void);
 
 void	handle_heredoc_sigint(int sig);
 int	validate_token_specific(t_token *current);
 int	validate_redirection_next_token(t_token *next);
 int	validate_pipe_token(t_token *current);
+void	ft_free_one(void *ptr);
 
 #endif

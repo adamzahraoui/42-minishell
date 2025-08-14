@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   05_expansion_processing.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:06:53 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:06:54 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:28:31 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	trim_token_values(t_token *tok, t_token *next, int was_quoted)
 			trimmed = ft_strtrim(current->value, " \t\n\v\f\r");
 			if (trimmed)
 			{
-				free(current->value);
+				ft_free_one(current->value);
 				current->value = trimmed;
 			}
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:34:47 by adzahrao          #+#    #+#             */
-/*   Updated: 2024/11/01 04:31:01 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:50:27 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,6 @@ int	count_word(char *src, char sep)
 	return (cw);
 }
 
-void	*ft_free(char **p, int index)
-{
-	while (index--)
-		free(p[index]);
-	free(p);
-	return (NULL);
-}
-
 char	**ft_split(const char *str, char c)
 {
 	char	**p;
@@ -72,7 +64,7 @@ char	**ft_split(const char *str, char c)
 	int		i;
 	int		start;
 
-	p = malloc((count_word((char *)str, c) + 1) * sizeof(char *));
+	p = ft_malloc((count_word((char *)str, c) + 1) * sizeof(char *));
 	if (!p)
 		return (NULL);
 	i = 0;
@@ -84,9 +76,7 @@ char	**ft_split(const char *str, char c)
 		if (str[i] != '\0')
 		{
 			start = i;
-			p[index] = malloc((ft___strlen((char *)str, &i, c) + 1));
-			if (!p[index])
-				return (ft_free(p, index));
+			p[index] = ft_malloc((ft___strlen((char *)str, &i, c) + 1));
 			ft_strcpy((char *)str, p[index++], start, i);
 		}
 	}

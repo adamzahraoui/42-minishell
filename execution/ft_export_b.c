@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:30:32 by akira             #+#    #+#             */
-/*   Updated: 2025/08/12 00:36:01 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 15:21:57 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*create_cupy(char *dest)
 	a = 1;
 	if (!dest)
 		return (NULL);
-	cupy = malloc(ft_strlen(dest) + 3);
+	cupy = ft_malloc(ft_strlen(dest) + 3);
 	if (!dest || !cupy)
 		return (NULL);
 	cupy[0] = '=';
@@ -42,11 +42,11 @@ char	*check_val(char *str)
 
 	(1) && (dest = ft_strchr(str, '='), i = 0);
 	if (dest && dest[1] == '"')
-		return (ft_strdup(str));
+		return (ft_strdup_gc(str));
 	cupy = create_cupy(dest);
 	if (!dest || !cupy)
 		return (NULL);
-	first = malloc((dest - str) + 2);
+	first = ft_malloc((dest - str) + 2);
 	if (!first)
 		return (NULL);
 	while (str[i] != '=')
@@ -54,9 +54,9 @@ char	*check_val(char *str)
 		first[i] = str[i];
 		i++;
 	}
-	(1) && (first[i] = '\0', temp = ft_strjoin(first, cupy));
-	free(first);
-	free(cupy);
+	(1) && (first[i] = '\0', temp = ft_strjoin_gc(first, cupy));
+	ft_free_one(first);
+	ft_free_one(cupy);
 	return (temp);
 }
 

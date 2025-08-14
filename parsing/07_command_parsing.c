@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   07_command_parsing.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:07:59 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/04 15:35:25 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:54:43 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_cmd	*parse_command(t_token **tokens, t_var *vars, char **env)
 				return (NULL);
 			continue ;
 		}
-		add_argument(cmd, ft_strdup(token_ptr->value));
+		add_argument(cmd, ft_strdup_gc(token_ptr->value));
 		token_ptr = token_ptr->next;
 	}
 	*tokens = token_ptr;
@@ -115,17 +115,15 @@ int	handle_redirection(t_cmd *cmd, t_token **token_ptr, t_token **tokens,
 	return (1);
 }
 
-void	free_env_array(char **env)
+void free_env_array(char **env)
 {
-	int	i;
-
-	if (!env)
-		return ;
-	i = 0;
-	while (env[i])
-	{
-		free(env[i]);
-		i++;
-	}
-	free(env);
+    int i = 0;
+    if (!env)
+        return;
+    while (env[i])
+    {
+        ft_free_one(env[i]);
+        i++;
+    }
+    ft_free_one(env);
 }

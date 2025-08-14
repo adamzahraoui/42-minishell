@@ -6,83 +6,84 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 00:47:52 by akira             #+#    #+#             */
-/*   Updated: 2025/08/12 00:49:31 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 17:01:29 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_free	*g_free_list = NULL;
-
-void	*ft_malloc(size_t size)
+static t_free **gb_variable(void)
 {
-	void	*p;
-	t_free	*node;
+    static t_free *g_free_list = NULL;
 
-	p = malloc(size);
-	if (!p)
-	{
-		perror("malloc");
-		ft_free_all();
-		exit(EXIT_FAILURE);
-	}
-	node = malloc(sizeof(*node));
-	if (!node)
-	{
-		perror("malloc");
-		free(p);
-		ft_free_all();
-		exit(EXIT_FAILURE);
-	}
-	node->ptr = p;
-	node->next = g_free_list;
-	g_free_list = node;
-	return (p);
+    return &g_free_list;
 }
 
-void	ft_free_one(void *ptr)
+void *ft_malloc(size_t size)
 {
-	t_free	*temp;
-	t_free	*prev;
+    void    *p;
+    t_free  *node;
+    t_free  **g_free_list = gb_variable();
 
-	temp = g_free_list;
-	prev = NULL;
-	if (!ptr)
-		return ;
-	while (temp)
-	{
-		if (temp->ptr == ptr)
-		{
-			if (prev)
-				prev->next = temp->next;
-			else
-				g_free_list = temp->next;
-			if (temp->ptr)
-				free(temp->ptr);
-			free(temp);
-			return ;
-		}
-		prev = temp;
-		temp = temp->next;
-	}
+    p = malloc(size);
+    if (!p)
+    {
+        perror("malloc");
+        ft_free_all(EXIT_FAILURE);
+    }
+    node = malloc(sizeof(*node));
+    if (!node)
+    {
+        perror("malloc");
+        free(p);
+        ft_free_all(EXIT_FAILURE);
+    }
+    node->ptr = p;
+    node->next = *g_free_list;
+    *g_free_list = node;
+    return p;
 }
 
-void	ft_free_all(void)
+void ft_free_one(void *ptr)
 {
-	t_free	*temp;
-	t_free	*next;
+    t_free **g_free_list = gb_variable();
+    t_free *temp = *g_free_list;
+    t_free *prev = NULL;
 
-	temp = g_free_list;
-	while (temp)
-	{
-		next = temp->next;
-		if (temp->ptr)
-			free(temp->ptr);
-		free(temp);
-		temp = next;
-	}
-	g_free_list = NULL;
+    while (temp)
+    {
+        if (temp->ptr == ptr)
+        {
+            if (prev)
+                prev->next = temp->next;
+            else
+                *g_free_list = temp->next;
+            free(temp->ptr);
+            free(temp);
+            return;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
 }
+
+void ft_free_all(int exit_code)
+{
+    t_free **g_free_list = gb_variable();
+    t_free *temp = *g_free_list;
+    t_free *next;
+
+    while (temp)
+    {
+        next = temp->next;
+        free(temp->ptr);
+        free(temp);
+        temp = next;
+    }
+    *g_free_list = NULL;
+    exit(exit_code);
+}
+
 
 char	*ft_strdup_gc(const char *s)
 {

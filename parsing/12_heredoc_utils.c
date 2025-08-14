@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:20:10 by akira             #+#    #+#             */
-/*   Updated: 2025/08/13 02:22:50 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 16:36:18 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ char	*remove_all_quotes(const char *str)
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	result = malloc(len + 1);
-	if (!result)
-		return (NULL);
+	result = ft_malloc(len + 1);
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -69,7 +67,7 @@ void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
 	write(2, "\n", 1);
-	exit(130);
+	ft_free_all(130);
 }
 
 int	is_redirection(t_token_type type)

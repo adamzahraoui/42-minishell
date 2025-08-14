@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   09_redirection_handling.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:08:19 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:08:20 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:34:02 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ t_redirection	*create_redirection(t_redir_type type, char *filename_or_delim)
 {
 	t_redirection	*redir;
 
-	redir = (t_redirection *)malloc(sizeof(t_redirection));
-	if (!redir)
-		return (NULL);
+	redir = (t_redirection *)ft_malloc(sizeof(t_redirection));
 	redir->type = type;
-	redir->filename_or_delim = ft_strdup(filename_or_delim);
+	redir->filename_or_delim = ft_strdup_gc(filename_or_delim);
 	redir->fd = -1;
 	redir->next = NULL;
 	return (redir);
@@ -91,8 +89,8 @@ int	handle_heredoc_redirection(t_cmd *cmd, t_token *next, t_expand_context *ctx)
 	fd = handle_heredoc(next->value, ctx);
 	if (fd < 0)
 	{
-		free(redir->filename_or_delim);
-		free(redir);
+		ft_free_one(redir->filename_or_delim);
+		ft_free_one(redir);
 		return (0);
 	}
 	redir->fd = fd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   06_environment_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:07:01 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/03 03:45:19 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:30:58 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ char	**convert_myenv_to_env(t_myenv *myenv)
 		count++;
 		temp = temp->next;
 	}
-	env = malloc(sizeof(char *) * (count + 1));
-	if (!env)
-		return (NULL);
+	env = ft_malloc(sizeof(char *) * (count + 1));
 	temp = myenv;
 	env = env_copy_loop(temp, env, count, i);
 	if (!env)
@@ -73,16 +71,7 @@ char	**env_copy_loop(t_myenv *temp, char **env, int count, int i)
 {
 	while (temp && i < count)
 	{
-		env[i] = ft_strdup(temp->data);
-		if (!env[i])
-		{
-			while (i > 0)
-			{
-				free(env[--i]);
-			}
-			free(env);
-			return (NULL);
-		}
+		env[i] = ft_strdup_gc(temp->data);
 		temp = temp->next;
 		i++;
 	}

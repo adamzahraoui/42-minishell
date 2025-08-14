@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 12:51:55 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/12 00:13:27 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 16:41:59 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ void	set_status(int status)
 	if (!num)
 		return ;
 	p = ft_strjoin("?=", num);
-	*exit_code = ft_strdup(p);
+	*exit_code = ft_strdup_gc(p);
 	free(num);
-	if (p)
-		free(p);
 }
 
 

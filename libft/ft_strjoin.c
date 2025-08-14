@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 17:14:33 by adzahrao          #+#    #+#             */
-/*   Updated: 2024/10/25 22:12:02 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:21:07 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	while (s2[j] != '\0')
 		j++;
-	p = malloc((i + j + 1) * sizeof(char));
+	p = ft_malloc((i + j + 1) * sizeof(char));
 	if (!p)
 		return (NULL);
 	ft_memmove(p, s1, i);

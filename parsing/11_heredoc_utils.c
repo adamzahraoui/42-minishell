@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:09:12 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/13 02:20:29 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 17:48:20 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	process_heredoc_line(t_heredoc_params *params, t_expand_context *ctx)
 		return (-1);
 	}
 	write_heredoc_line(params, ctx, line);
+	free(line);
 	return (0);
 }
 
@@ -66,8 +67,8 @@ void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
 	write(params->write_fd, to_write, ft_strlen(to_write));
 	write(params->write_fd, "\n", 1);
 	if (expanded)
-		free(expanded);
-	free(line);
+		ft_free_one(expanded);
+	ft_free_one(line);
 }
 
 char	*expand_heredoc_line(char *line, t_expand_context *ctx)
@@ -77,9 +78,7 @@ char	*expand_heredoc_line(char *line, t_expand_context *ctx)
 
 	if (!line)
 		return (NULL);
-	result = malloc(MAX_TOKEN_LEN);
-	if (!result)
-		return (NULL);
+	result = ft_malloc(MAX_TOKEN_LEN);
 	memset(&st, 0, sizeof(st));
 	if (st.in_single || st.in_double)
 		handle_quoted_expansion(line, &st, result, ctx);

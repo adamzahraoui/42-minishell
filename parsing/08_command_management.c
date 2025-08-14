@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   08_command_management.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:08:10 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:08:11 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:53:23 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ t_cmd	*init_command(void)
 	t_cmd	*cmd;
 	int		i;
 
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
+	cmd = (t_cmd *)ft_malloc(sizeof(t_cmd));
 	if (!initialize_command_fields(cmd))
-		return (free(cmd), NULL);
+		return (NULL);
 	i = 0;
 	while (i < cmd->arg_capacity)
 	{
@@ -45,9 +43,7 @@ int	initialize_command_fields(t_cmd *cmd)
 	cmd->saved_stdin = -1;
 	cmd->saved_stdout = -1;
 	cmd->next = NULL;
-	cmd->args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
-	if (!cmd->args)
-		return (0);
+	cmd->args = (char **)ft_malloc(sizeof(char *) * cmd->arg_capacity);
 	return (1);
 }
 
@@ -61,9 +57,7 @@ void	add_argument(t_cmd *cmd, char *arg)
 	if (cmd->arg_count >= cmd->arg_capacity)
 	{
 		cmd->arg_capacity *= 2;
-		new_args = (char **)malloc(sizeof(char *) * cmd->arg_capacity);
-		if (!new_args)
-			return ;
+		new_args = (char **)ft_malloc(sizeof(char *) * cmd->arg_capacity);
 		i = 0;
 		while (i < cmd->arg_count)
 		{
@@ -72,7 +66,7 @@ void	add_argument(t_cmd *cmd, char *arg)
 		}
 		while (i < cmd->arg_capacity)
 			new_args[i++] = NULL;
-		free(cmd->args);
+		ft_free_one(cmd->args);
 		cmd->args = new_args;
 	}
 	cmd->args[cmd->arg_count++] = arg;
@@ -89,10 +83,10 @@ void	free_commands(t_cmd *cmds)
 		cmds = cmds->next;
 		i = 0;
 		while (i < tmp->arg_count)
-			free(tmp->args[i++]);
-		free(tmp->args);
+			ft_free_one(tmp->args[i++]);
+		ft_free_one(tmp->args);
 		free_cmd_files(tmp);
-		free(tmp);
+		ft_free_one(tmp);
 	}
 }
 
@@ -104,18 +98,18 @@ void	free_cmd_files(t_cmd *tmp)
 	{
 		redir_tmp = tmp->redirections;
 		tmp->redirections = tmp->redirections->next;
-		free(redir_tmp->filename_or_delim);
-		free(redir_tmp);
+		ft_free_one(redir_tmp->filename_or_delim);
+		ft_free_one(redir_tmp);
 	}
 	if (tmp->input_file)
-		free(tmp->input_file);
+		ft_free_one(tmp->input_file);
 	if (tmp->output_file)
-		free(tmp->output_file);
+		ft_free_one(tmp->output_file);
 	if (tmp->heredoc_delim)
-		free(tmp->heredoc_delim);
+		ft_free_one(tmp->heredoc_delim);
 	if (tmp->heredoc_file)
 	{
 		unlink(tmp->heredoc_file);
-		free(tmp->heredoc_file);
+		ft_free_one(tmp->heredoc_file);
 	}
 }

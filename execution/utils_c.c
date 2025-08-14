@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:46:21 by akira             #+#    #+#             */
-/*   Updated: 2025/08/10 21:30:06 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/14 16:01:06 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	add_env_node_ex(t_myenv_ex **myenv, char *env)
 	t_myenv_ex	*new_node;
 	t_myenv_ex	*last;
 
-	new_node = malloc(sizeof(t_myenv_ex));
-	new_node->data = ft_strdup(env);
+	new_node = ft_malloc(sizeof(t_myenv_ex));
+	new_node->data = ft_strdup_gc(env);
 	if (!new_node->data)
 		return ;
 	new_node->next = NULL;
@@ -68,7 +68,7 @@ void	process_export_data(t_myenv_ex *list)
 			&& list->data[ft_strlen(list->data) - 1] != '"')
 		{
 			p = check_val(list->data);
-			free(list->data);
+			ft_free_one(list->data);
 			if (p)
 				list->data = p;
 			break ;

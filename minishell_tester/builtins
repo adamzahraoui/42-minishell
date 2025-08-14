@@ -1,0 +1,501 @@
+
+
+echo "🔥🔥🔥🔥🔥🔥🔥🔥🔥[ECHO]🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥" >&2
+ececho hello
+echo "hello"
+echo 'hello'
+echo hello world
+echo "hello world"
+echo 'hello world'
+echo 123
+echo "123"
+echo 'abc123'
+echo a b c d e
+echo "a b c d e"
+echo 'a b c d e'
+echo test
+echo TEST
+echo TeSt
+echo 42
+echo arg1 arg2 arg3
+echo "arg1" "arg2" "arg3"
+echo 'arg1' 'arg2' 'arg3'
+echo "arg1" arg2 'arg3'
+echo arg1 "arg2" arg3
+echo 'arg1' arg2 "arg3"
+echo one two three four five
+echo "one two" "three four" five
+echo 'one two' 'three four' 'five'
+echo 1 2 3 4 5 6 7 8 9 10
+echo "1 2 3" "4 5 6" "7 8 9"
+echo "a b c d e f g h i j k l m n o p q r s t u v w x y z"
+echo hello world test case
+echo "hello world" "test case"
+echo 'hello world' 'test case'
+echo word1 word2 word3 word4 word5
+echo "word1 word2" "word3 word4" word5
+echo alpha beta gamma delta epsilon
+echo "alpha beta" gamma "delta epsilon"
+echo 'alpha beta' gamma 'delta epsilon'
+echo hello world
+echo "hello world"
+echo 'hello world'
+echo hello'world'
+echo hello""world
+echo ''
+echo "$PWD"
+echo '$PWD'
+echo "aspas ->'"
+echo "aspas -> ' "
+echo 'aspas ->"'
+echo 'aspas -> " '
+echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
+echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
+echo "exit_code ->$? user ->$USER home -> $HOME"
+echo 'exit_code ->$? user ->$USER home -> $HOME'
+echo "$"
+echo '$'
+echo $
+echo $?
+echo $?HELLO
+echo "\t"
+ echo '\t'
+ echo "\n"
+ echo '\n'
+ echo " " " " " "
+ echo '  ' '  ' '  '
+ echo "" "" ""
+ echo '' '' ''
+ echo " hello "
+ echo '  world  '
+ echo "  test  case  "
+ echo '   spaces   '
+ echo ""hello""
+ echo ''world''
+ echo "hello'world"
+ echo 'hello"world'
+ echo "it's a test"
+ echo 'he said "hello"'
+ echo "she said 'hi'"
+ echo 'the "quote" test'
+ echo "mixed'quotes'test"
+ echo 'mixed"quotes"test'
+ echo "'single in double'"
+ echo '"double in single"'
+ echo "'"'"test"'"'"
+ echo '"'"'test'"'"'
+ echo "hello"world
+ echo hello"world"
+ echo 'hello'world
+ echo hello'world'
+ echo "hello"'world'
+ echo 'hello'"world"
+ echo test"case"test
+ echo test'case'test
+ echo $HOME
+ echo "$HOME"
+ echo '$HOME'
+ echo $USER
+ echo "$USER"
+ echo '$USER'
+ echo $PATH
+ echo "$PATH"
+ echo '$PATH'
+'echo ${HOME}'
+'echo "${HOME}"'
+'echo ''${HOME}'''
+echo $HOME$USER
+echo "$HOME$USER"
+echo '$HOME$USER'
+'echo ${HOME}${USER}'
+'echo "${HOME}${USER}"'
+'echo ''${HOME}${USER}'''
+echo 'hello world'
+echo 'hello    world'
+echo 'hello    world'
+echo '$USER is not expanded'
+echo '* ? [ ] { } are literal'
+echo '; | & < > are literal'
+echo 'quotes inside "double quotes"'
+awk 'BEGIN { print "hello world" }'
+awk 'BEGIN { print "line1\nline2" }'
+awk '{print $1 " " $2}' /etc/passwd
+echo "hello    world"
+echo "hello    world"
+echo "quotes inside 'single quotes'"
+echo "semicolon ; pipe | ampersand &"
+echo "redirections < > are literal"
+echo "asterisk * question ? brackets []"
+awk "BEGIN { print 'hello world' }"
+awk "BEGIN { print 'tabthere' }"
+grep "pattern with spaces" /etc/passwd
+echo 'single'double'mixed'
+echo "double"single"mixed"
+echo 'start single'"end double"
+echo "start double"'end single'
+echo a'quoted'b"quoted"c
+echo 'multi word string'"another string"
+awk 'BEGIN'"{ print 'mixed' }"
+grep 'pattern'"in file" /etc/passwd
+wc -l 'file with'"spaces.txt"
+echo 'first'"second"'third'"fourth"
+echo ""
+echo '' ''
+echo "" ""
+echo 'a' '' 'b'
+echo "x" "" "y"
+awk 'BEGIN { print "" }'
+grep '' /etc/passwd
+echo ' '
+echo hola""""""""""""
+echo hola"''''''''''"
+echo hola''''''''''''
+echo hola'""""""""""'
+e"cho hola"
+e'cho hola'
+echo "hola     " | cat -e
+echo ""hola
+echo "" hola
+echo ""             hola
+echo ""hola
+echo "" hola
+echo hola""bonjour
+"e"'c'ho 'b'"o"nj"o"'u'r
+""e"'c'ho 'b'"o"nj"o"'u'r"
+echo "$DONTEXIST"Makefile
+echo "$DONTEXIST""Makefile"
+echo "$DONTEXIST" "Makefile"
+
+echo "🔥🔥🔥🔥🔥🔥🔥🔥🔥[export]🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥" >&2
+
+export hello
+export HELLO=123
+export A-
+export HELLO=123 A
+export HELLO="123 A-"
+export hello world
+export HELLO-=123
+export =
+export 123
+
+echo "--- VALID EXPORTS ---"
+export Hola
+export Hola9hey
+export HOLA=bonjour
+export _HOLA=bonjour
+export ___HOLA=bonjour
+export _HO_LA_=bonjour
+export HOLA=bonjour
+export HOLA+=bonjour
+export HOLA="bonjour      "
+export HOLA="   -n bonjour   "
+export HOLA="bonjour   "/
+export HOLA="ls        -l    - a"
+export HOLA="s -la"
+export HOLA="l"
+export HOLA="ls"
+export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8
+export HOLA=bonjour
+export BYE=casse-toi
+
+echo "--- 🔥🔥🔥🔥🔥VARIABLE EXPANSIONS 🔥🔥🔥🔥🔥---"
+export HOLA=$HOME
+export HOLA="bonjour$HOME"
+export HOLA="$HOMEbonjour"
+export HOLA=bon\$jour
+export HOLA="bon\\jour"
+export HOLA="bon(jour"
+export HOLA="bon()jour"
+export HOLA="bon&jour"
+export HOLA="bon@jour"
+export HOLA="bon;jour"
+export HOLA='""'
+
+echo "--- 🔥🔥🔥🔥🔥INVALID EXPORTS🔥🔥🔥🔥🔥 ---"
+export 9HOLA=bonjour
+export HOL@=bonjour
+export HOL~A=bonjour
+export -HOLA=bonjour
+export --HOLA=bonjour
+export HOLA-=bonjour
+export HO-LA=bonjour
+export HOL.A=bonjour
+export HOL\$A=bonjour
+export HO\\LA=bonjour
+export HOL}A=bonjour
+export HOL{A=bonjour
+export HO*LA=bonjour
+export HO#LA=bonjour
+export HO@LA=bonjour
+export HO!LA=bonjour
+export ?=2
+export +HOLA=bonjour
+export HOL+A=bonjour
+exportHOLA=bonjour
+export HOLA =bonjour
+export HOLA = bonjour
+export HOL=A=bonjour
+export ""=""
+export ''=''
+export "="="="
+export '='='='
+export $HOLA=bonjour
+export HOLA$USER=bonjour
+export TE+S=T
+export HOL=A=""
+export export
+export echo
+export pwd
+export cd
+export export
+export unset
+export sudo
+export TES^T=123
+export TES!T=123
+export TES\~T=123
+export TEST+=100
+
+echo "--- 🔥🔥🔥🔥🔥ECHO TESTS export🔥🔥🔥🔥🔥 ---"
+echo "$HOLA"
+echo "$HOLA et $BYE"
+echo "$HOLA$HOLA$HOLA"
+echo "$HOLA"
+echo "wesh$HOLA."
+echo "wesh$HOLA$HOLA."
+echo "$A'$B'$C$D'$E'$F''$G'$H'"
+
+
+echo "--- 🔥🔥🔥🔥UNSET TESTS🔥🔥🔥🔥🔥 ---"
+
+unset
+unset HELLO
+unset HELLO1 HELLO2
+unset HOME
+unset PATH
+unset SHELL
+unset PATH
+ls
+unset ""
+unset INEXISTANT
+unset PWD
+unset PWD
+unset 9LHOLA
+unset HOLA9
+unset HOL?A
+unset HOLA
+unset HOL?A
+unset HOL.A
+unset HOLA=
+unset HOL\\A
+unset HOL.A
+unset HOL+A
+unset HOL=A
+unset HOL{A
+unset HOL}A
+unset HOL-A
+unset _HOLA
+unset HOL_A
+unset HOLA_
+unset HOL*A
+unset HOL#A
+unset "$HOLA"
+unset "$PWD"
+unset HOL@
+unset HOL!A
+unset HOL^A
+unset HOL$?A
+unset HOL~A
+unset ""HOLA
+unset PATH
+echo "$PATH"
+unset PATH
+unset =
+unset ======
+unset ++++++
+unset _______
+unset export
+unset echo
+unset pwd
+unset cd
+unset unset
+unset sudo
+
+
+echo "--- 🔥🔥🔥🔥CD TESTS🔥🔥🔥🔥🔥 ---"
+
+cd
+cd .
+cd ./
+cd ./././.
+cd ././././
+cd ..
+cd ../
+cd ../..
+cd ../.
+cd .././././.
+cd srcs
+cd srcs objs
+cd 'srcs'
+cd "srcs"
+cd '/etc'
+cd /e'tc'
+cd /e"tc"
+cd sr
+cd Makefile
+cd ../minishell
+cd ../../../../../../..
+cd .././../.././../bin/ls
+cd /
+cd '/'
+cd //
+pwd
+cd '//'
+pwd
+cd ///
+pwd
+cd ////////
+pwd
+cd '////////'
+pwd
+cd /media
+cd /
+cd ..
+cd _
+cd -
+cd --
+cd ---
+cd $HOME
+cd $HOME $HOME
+cd $HOME/42_works
+cd "$PWD/srcs"
+cd '$PWD/srcs'
+unset HOME
+cd $HOME
+unset HOME
+export HOME=
+cd
+unset HOME
+export HOME
+cd
+cd test_files
+
+echo "--- 🔥🔥🔥EXITE TESTS🔥🔥🔥🔥🔥 ---"
+
+exit 123
+exit 298
+exit +100
+exit "+100"
+exit +"100"
+exit -100
+exit "-100"
+exit -"100"
+exit hello
+exit 42 world
+exit
+exit exit
+exit hola
+exit hola que tal
+exit 42
+exit 000042
+exit 666
+exit 666 666
+exit -666 666
+exit hola 666
+exit 666 666 666 666
+exit 666 hola 666
+exit hola 666 666
+exit 259
+exit -4
+exit -42
+exit -0000042
+exit -259
+exit -666
+exit +666
+exit 0
+exit +0
+exit -0
+exit +42
+exit -69 -96
+exit --666
+exit ++++666
+exit ++++++0
+exit ------0
+exit "666"
+exit '666'
+exit '-666'
+exit '+666'
+exit '----666'
+exit '++++666'
+exit '6'66
+exit '2'66'32'
+exit "'666'"
+exit '"666"'
+exit something somethingv2 
+exit 42 42 42 42 42 
+exit echo something 
+exit exit 
+exit '666'"666"666
+exit +'666'"666"666
+exit -'666'"666"666
+exit 9223372036854775807
+exit 9223372036854775808
+exit -9223372036854775808
+exit -9223372036854775809
+
+echo "--- 🔥🔥🔥PWD TESTS🔥🔥🔥🔥🔥 ---"
+
+pwd
+pwd hola
+pwd ./hola
+pwd hola que tal
+pwd pwd pwd
+pwd ls
+pwd ls env
+pwd
+pwd oi
+
+echo "--- 🔥🔥🔥TEST CD SUITE TESTS🔥🔥🔥🔥🔥 ---"
+
+mkdir a
+mkdir a/b
+cd a/b
+rm -r ../../a
+
+mkdir a
+mkdir a/b
+cd a/b
+rm -r ../../a
+pwd
+
+mkdir a
+mkdir a/b
+cd a/b
+rm -r ../../a
+echo "$PWD"
+echo "$OLDPWD"
+
+mkdir a
+mkdir a/b
+cd a/b
+rm -r ../../a
+cd
+echo "$PWD"
+echo "$OLDPWD"
+
+mkdir a
+cd a
+rm -r ../a
+echo "$PWD"
+echo "$OLDPWD"
+
+export CDPATH=/
+cd "$HOME/.."
+
+export CDPATH=/
+cd home/vietdu91
+
+export CDPATH=./
+cd .
+
+export CDPATH=./
+cd ..

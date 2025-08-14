@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   02_token_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:05:58 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:06:04 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:24:06 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ int	add_token_to_list(t_token **head, t_token **current, char *token_value)
 	t_token	*new;
 
 	new = new_token(token_value);
-	if (!new)
-	{
-		free(token_value);
-		free_tokens(*head);
-		return (0);
-	}
 	if (!*head)
 	{
 		*head = new;
@@ -40,7 +34,7 @@ t_token	*new_token(char *value)
 {
 	t_token	*token;
 
-	token = (t_token *)malloc(sizeof(t_token));
+	token = (t_token *)ft_malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->value = value;

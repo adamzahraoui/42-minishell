@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   04_expansion_core.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:06:43 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:18:25 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:27:39 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	handle_expansion_result(t_token_expansion_params *params,
 t_token	*handle_successful_expansion(t_token *tok, char *expanded,
 		t_token *next, t_was was)
 {
-	free(tok->value);
+	ft_free_one(tok->value);
 	tok->value = expanded;
 	if (was.has_variables && !was.was_quoted)
 		split_token_string(&tok);
@@ -100,9 +100,9 @@ t_token	*handle_failed_expansion(t_failed_expansion_params *params)
 		params->prev->next = params->next;
 	else
 		*params->tokens = params->next;
-	free(params->tok->value);
+	ft_free_one(params->tok->value);
 	if (params->expanded)
-		free(params->expanded);
-	free(params->tok);
+		ft_free_one(params->expanded);
+	ft_free_one(params->tok);
 	return (params->next);
 }

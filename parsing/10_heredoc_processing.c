@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_heredoc_processing.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:08:56 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:08:58 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 17:37:10 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 	if (pipe(fds) == -1)
 	{
 		perror("pipe");
-		free(clean_delimiter);
+		ft_free_one(clean_delimiter);
 		return (-1);
 	}
 	pid = fork();
@@ -56,7 +56,7 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 		perror("fork");
 		close(fds[0]);
 		close(fds[1]);
-		free(clean_delimiter);
+		ft_free_one(clean_delimiter);
 		return (-1);
 	}
 	return (pid);
@@ -87,8 +87,7 @@ void	heredoc_child(int *fds, char *clean_delimiter, int quoted,
 		ft_putstr_fd("')\n", 2);
 	}
 	close(fds[1]);
-	free(clean_delimiter);
-	exit(0);
+	ft_free_all(0);
 }
 
 
@@ -98,7 +97,7 @@ int	heredoc_parent(pid_t pid, int *fds, char *clean_delimiter)
 	void	(*old_handler)(int);
 
 	close(fds[1]);
-	free(clean_delimiter);
+	ft_free_one(clean_delimiter);
 	old_handler = signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

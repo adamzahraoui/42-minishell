@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   03_token_extraction.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:06:32 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/02 00:06:33 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/14 16:28:47 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_quoted_token(char *line, int *i)
 	if (!line[*i])
 	{
 		ft_putendl_fd("Error: Unclosed quote", 2);
-		return (free(token), NULL);
+		return (ft_free_one(token), NULL);
 	}
 	(*i)++;
 	length = *i - start;
@@ -70,8 +70,6 @@ char	*get_word_token(char *line, int *i)
 	if (length == 0)
 		return (NULL);
 	token = ft_substr(line, start, length);
-	if (!token)
-		return (NULL);
 	return (token);
 }
 

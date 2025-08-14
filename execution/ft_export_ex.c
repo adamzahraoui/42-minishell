@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_ex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 01:32:13 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/07/11 04:03:03 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:22:17 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	check_double(t_myenv_ex **myenv_ex, char *str)
 			p = check_val(str);
 			if (p)
 			{
-				free(list->data);
+				ft_free_one(list->data);
 				list->data = p;
 				return (0);
 			}
