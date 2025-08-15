@@ -56,7 +56,7 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	cmd = *args;
 	cmd->saved_stdin = -1;
 	cmd->saved_stdout = -1;
-	if (cmd)
+	if (cmd->args[0])
 	{
 		if (!cmd->next && check_builtin_cmd(args, myenv, myenv_ex) == 1)
 		{

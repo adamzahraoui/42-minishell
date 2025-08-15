@@ -15,15 +15,15 @@
 void	process_commands(t_token **tokens, t_var *vars, char **env, t_cmd **cmd)
 {
 	t_cmd	*cur;
-
+	
 	*cmd = parse_commands(tokens, vars, env);
 	if (*cmd)
 	{
 		cur = *cmd;
 		while (cur)
 		{
-			if ((cur->arg_count == 0 && !cur->redirections) || (cur->args[0]
-					&& cur->args[0][0] == '\0'))
+			if ((cur->arg_count == 0 && !cur->redirections) || (cur->args && cur->args[0]
+					&& cur->args[0][0] == '\0' && !cur->redirections))
 			{
 				printf("minishell: : command not found\n");
 				free_commands(*cmd);

@@ -15,17 +15,18 @@
 int	dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type,
 		t_expand_context *ctx)
 {
+	(void)ctx;
 	if (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT
 		|| type == TOKEN_APPEND)
 	{
 		if (!handle_redirections(cmd, next, type))
 			return (0);
 	}
-	else if (type == TOKEN_HEREDOC)
-	{
-		if (!handle_heredoc_redirection(cmd, next, ctx))
-			return (0);
-	}
+	// else if (type == TOKEN_HEREDOC)
+	// {
+	// 	if (!handle_heredoc_redirection(cmd, next, ctx))
+	// 		return (0);
+	// }
 	return (1);
 }
 
@@ -69,6 +70,8 @@ int	handle_redirections(t_cmd *cmd, t_token *next, t_token_type type)
 		redir_type = REDIR_OUT;
 	else if (type == TOKEN_APPEND)
 		redir_type = REDIR_APPEND;
+	else if (type == TOKEN_HEREDOC)
+		redir_type = REDIR_HEREDOC;
 	else
 		return (0);
 	redir = create_redirection(redir_type, next->value);
