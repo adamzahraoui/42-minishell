@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:52:49 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/14 15:58:58 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/15 18:13:01 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	cmd_ex(t_cmd **args, char **env, t_myenv **myenv, t_myenv_ex **myenv_ex)
 	cmd = *args;
 	cmd->saved_stdin = -1;
 	cmd->saved_stdout = -1;
-	if (cmd->args[0])
+	if (cmd->args[0] || cmd->next)
 	{
 		if (!cmd->next && check_builtin_cmd(args, myenv, myenv_ex) == 1)
 		{
 			*args = NULL;
 			return ;
 		}
-		else if (cmd->args[0])
+		else if (cmd->args[0] || cmd->next)
 			ft_pipe(args, env, myenv, myenv_ex);
 	}
 	else if (cmd->redirections)

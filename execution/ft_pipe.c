@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 00:49:06 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/14 18:11:10 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/15 18:21:49 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 int	error(char *arg, char *error, int exit_code)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd(error, 2);
+	char	*msg;
+	char	*tmp;
+	size_t	len;
+
+	tmp = ft_strjoin("minishell: ", arg);
+	msg = ft_strjoin(tmp, error);
+	len = ft_strlen(msg);
+	write(2, msg, len);
 	return (exit_code);
 }
 

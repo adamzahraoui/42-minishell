@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:22:20 by akira             #+#    #+#             */
-/*   Updated: 2025/08/11 18:47:47 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/15 18:50:42 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	restor_fd(t_cmd *cmd)
 
 int	open_files(t_redirection *redirection)
 {
-	int	fd;
+	int		fd;
+	char	*msg;
 
 	fd = 0;
 	if (redirection->type == REDIR_IN)
@@ -62,11 +63,9 @@ int	open_files(t_redirection *redirection)
 				0644);
 	if (fd == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(redirection->filename_or_delim, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
+		msg = ft_strjoin(": ", strerror(errno));
+		msg = ft_strjoin(msg, "\n");
+		error(redirection->filename_or_delim, msg, 1);
 	}
 	return (fd);
 }

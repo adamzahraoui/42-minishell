@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 00:08:19 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/14 16:34:02 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/15 18:09:52 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	dispatch_redirection(t_cmd *cmd, t_token *next, t_token_type type,
 		if (!handle_redirections(cmd, next, type))
 			return (0);
 	}
-	// else if (type == TOKEN_HEREDOC)
-	// {
-	// 	if (!handle_heredoc_redirection(cmd, next, ctx))
-	// 		return (0);
-	// }
+	else if (type == TOKEN_HEREDOC)
+	{
+		if (!handle_heredoc_redirection(cmd, next, ctx))
+			return (0);
+	}
 	return (1);
 }
 

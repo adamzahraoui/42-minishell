@@ -6,7 +6,7 @@
 /*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:16:44 by akira             #+#    #+#             */
-/*   Updated: 2025/08/14 18:12:48 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/15 18:53:34 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_expand_context
 	t_var					*vars;
 	char					**env;
 }							t_expand_context;
-
+int							error(char *arg, char *error, int exit_code);
 typedef struct s_token_state
 {
 	int						i;
