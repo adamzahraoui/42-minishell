@@ -74,7 +74,7 @@ void	heredoc_child(int *fds, char *clean_delimiter, t_expand_context *ctx)
 	got_delim = heredoc_child_loop(&loop_params, ctx);
 	if (!got_delim)
 	{
-		ft_putstr_fd("bash: warning: here-document at line ", 2);
+		ft_putstr_fd("minishell: warning: here-document at line ", 2);
 		ft_putnbr_fd(lineno, 2);
 		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 		ft_putstr_fd(clean_delimiter, 2);
