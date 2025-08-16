@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adzahrao <adzahrao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 02:16:44 by akira             #+#    #+#             */
-/*   Updated: 2025/08/15 18:53:34 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/16 14:00:34 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void						expand_all_tokens(t_token **tokens,
 								t_expand_context *ctx);
 
 void						*ft_malloc(size_t size);
+int							check_dup_red(t_cmd *cmd, int flag);
 
 typedef struct s_was
 {

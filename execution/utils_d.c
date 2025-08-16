@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_d.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adzahrao <adzahrao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 21:26:04 by akira             #+#    #+#             */
-/*   Updated: 2025/08/14 19:03:33 by akira            ###   ########.fr       */
+/*   Updated: 2025/08/16 14:00:10 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,23 @@ char	*ft_strjoin_gc(char const *s1, char const *s2)
 	ft_memmove(p + i, s2, j);
 	p[i + j] = '\0';
 	return (p);
+}
+
+int	check_dup_red(t_cmd *cmd, int flag)
+{
+	if (flag == 1)
+	{
+		if (dup2(cmd->saved_stdin, 0) == -1)
+			return (-1);
+		close(cmd->saved_stdin);
+		cmd->saved_stdin = -1;
+	}
+	if (flag == 2)
+	{
+		if (dup2(cmd->saved_stdout, 1) == -1)
+			return (-1);
+		close(cmd->saved_stdout);
+		cmd->saved_stdout = -1;
+	}
+	return (1);
 }

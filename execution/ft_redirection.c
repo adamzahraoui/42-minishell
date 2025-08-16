@@ -6,7 +6,7 @@
 /*   By: adzahrao <adzahrao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 16:22:20 by akira             #+#    #+#             */
-/*   Updated: 2025/08/16 03:19:03 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/16 13:56:07 by adzahrao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	restor_fd(t_cmd *cmd)
 {
 	t_redirection	*current;
 
-	// Close all redirection file descriptors
 	current = cmd->redirections;
 	while (current)
 	{
@@ -44,21 +43,15 @@ void	restor_fd(t_cmd *cmd)
 		}
 		current = current->next;
 	}
-
-	// Restore original stdin/stdout
 	if (cmd->saved_stdin != -1)
 	{
-		if (dup2(cmd->saved_stdin, 0) == -1)
+		if (check_dup_red(cmd, 1) == -1)
 			return ;
-		close(cmd->saved_stdin);
-		cmd->saved_stdin = -1;
 	}
 	if (cmd->saved_stdout != -1)
 	{
-		if (dup2(cmd->saved_stdout, 1) == -1)
+		if (check_dup_red(cmd, 2) == -1)
 			return ;
-		close(cmd->saved_stdout);
-		cmd->saved_stdout = -1;
 	}
 }
 
