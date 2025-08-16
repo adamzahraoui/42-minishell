@@ -45,12 +45,12 @@ void	ft_echo(t_cmd *cmd, t_myenv **myenv)
 	{
 		j = 0;
 		while (cmd->args[i][j])
-			printf("%c", cmd->args[i][j++]);
+			write(1, &cmd->args[i][j++], 1);
 		if (cmd->args[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (newline)
-		printf("\n");
+		write(1, "\n", 1);
 	set_status(0);
 }
