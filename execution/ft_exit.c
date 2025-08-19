@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:47:07 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/16 16:50:52 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/19 13:24:28 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,17 @@ static int	is_numeric(const char *str)
 
 void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 {
-	int	exit_status;
+	int		ex_status;
+	char	**p;
+	char	**stat;
 
-	exit_status = 0;
+	stat = exit_status();
+	p = ft_split(*stat, '=');
+	ex_status = 0;
 	(void)myenv_ex;
 	printf("exit\n");
 	if (!cmd->args[1])
-		ft_free_all(0);
+		ft_free_all(ft_atoi(p[1]));
 	if (!is_numeric(cmd->args[1]) || !is_longlong(cmd->args[1]))
 	{
 		print_error_status(myenv, cmd->args[1], 2);
@@ -105,6 +109,6 @@ void	ft_exit(t_myenv_ex **myenv_ex, t_myenv **myenv, t_cmd *cmd)
 		set_status(1);
 		return ;
 	}
-	exit_status = ft_atoi(cmd->args[1]);
-	ft_free_all(exit_status);
+	ex_status = ft_atoi(cmd->args[1]);
+	ft_free_all(ex_status);
 }

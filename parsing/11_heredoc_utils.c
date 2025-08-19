@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   11_heredoc_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 17:02:05 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/16 17:02:06 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:30:08 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	heredoc_child_loop(t_heredoc_loop_params *params, t_expand_context *ctx)
 	line_params.clean_delimiter = params->clean_delimiter;
 	line_params.write_fd = params->write_fd;
 	line_params.got_delim = &got_delim;
+	line_params.in_quote = params->in_quote;
 	while (1)
 	{
 		if (process_heredoc_line(&line_params, ctx) == -1)
@@ -59,7 +60,8 @@ void	write_heredoc_line(t_heredoc_params *params, t_expand_context *ctx,
 
 	to_write = line;
 	expanded = NULL;
-	expanded = expand_heredoc_line(line, ctx);
+	if (!params->in_quote)
+		expanded = expand_heredoc_line(line, ctx);
 	if (expanded)
 		to_write = expanded;
 	write(params->write_fd, to_write, ft_strlen(to_write));

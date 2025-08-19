@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   10_heredoc_processing.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 17:02:00 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/16 17:02:02 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:28:52 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,24 @@ int	handle_heredoc(const char *delimiter, t_expand_context *ctx)
 	char	*clean_delimiter;
 	int		fds[2];
 	pid_t	pid;
+	int		in_quote;
 
-	if (heredoc_setup(delimiter, &clean_delimiter) == -1)
+	in_quote = 0;
+	if (heredoc_setup(delimiter, &clean_delimiter, &in_quote) == -1)
 		return (-1);
 	pid = heredoc_pipe_and_fork(fds, clean_delimiter);
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-		heredoc_child(fds, clean_delimiter, ctx);
+		heredoc_child(fds, clean_delimiter, ctx, in_quote);
 	return (heredoc_parent(pid, fds, clean_delimiter));
 }
 
-int	heredoc_setup(const char *delimiter, char **clean_delimiter)
+int	heredoc_setup(const char *delimiter, char **clean_delimiter, int *in_quote)
 {
 	if (!delimiter)
 		return (-1);
+	*in_quote = is_quoted(delimiter);
 	*clean_delimiter = remove_all_quotes(delimiter);
 	if (!*clean_delimiter)
 		return (-1);
@@ -58,7 +61,8 @@ int	heredoc_pipe_and_fork(int *fds, char *clean_delimiter)
 	return (pid);
 }
 
-void	heredoc_child(int *fds, char *clean_delimiter, t_expand_context *ctx)
+void	heredoc_child(int *fds, char *clean_delimiter, t_expand_context *ctx,
+		int in_quote)
 {
 	t_heredoc_loop_params	loop_params;
 	int						lineno;
@@ -71,6 +75,7 @@ void	heredoc_child(int *fds, char *clean_delimiter, t_expand_context *ctx)
 	loop_params.clean_delimiter = clean_delimiter;
 	loop_params.write_fd = fds[1];
 	loop_params.lineno = &lineno;
+	loop_params.in_quote = in_quote;
 	got_delim = heredoc_child_loop(&loop_params, ctx);
 	if (!got_delim)
 	{

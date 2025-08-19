@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_e.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adzahrao <adzahrao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 16:52:26 by adzahrao          #+#    #+#             */
-/*   Updated: 2025/08/16 16:52:27 by adzahrao         ###   ########.fr       */
+/*   Updated: 2025/08/19 13:25:03 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,16 @@ void	wait_pid(t_pipe *pipe_data, t_myenv **myenv)
 
 	j = 0;
 	signal(SIGINT, SIG_IGN);
+	(void)myenv;
 	while (j < pipe_data->count)
 	{
 		waitpid(pipe_data->pids[j], &pipe_data->status, 0);
 		if (WIFEXITED(pipe_data->status))
-			(*myenv)->i = WEXITSTATUS(pipe_data->status);
-		if (j == pipe_data->count - 1)
+			set_status(WEXITSTATUS(pipe_data->status));
+		else if (WIFSIGNALED(pipe_data->status))
 		{
-			if (WIFEXITED(pipe_data->status))
-				set_status(WEXITSTATUS(pipe_data->status));
-			else if (WIFSIGNALED(pipe_data->status))
-			{
-				quit_core(pipe_data);
-				return ;
-			}
+			quit_core(pipe_data);
+			return ;
 		}
 		j++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 17:02:34 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/16 17:02:36 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:18:12 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int argc, char **argv, char **env)
 		if (!input)
 		{
 			printf("exit\n");
-			ft_free_all(139);
+			ft_free_all(0);
 		}
 		handle_command(input, &cmd, &tokens, &myenv);
 		if (cmd != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlaidi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: akira <akira@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 17:02:26 by mlaidi            #+#    #+#             */
-/*   Updated: 2025/08/16 17:02:28 by mlaidi           ###   ########.fr       */
+/*   Updated: 2025/08/19 13:34:19 by akira            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -142,6 +142,7 @@ typedef struct s_heredoc_params
 	const char				*clean_delimiter;
 	int						write_fd;
 	int						*got_delim;
+	int						in_quote;
 }							t_heredoc_params;
 
 typedef struct s_heredoc_loop_params
@@ -149,6 +150,7 @@ typedef struct s_heredoc_loop_params
 	const char				*clean_delimiter;
 	int						write_fd;
 	int						*lineno;
+	int						in_quote;
 }							t_heredoc_loop_params;
 
 typedef struct s_var_extraction_params
@@ -334,11 +336,11 @@ int							handle_heredoc_redirection(t_cmd *cmd,
 int							handle_heredoc(const char *delimiter,
 								t_expand_context *ctx);
 int							heredoc_setup(const char *delimiter,
-								char **clean_delimiter);
+								char **clean_delimiter, int *in_quote);
 int							heredoc_pipe_and_fork(int *fds,
 								char *clean_delimiter);
 void						heredoc_child(int *fds, char *clean_delimiter,
-								t_expand_context *ctx);
+								t_expand_context *ctx, int in_quote);
 int							heredoc_parent(pid_t pid, int *fds,
 								char *clean_delimiter);
 int							process_heredoc_line(t_heredoc_params *params,
@@ -352,8 +354,7 @@ void						handle_quoted_expansion(char *line,
 								t_expand_context *ctx);
 char						*expand_heredoc_line(char *line,
 								t_expand_context *ctx);
-int							heredoc_child_loop(
-								t_heredoc_loop_params *params,
+int							heredoc_child_loop(t_heredoc_loop_params *params,
 								t_expand_context *ctx);
 
 /* Variable and Environment Processing */
