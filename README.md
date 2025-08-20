@@ -74,4 +74,4 @@ cat < files.txt
 * Supports ASCII input and basic shell functionality.
 * Designed as a learning tool for Unix system programming and process management.
 
-#by adzahrao(adam zahraoui | akira) && mlaidi(Mohammed Laidi)
+### By adzahrao(adam zahraoui | akira) && mlaidi(Mohammed Laidi)
