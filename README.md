@@ -13,7 +13,7 @@ The project demonstrates process control, file descriptor manipulation, signal h
 * The shell continuously waits for user input, parses commands, and executes them.
 * Built-in commands such as `cd`, `echo`, `export`, `unset`, `exit`, and `pwd` are executed directly without creating a new process.
 * For external commands, the shell spawns child processes using `fork()` and runs commands using `execve()`.
-* Supports input/output redirection (`>`, `<`, `>>`) to files.
+* Supports input/output redirection (`>`, `<`, `>>` `<<`) to files.
 * Supports pipelines (`|`) to chain multiple commands together.
 * Handles signals gracefully (`CTRL+C` to interrupt current process, `CTRL+D` to exit shell) to maintain stable execution.
 
